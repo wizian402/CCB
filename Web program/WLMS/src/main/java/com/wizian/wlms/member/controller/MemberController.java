@@ -18,7 +18,7 @@ public class MemberController {
 	IMemberService memberService;
 
 	@GetMapping(value = "/member/signIn")
-	public String insertEmp(Model model) {
+	public String signIn(Model model) {
 		model.addAttribute("groupList", memberService.getAllGroupName());
 		return "/member/signIn";
 	}
@@ -26,7 +26,7 @@ public class MemberController {
 	@PostMapping("/member/signIn")
 	public String signIn(MemberVO member, Model model) {
 		memberService.insertMember(member);
-		return "redirect:/hr";
+		return "redirect:/";
 
 	}
 }
