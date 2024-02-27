@@ -17,4 +17,9 @@
 		)
 	</insert>
 
+	<select id="getAllGroupName" resultType="hashmap">
+		SELECT GROUP_ID AS "groupId",
+		GROUP_NAME AS "groupName" FROM MEMBER_GROUP
+	</select>
+
 </mapper>

@@ -1,7 +1,11 @@
 package com.wizian.wlms.member.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.wizian.wlms.member.model.MemberVO;
 
 public interface IMemberService {
-	void insertEmp(MemberVO member);
+	void insertMember(MemberVO member);
+	List<Map<String, Object>> getAllGroupName();
 }
