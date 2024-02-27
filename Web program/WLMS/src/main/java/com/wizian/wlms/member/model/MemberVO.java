@@ -1,5 +1,7 @@
 package com.wizian.wlms.member.model;
 
+import org.springframework.stereotype.Component;
+
 public class MemberVO {
 	private String id;
 	private String password;

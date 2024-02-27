@@ -7,5 +7,9 @@ import com.wizian.wlms.member.model.MemberVO;
 
 public interface IMemberService {
 	void insertMember(MemberVO member);
+
+	MemberVO selectMember(String id);
+
 	List<Map<String, Object>> getAllGroupName();
+
 }

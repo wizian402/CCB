@@ -1,5 +1,7 @@
 package com.wizian.wlms.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,5 +30,19 @@ public class MemberController {
 		memberService.insertMember(member);
 		return "redirect:/";
 
+	}
+
+	@GetMapping(value = "/member/login")
+	public String login(Model model) {
+		return "/member/login";
+	}
+
+	@PostMapping(value = "/member/login")
+	public String login(String id, String password, HttpSession session, Model model) {
+		MemberVO memberVO = memberService.selectMember(id);
+		session.setMaxInactiveInterval(600);
+		session.setAttribute("id", id);
+		session.setAttribute("memberGroup", memberVO.getMemberGroup());
+		return "/member/login";
 	}
 }

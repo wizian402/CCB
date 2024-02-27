@@ -25,4 +25,9 @@ public class MemberService implements IMemberService {
 		return memberRepository.getAllGroupName();
 	}
 
+	@Override
+	public MemberVO selectMember(String id) {
+		return memberRepository.selectMember(id);
+	}
+
 }
