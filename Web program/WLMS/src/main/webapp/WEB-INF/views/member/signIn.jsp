@@ -19,7 +19,16 @@
 	</tr>
 	<tr>
 		<th>group</th>
-		<td><input type="text" name="memberGroup" required></td>
+		<td>
+		<label for="option1">옵션 1</label>
+        <input type="radio" id="option1" name="memberGroup" value="1"><br>
+        
+        <label for="option2">옵션 2</label>
+        <input type="radio" id="option2" name="memberGroup" value="2"><br>
+        
+        <label for="option3">옵션 3</label>
+        <input type="radio" id="option3" name="memberGroup" value="3"><br>
+        </td>
 	</tr>
 	<tr>
 		<th>&nbsp;</th>
@@ -28,6 +37,7 @@
 			<input type="reset" value="취소">			
 		</td>	
 	</tr>
+	
 	</table>
 </form>
 </body>
