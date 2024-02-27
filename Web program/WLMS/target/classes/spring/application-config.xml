@@ -24,8 +24,10 @@
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
+			<property name="mapperLocations" value="classpath:com/wizian/wlms/**/*.xml"></property>
 	</bean>
 
-	<context:component-scan base-package="com.wizian.wlms"></context:component-scan>
+	<context:component-scan base-package="com.wizian.wlms.member"></context:component-scan>
+	<mybatis-spring:scan base-package="com.wizian.wlms.member.dao"/>
 </beans>
   

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wizian.wlms.member.dao.IMemberRepository">
+
+	<insert id="insertMember"
+		parameterType="com.wizian.wlms.member.model.MemberVO">
+		INSERT INTO Member (
+		ID,
+		PASSWORD,
+		MEMBER_GROUP
+		)
+		VALUES (
+		#{id},
+		#{password},
+		#{memberGroup}
+		)
+	</insert>
+
+</mapper>
