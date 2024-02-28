@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wizian.wlms.member.dao.IMemberRepository">
+	<resultMap id="selectMember" type="com.wizian.wlms.member.model.MemberVO">
+		<result property="id" column="ID"/>
+		<result property="password" column="PASSWORD"/>
+		<result property="memberGroup" column="MEMBER_GROUP"/>
+	</resultMap>
+
+	<insert id="insertMember"
+		parameterType="com.wizian.wlms.member.model.MemberVO">
+		INSERT INTO Member (
+		ID,
+		PASSWORD,
+		MEMBER_GROUP
+		)
+		VALUES (
+		#{id},
+		#{password},
+		#{memberGroup}
+		)
+	</insert>
+
+
+	<select id="getAllGroupName" resultType="hashmap">
+		SELECT GROUP_ID AS "groupId",
+		GROUP_NAME AS "groupName" FROM MEMBER_GROUP
+	</select>
+	
+	<select id="selectMember" parameterType="string" resultType="com.wizian.wlms.member.model.MemberVO">
+    SELECT 
+        ID AS id,
+        PASSWORD AS password,
+        MEMBER_GROUP AS memberGroup
+    FROM MEMBER 
+    WHERE ID = #{id}		
+</select>
+
+</mapper>

@@ -1,0 +1,12 @@
+create table Member_Group (
+    group_ID varchar2(20) not null PRIMARY KEY,
+    group_NAME varchar2(20)not null UNIQUE
+);
+
+create table member (
+    id varchar2(20),
+    password varchar2(20),
+    member_group varchar2(20),
+    PRIMARY KEY (id),
+    FOREIGN KEY (member_group) REFERENCES Member_Group (group_ID)
+);
