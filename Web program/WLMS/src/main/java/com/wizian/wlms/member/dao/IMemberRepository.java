@@ -10,6 +10,8 @@ import com.wizian.wlms.member.model.MemberVO;
 public interface IMemberRepository {
 	void insertMember(MemberVO member);
 
+	void deleteMember(@Param("id") String id, @Param("password") String password);
+
 	List<Map<String, Object>> getAllGroupName();
 
 	MemberVO selectMember(@Param("id") String id);

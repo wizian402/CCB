@@ -67,4 +67,21 @@ public class MemberController {
 		session.invalidate();
 		return "/member/home";
 	}
+
+	// 탈퇴
+	@GetMapping(value = "/member/secession")
+	public String secession() {
+		return "/member/secession";
+	}
+
+	@PostMapping(value = "/member/secession")
+	public String secession(String password, HttpSession session, Model model) {
+		MemberVO memberVO = memberService.selectMember((String) session.getAttribute("id"));
+		if (memberVO.getPassword().equals(password)) {
+			memberService.deleteMember(memberVO.getId(), memberVO.getPassword());
+			session.invalidate();
+		}
+		return "redirect:/member/home";
+	}
+
 }

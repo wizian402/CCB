@@ -30,4 +30,9 @@ public class MemberService implements IMemberService {
 		return memberRepository.selectMember(id);
 	}
 
+	@Override
+	public void deleteMember(String id, String password) {
+		memberRepository.deleteMember(id, password);
+	}
+
 }
