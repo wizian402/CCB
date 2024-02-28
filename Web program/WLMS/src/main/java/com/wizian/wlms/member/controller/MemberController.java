@@ -84,4 +84,19 @@ public class MemberController {
 		return "redirect:/member/home";
 	}
 
+	// 수정
+	@GetMapping(value = "/member/modify")
+	public String modify(Model model) {
+		model.addAttribute("groupList", memberService.getAllGroupName());
+		return "/member/modify";
+	}
+
+	@PostMapping("/member/modify")
+	public String modify(MemberVO member, Model model) {
+		System.out.println(member.getId());
+		memberService.updateMember(member);
+		
+		return "redirect:/member/home";
+	}
+
 }

@@ -10,6 +10,8 @@ public interface IMemberService {
 
 	void deleteMember(String id, String password);
 	
+	void updateMember(MemberVO member);
+	
 	MemberVO selectMember(String id);
 
 	List<Map<String, Object>> getAllGroupName();

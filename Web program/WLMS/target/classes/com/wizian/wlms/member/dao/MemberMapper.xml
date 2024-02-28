@@ -29,6 +29,12 @@
 		PASSWORD=#{password}
 	</delete>
 
+	<update id="updateMember"
+		parameterType="com.wizian.wlms.member.model.MemberVO">
+		UPDATE Member
+		SET PASSWORD=#{password}
+		WHERE ID=#{id}
+	</update>
 
 	<select id="getAllGroupName" resultType="hashmap">
 		SELECT GROUP_ID AS
@@ -41,7 +47,8 @@
 		SELECT
 		ID AS id,
 		PASSWORD AS password,
-		MEMBER_GROUP AS memberGroup
+		MEMBER_GROUP AS
+		memberGroup
 		FROM MEMBER
 		WHERE ID = #{id}
 	</select>

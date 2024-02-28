@@ -20,11 +20,11 @@
 			<a href="./signIn">회원가입</a>
 		</c:when>
 		<c:otherwise>
+			<a href="./modify">정보수정</a>
 			<a href="./secession">탈퇴</a>
 			<a href="./logout">로그아웃</a>
 		</c:otherwise>
 	</c:choose>
-	<a href="./modify">정보수정</a>
 
 
 	<c:choose>
