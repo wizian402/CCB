@@ -19,6 +19,13 @@ public class MemberController {
 	@Qualifier("memberService")
 	IMemberService memberService;
 
+	// 로그인 메인 페이지
+	@GetMapping(value = "/member/home")
+	public String home() {
+		return "/member/home";
+	}
+
+	// 회원가입
 	@GetMapping(value = "/member/signIn")
 	public String signIn(Model model) {
 		model.addAttribute("groupList", memberService.getAllGroupName());
@@ -28,10 +35,10 @@ public class MemberController {
 	@PostMapping("/member/signIn")
 	public String signIn(MemberVO member, Model model) {
 		memberService.insertMember(member);
-		return "redirect:/";
-
+		return "/member/home";
 	}
 
+	// 로그인
 	@GetMapping(value = "/member/login")
 	public String login(Model model) {
 		return "/member/login";
@@ -40,9 +47,24 @@ public class MemberController {
 	@PostMapping(value = "/member/login")
 	public String login(String id, String password, HttpSession session, Model model) {
 		MemberVO memberVO = memberService.selectMember(id);
-		session.setMaxInactiveInterval(600);
-		session.setAttribute("id", id);
-		session.setAttribute("memberGroup", memberVO.getMemberGroup());
-		return "/member/login";
+		if (memberVO == null) {
+
+		} else {
+			if (memberVO.getPassword().equals(password)) {
+				session.setMaxInactiveInterval(600);
+				session.setAttribute("id", id);
+				session.setAttribute("memberGroup", memberVO.getMemberGroup());
+			} else {
+
+			}
+		}
+		return "redirect:/member/home";
+	}
+
+	// 로그아웃
+	@GetMapping(value = "/member/logout")
+	public String logout(HttpSession session, Model model) {
+		session.invalidate();
+		return "/member/home";
 	}
 }
