@@ -19,6 +19,13 @@ public class MemberController {
 	@Qualifier("memberService")
 	IMemberService memberService;
 
+	// 로그인 메인 페이지
+	@GetMapping(value = "/member/home")
+	public String home() {
+		return "/member/home";
+	}
+
+	// 회원가입
 	@GetMapping(value = "/member/signIn")
 	public String signIn(Model model) {
 		model.addAttribute("groupList", memberService.getAllGroupName());
@@ -28,10 +35,10 @@ public class MemberController {
 	@PostMapping("/member/signIn")
 	public String signIn(MemberVO member, Model model) {
 		memberService.insertMember(member);
-		return "redirect:/";
-
+		return "/member/home";
 	}
 
+	// 로그인
 	@GetMapping(value = "/member/login")
 	public String login(Model model) {
 		return "/member/login";
@@ -40,9 +47,56 @@ public class MemberController {
 	@PostMapping(value = "/member/login")
 	public String login(String id, String password, HttpSession session, Model model) {
 		MemberVO memberVO = memberService.selectMember(id);
-		session.setMaxInactiveInterval(600);
-		session.setAttribute("id", id);
-		session.setAttribute("memberGroup", memberVO.getMemberGroup());
-		return "/member/login";
+		if (memberVO == null) {
+
+		} else {
+			if (memberVO.getPassword().equals(password)) {
+				session.setMaxInactiveInterval(600);
+				session.setAttribute("id", id);
+				session.setAttribute("memberGroup", memberVO.getMemberGroup());
+			} else {
+
+			}
+		}
+		return "redirect:/member/home";
 	}
+
+	// 로그아웃
+	@GetMapping(value = "/member/logout")
+	public String logout(HttpSession session, Model model) {
+		session.invalidate();
+		return "/member/home";
+	}
+
+	// 탈퇴
+	@GetMapping(value = "/member/secession")
+	public String secession() {
+		return "/member/secession";
+	}
+
+	@PostMapping(value = "/member/secession")
+	public String secession(String password, HttpSession session, Model model) {
+		MemberVO memberVO = memberService.selectMember((String) session.getAttribute("id"));
+		if (memberVO.getPassword().equals(password)) {
+			memberService.deleteMember(memberVO.getId(), memberVO.getPassword());
+			session.invalidate();
+		}
+		return "redirect:/member/home";
+	}
+
+	// 수정
+	@GetMapping(value = "/member/modify")
+	public String modify(Model model) {
+		model.addAttribute("groupList", memberService.getAllGroupName());
+		return "/member/modify";
+	}
+
+	@PostMapping("/member/modify")
+	public String modify(MemberVO member, Model model) {
+		System.out.println(member.getId());
+		memberService.updateMember(member);
+		
+		return "redirect:/member/home";
+	}
+
 }

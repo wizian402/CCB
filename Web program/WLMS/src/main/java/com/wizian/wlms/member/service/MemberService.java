@@ -21,6 +21,16 @@ public class MemberService implements IMemberService {
 	}
 
 	@Override
+	public void deleteMember(String id, String password) {
+		memberRepository.deleteMember(id, password);
+	}
+
+	@Override
+	public void updateMember(MemberVO member) {
+		memberRepository.updateMember(member);
+	}
+	
+	@Override
 	public List<Map<String, Object>> getAllGroupName() {
 		return memberRepository.getAllGroupName();
 	}

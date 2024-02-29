@@ -8,6 +8,10 @@ import com.wizian.wlms.member.model.MemberVO;
 public interface IMemberService {
 	void insertMember(MemberVO member);
 
+	void deleteMember(String id, String password);
+	
+	void updateMember(MemberVO member);
+	
 	MemberVO selectMember(String id);
 
 	List<Map<String, Object>> getAllGroupName();
