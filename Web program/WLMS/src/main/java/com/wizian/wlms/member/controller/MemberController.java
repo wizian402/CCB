@@ -1,5 +1,8 @@
 package com.wizian.wlms.member.controller;
 
+import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wizian.wlms.member.model.MemberVO;
 import com.wizian.wlms.member.service.IMemberService;
 
-@Controller
+@RestController
 public class MemberController {
 
 	@Autowired
@@ -26,39 +34,35 @@ public class MemberController {
 	}
 
 	// 회원가입
-	@GetMapping(value = "/member/signIn")
-	public String signIn(Model model) {
-		model.addAttribute("groupList", memberService.getAllGroupName());
-		return "/member/signIn";
-	}
-
 	@PostMapping("/member/signIn")
-	public String signIn(MemberVO member, Model model) {
-		memberService.insertMember(member);
-		return "/member/home";
+	public void signIn(@RequestBody MemberVO memberVO) {
+		memberService.insertMember(memberVO);
 	}
 
 	// 로그인
-	@GetMapping(value = "/member/login")
-	public String login(Model model) {
-		return "/member/login";
-	}
-
 	@PostMapping(value = "/member/login")
-	public String login(String id, String password, HttpSession session, Model model) {
-		MemberVO memberVO = memberService.selectMember(id);
-		if (memberVO == null) {
+	public void login(@RequestBody String loginData, HttpSession session) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
+			});
+			String id = loginMap.get("id");
+			String password = loginMap.get("password");
+			MemberVO memberVO = memberService.selectMember(id);
+			if (memberVO == null) {
 
-		} else {
-			if (memberVO.getPassword().equals(password)) {
-				session.setMaxInactiveInterval(600);
-				session.setAttribute("id", id);
-				session.setAttribute("memberGroup", memberVO.getMemberGroup());
 			} else {
+				if (memberVO.getPassword().equals(password)) {
+					session.setMaxInactiveInterval(600);
+					session.setAttribute("id", id);
+					session.setAttribute("memberGroup", memberVO.getMemberGroup());
+				} else {
 
+				}
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return "redirect:/member/home";
 	}
 
 	// 로그아웃
