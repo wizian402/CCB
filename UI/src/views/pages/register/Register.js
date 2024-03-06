@@ -16,19 +16,19 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
 const Register = () => {
-  const [id, setId] = useState('')
-  const [memberGroup, setMemberGroup] = useState('')
-  const [password, setPassword] = useState('')
+  const [loginId, setLoginId] = useState('')
+  const [pswd, setPswd] = useState('')
+  const [userGroupCd, setUserGroupCd] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('/wlms/member/signIn', {
+    fetch('/wlms/user/signIn', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, password, memberGroup }),
+      body: JSON.stringify({ loginId, pswd, userGroupCd }),
     })
     navigate('/dashboard')
   }
@@ -50,7 +50,7 @@ const Register = () => {
                     <CFormInput
                       placeholder="id"
                       autoComplete="id"
-                      onChange={(e) => setId(e.target.value)}
+                      onChange={(e) => setLoginId(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -58,8 +58,8 @@ const Register = () => {
                     <CFormInput
                       placeholder="memberGroup"
                       autoComplete="memberGroup"
-                      value={memberGroup}
-                      onChange={(e) => setMemberGroup(e.target.value)}
+                      value={userGroupCd}
+                      onChange={(e) => setUserGroupCd(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -70,8 +70,8 @@ const Register = () => {
                       type="password"
                       placeholder="password"
                       autoComplete="new-password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={pswd}
+                      onChange={(e) => setPswd(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-4">
