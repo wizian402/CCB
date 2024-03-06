@@ -29,7 +29,7 @@ const Register = () => {
     } else if(!regId.test(loginId)){
       alert('4~12자 영문 대소문자, 숫자만 입력하세요.')
     } else {
-      fetch('/wlms/user/signIn', {
+      fetch('/cbb/user/signIn', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
