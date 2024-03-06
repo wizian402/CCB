@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,13 @@ public class UserController {
 	IUserService userService;
 
 	@PostMapping("/user/signIn")
-	public void signIn(@RequestBody UserVO userVO) {
-		userService.insertUser(userVO);
+	public ResponseEntity<String> signIn(@RequestBody UserVO userVO) {
+		if (userService.selectUser(userVO.getLoginId()) == null) {
+			userService.insertUser(userVO);
+			return ResponseEntity.ok("success");
+		} else {
+			return ResponseEntity.ok("fail");
+		}
 	}
 
 	@PostMapping("/user/login")

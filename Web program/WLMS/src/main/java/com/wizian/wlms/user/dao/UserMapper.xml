@@ -41,7 +41,7 @@
 		PSWD_CHG_DT AS pswdChgDt,
 		PSWD_ERR_CNT AS pswdErrCnt,
 		USER_CLOSE_YN AS userCloseYn
-		FROM USER
+		FROM USER_INFO
 		WHERE LOGIN_ID = #{loginId}
 	</select>
 

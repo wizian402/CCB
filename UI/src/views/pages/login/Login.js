@@ -22,7 +22,7 @@ const Login = () => {
   const loginSubmit = (e) => {
     e.preventDefault()
 
-    fetch('/wlms/member/login', {
+    fetch('/wlms/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

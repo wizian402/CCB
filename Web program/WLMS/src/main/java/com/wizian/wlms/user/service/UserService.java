@@ -18,8 +18,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserVO selectUser(String id) {
-		return userRepository.selectUser(id);
+	public UserVO selectUser(String loginId) {
+		return userRepository.selectUser(loginId);
 	}
 
 }
