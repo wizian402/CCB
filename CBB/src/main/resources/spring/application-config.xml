@@ -42,5 +42,10 @@
 		base-package="com.wizian.cbb.user"></context:component-scan>
 	<mybatis-spring:scan
 		base-package="com.wizian.cbb.user.dao" />
+
+	<context:component-scan
+		base-package="com.wizian.cbb.recruit"></context:component-scan>
+	<mybatis-spring:scan
+		base-package="com.wizian.cbb.recruit.dao" />
 </beans>
   
