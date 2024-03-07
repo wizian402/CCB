@@ -1,12 +1,37 @@
-create table Member_Group (
-    group_ID varchar2(20) not null PRIMARY KEY,
-    group_NAME varchar2(20)not null UNIQUE
+CREATE TABLE "USER_INFO" (
+	"USER_NO"	VARCHAR2(10)		NOT NULL,
+	"USER_GROUP_CD"	VARCHAR2(2)		NOT NULL,
+	"LOGIN_ID"	VARCHAR2(100)		NOT NULL,
+	"PSWD"	VARCHAR2(100)		NOT NULL,
+	"RCNT_LOGIN_DT"	DATE		NULL,
+	"PSWD_CHG_DT"	DATE		NULL,
+	"PSWD_ERR_CNT"	NUMBER		NULL,
+	"USER_CLOSE_YN"	VARCHAR2(1)		NULL
 );
 
-create table member (
-    id varchar2(20),
-    password varchar2(20),
-    member_group varchar2(20),
-    PRIMARY KEY (id),
-    FOREIGN KEY (member_group) REFERENCES Member_Group (group_ID)
+CREATE TABLE "USER_GROUP" (
+	"USER_GROUP_CD"	VARCHAR2(2)		NOT NULL,
+	"USER_GROUP_NM"	VARCHAR(20)		NOT NULL
 );
+
+ALTER TABLE "USER_GROUP" ADD CONSTRAINT "PK_USER_GROUP" PRIMARY KEY (
+	"USER_GROUP_CD"
+);
+
+ALTER TABLE "USER_INFO" ADD CONSTRAINT "PK_USER_INFO" PRIMARY KEY (
+	"USER_NO"
+);
+
+ALTER TABLE USER_INFO
+ADD CONSTRAINT FK_USER_GROUP
+FOREIGN KEY (USER_GROUP_CD)
+REFERENCES USER_GROUP(USER_GROUP_CD);
+
+insert into user_group values('1', '학생');
+insert into user_group values('2', '산업체');
+insert into user_group values('3', '교수');
+
+CREATE SEQUENCE USER_INFO_SEQ
+  START WITH 1
+  INCREMENT BY 1
+  NOMAXVALUE;

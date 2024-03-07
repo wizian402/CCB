@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wizian.wlms.user.dao.IUserRepository">
+	<resultMap id="selectUser"
+		type="com.wizian.wlms.user.model.UserVO">
+		<result property="userNO" column="USER_NO" />
+		<result property="userGroupCd" column="USER_GROUP_CD" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="pswd" column="PSWD" />
+		<result property="rcntLoginDt" column="RCNT_LOGIN_DT" />
+		<result property="pswdChgDt" column="PSWD_CHG_DT" />
+		<result property="pswdErrCnt" column="PSWD_ERR_CNT" />
+		<result property="userCloseYn" column="USER_CLOSE_YN" />
+	</resultMap>
+
+	<insert id="insertUser"
+		parameterType="com.wizian.wlms.user.model.UserVO">
+		INSERT INTO USER_INFO (
+		USER_NO,
+		LOGIN_ID,
+		PSWD,
+		USER_GROUP_CD
+		)
+		VALUES (
+		USER_INFO_SEQ.NEXTVAL,
+		#{loginId},
+		#{pswd},
+		#{userGroupCd}
+		)
+	</insert>
+
+	<select id="selectUser" parameterType="string"
+		resultType="com.wizian.wlms.user.model.UserVO">
+		SELECT
+		USER_NO AS userNO,
+		USER_GROUP_CD AS userGroupCd,
+		LOGIN_ID AS loginId,
+		PSWD AS pswd,
+		RCNT_LOGIN_DT AS rcntLoginDt,
+		PSWD_CHG_DT AS pswdChgDt,
+		PSWD_ERR_CNT AS pswdErrCnt,
+		USER_CLOSE_YN AS userCloseYn
+		FROM USER_INFO
+		WHERE LOGIN_ID = #{loginId}
+	</select>
+
+</mapper>

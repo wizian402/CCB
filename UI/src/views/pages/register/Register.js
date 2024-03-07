@@ -16,21 +16,41 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
 const Register = () => {
-  const [id, setId] = useState('')
-  const [memberGroup, setMemberGroup] = useState('')
-  const [password, setPassword] = useState('')
-  const [repeatPassword, setRepeatPassword] = useState('')
+  const [loginId, setLoginId] = useState('')
+  const [userGroupCd, setUserGroupCd] = useState('')
+  const [pswd, setPswd] = useState('')
+  const [repeatPswd, setRepeatPswd] = useState('')
+  var regId = /^[a-zA-Z0-9]{4,12}$/
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('/wlms/member/signIn', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id, password, memberGroup }),
-    })
-    navigate('/dashboard')
+    if(pswd !== repeatPswd){
+      alert('비밀번호와 동일하지 않습니다.')
+    } else if(!regId.test(loginId)){
+      alert('4~12자 영문 대소문자, 숫자만 입력하세요.')
+    } else {
+      fetch('/cbb/user/signIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ loginId, pswd, userGroupCd }),
+      })
+      .then(response => {
+        return response.text()
+      })
+      .then(data => {
+        if (data == 'success') {
+          console.log(data)
+          navigate('/dashboard')
+        } else{
+          console.log(data)
+          alert('이미 존재하는 아이디입니다.')
+        }
+      })
+      .catch(error => {
+      });
+    }
   }
 
   return (
@@ -41,7 +61,7 @@ const Register = () => {
             <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm onSubmit={handleSubmit}>
-                  <h1>Register</h1>
+                  <h1>회원가입</h1>
                   <p className="text-medium-emphasis">Create your account</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -50,7 +70,7 @@ const Register = () => {
                     <CFormInput
                       placeholder="id"
                       autoComplete="id"
-                      onChange={(e) => setId(e.target.value)}
+                      onChange={(e) => setLoginId(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -58,8 +78,8 @@ const Register = () => {
                     <CFormInput
                       placeholder="memberGroup"
                       autoComplete="memberGroup"
-                      value={memberGroup}
-                      onChange={(e) => setMemberGroup(e.target.value)}
+                      value={userGroupCd}
+                      onChange={(e) => setUserGroupCd(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -70,8 +90,8 @@ const Register = () => {
                       type="password"
                       placeholder="password"
                       autoComplete="new-password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={pswd}
+                      onChange={(e) => setPswd(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-4">
@@ -82,8 +102,8 @@ const Register = () => {
                       type="password"
                       placeholder="Repeat password"
                       autoComplete="new-password"
-                      value={repeatPassword}
-                      onChange={(e) => setRepeatPassword(e.target.value)}
+                      value={repeatPswd}
+                      onChange={(e) => setRepeatPswd(e.target.value)}
                     />
                   </CInputGroup>
                   <div className="d-grid">
