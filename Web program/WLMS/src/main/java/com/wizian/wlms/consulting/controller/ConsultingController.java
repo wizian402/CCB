@@ -3,26 +3,67 @@ package com.wizian.wlms.consulting.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wizian.wlms.consulting.model.ConItemsVO;
+import com.wizian.wlms.consulting.model.ConItemVO;
+import com.wizian.wlms.consulting.model.FormData;
 import com.wizian.wlms.consulting.service.IConsultingService;
 
 @Controller
 public class ConsultingController {
 
-    @Autowired
-    IConsultingService consultingService;
-    
-    @CrossOrigin(origins = "http://localhost:3001")
-    @RequestMapping(value = "/api/students")
-    public @ResponseBody List<ConItemsVO> Consultationitems() {
-        List list = consultingService.Consultationitems();
-        System.out.println(list);
-        return list;
-    }
+	@Autowired
+	IConsultingService consultingService;
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/consulting/items")
+	public @ResponseBody List<ConItemVO> Consultationitems() {
+		List list = consultingService.Consultationitems();
+		System.out.println(list);	
+		return list;
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping(value = "/consulting/items/insert")
+	public @ResponseBody int ItemInsert(@RequestBody ConItemVO conItemsVO) {
+//		String checkId = consultingService.itemCheck(conItemsVO);
+//		System.out.println(checkId);
+		int num = 0;
+//		if(checkId == null) {
+//			num = consultingService.itemInsert(conItemsVO);
+//			return num;
+//		}else {
+//			num = consultingService.itemUpdate(conItemsVO);
+//		}
+		num = consultingService.itemInsert(conItemsVO);
+		return num;
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping(value = "/consulting/items/update")
+	public @ResponseBody int ItemUpdate(@RequestBody ConItemVO conItemsVO) {
+		int num = 0;
+		num = consultingService.itemUpdate(conItemsVO);
+		return num;
+	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping(value = "/consulting/items/delete")
+	public @ResponseBody int ItemDelete(@RequestBody ConItemVO conItemsVO) {
+		int num = 0;
+		num = consultingService.itemDelete(conItemsVO.getConItemsID());
+		return num;
+	}
+	
+	
+	
 }
