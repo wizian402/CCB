@@ -2,10 +2,10 @@ package com.wizian.cbb.recruit.service;
 
 import java.util.List;
 
-import com.wizian.cbb.recruit.model.RcrResumesVO;
+import com.wizian.cbb.recruit.model.RcrPbancVO;
 
 public interface IRcrService {
 	
-	List<RcrResumesVO> getAllResumes();		
-	
+	List<RcrPbancVO> getAllPbancs();		
+	public RcrPbancVO getPbanc(int pbancSn);
 }
