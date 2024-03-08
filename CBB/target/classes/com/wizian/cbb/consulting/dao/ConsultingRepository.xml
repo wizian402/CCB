@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
+<mapper
+	namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
 	<resultMap id="selectConsulting"
-		type="com.wizian.cbb.consulting.model.ConItemsVO">
-		<result property="counseling_items_id" column="COUNSELING_ITEMS_ID"/>
-		<result property="counseling_items_name" column="COUNSELING_ITEMS_NAME"/>
-		<result property="is_used" column="IS_USED" />
-		<result property="creation_date" column="CREATION_DATE"/>
-		<result property="modification_date" column="MODIFICATION_DATE"/>
+		type="com.wizian.wlms.consulting.model.ConItemVO">
+		<result property="conItemsID" column="DSCSN_TTL_SN" />
+		<result property="conItems" column="DSCSN_TTL" />
+		<result property="use" column="USE_YN" />
+		<result property="creationDate" column="CRT_YMD" />
+		<result property="modificationDate" column="MDFCN_YMD" />
 	</resultMap>
-	
+
 	<select id="Consultationitems" resultMap="selectConsulting">
-		SELECT * FROM COUNSELING_ITEMS
+		SELECT * FROM
+		DSCSN_TTL
 	</select>
+
+	<insert id="itemInsert">
+		INSERT INTO DSCSN_TTL (
+		DSCSN_TTL_SN,
+		DSCSN_TTL,
+		USE_YN
+		) VALUES (
+		#{conItemsID},
+		#{conItems},
+		#{use}
+		)
+	</insert>
+
+	<update id="itemUpdate">
+		UPDATE DSCSN_TTL
+		SET DSCSN_TTL = #{conItems},
+		USE_YN =
+		#{use}
+		WHERE DSCSN_TTL_SN = #{conItemsID}
+	</update>
+
+	<delete id="itemDelete" parameterType="string">
+		DELETE FROM DSCSN_TTL WHERE DSCSN_TTL_SN = #{itemId}
+	</delete>
+
+	<select id="itemCheck" resultType="string">
+		SELECT DSCSN_TTL_SN FROM
+		DSCSN_TTL WHERE DSCSN_TTL_SN = #{conItemsID}
+	</select>
+
 </mapper>
