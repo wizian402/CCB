@@ -15,7 +15,7 @@ import {
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
-const _nav = [
+export const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
@@ -25,10 +25,58 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
+
   },
   {
     component: CNavTitle,
-    name: 'Theme',
+    name: '맞춤채용정보',
+  },
+  {
+    component: CNavGroup,
+    name: '이력서관리',
+    to: '#',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: '신규이력서작성',
+        to: '/base/TablesResume',
+      }
+    ]
+  }, {
+    component: CNavGroup,
+    name: '맞춤채용정보',
+    to: '#',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: '맞춤채용정보 수정 및 등록',
+        to: '#',
+      },
+      {
+        component: CNavItem,
+        name: '맞춤채용정보 삭제',
+        to: '#',
+      },
+      {
+        component: CNavItem,
+        name: '입사요청 및 현황조회',
+        to: '#',
+      }
+    ]
+  }, {
+    component: CNavGroup,
+    name: '채용공고조회',
+    to: '#',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: '지원내역조회',
+        to: '#',
+      }
+    ]
   },
   {
     component: CNavItem,
@@ -301,5 +349,3 @@ const _nav = [
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
 ]
-
-export default _nav

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
+	<resultMap id="selectConsulting"
+		type="com.wizian.cbb.consulting.model.ConItemsVO">
+		<result property="counseling_items_id" column="COUNSELING_ITEMS_ID"/>
+		<result property="counseling_items_name" column="COUNSELING_ITEMS_NAME"/>
+		<result property="is_used" column="IS_USED" />
+		<result property="creation_date" column="CREATION_DATE"/>
+		<result property="modification_date" column="MODIFICATION_DATE"/>
+	</resultMap>
+	
+	<select id="Consultationitems" resultMap="selectConsulting">
+		SELECT * FROM COUNSELING_ITEMS
+	</select>
+</mapper>
