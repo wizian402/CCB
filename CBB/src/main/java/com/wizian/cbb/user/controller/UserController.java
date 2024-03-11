@@ -1,6 +1,7 @@
 package com.wizian.cbb.user.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +58,17 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GetMapping("/user/logout")
+	public void logout(HttpSession session) {
+	    Enumeration<String> attributeNames = session.getAttributeNames();
+	    while (attributeNames.hasMoreElements()) {
+	        String attributeName = attributeNames.nextElement();
+	        Object attributeValue = session.getAttribute(attributeName);
+	        System.out.println(attributeName + ": " + attributeValue);
+	    }
+	    session.invalidate();
 	}
 
 }
