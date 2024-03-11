@@ -10,4 +10,8 @@ public interface IConsultingService {
 	public int itemUpdate(ConItemVO conItemsVO);
 	public int itemDelete(String itemId);
 	public String itemCheck(ConItemVO conItemsVO);
+	
+	
+	
+	public List<ConItemVO> adminSchedules();
 	}

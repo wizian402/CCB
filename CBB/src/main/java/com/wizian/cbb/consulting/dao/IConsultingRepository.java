@@ -12,4 +12,7 @@ public interface IConsultingRepository {
 	public int itemUpdate(ConItemVO conItemsVO);
 	public int itemDelete(@Param("itemId") String itemId);
 	public String itemCheck(ConItemVO conItemsVO);
+	
+	
+	public List<ConItemVO> adminSchedules();
 }

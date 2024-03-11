@@ -38,6 +38,15 @@ public class ConsultingService implements IConsultingService {
     public String itemCheck(ConItemVO conItemVO) {
     	return consultingRepository.itemCheck(conItemVO);
     }
+    
+    
+    
+    
+    
+    @Override
+    public List<ConItemVO> adminSchedules() {
+    	return consultingRepository.adminSchedules();
+    }
    
 }
 
