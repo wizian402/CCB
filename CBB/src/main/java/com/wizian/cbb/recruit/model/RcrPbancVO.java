@@ -2,7 +2,7 @@ package com.wizian.cbb.recruit.model;
 
 import java.sql.Date;
 
-public class RcrResumesVO {
+public class RcrPbancVO {
 
 	private int pbancSn;
 	private String pbancName;
@@ -83,7 +83,7 @@ public class RcrResumesVO {
 	}
 	@Override
 	public String toString() {
-		return "RcrResumesVO [pbancSn=" + pbancSn + ", pbancName=" + pbancName + ", numRcr=" + numRcr + ", slry=" + slry
+		return "RcrPbancVO [pbancSn=" + pbancSn + ", pbancName=" + pbancName + ", numRcr=" + numRcr + ", slry=" + slry
 				+ ", pbancContent=" + pbancContent + ", endYMD=" + endYMD + ", aprvYN=" + aprvYN + ", startDT="
 				+ startDT + ", epmType=" + epmType + ", rcrStatus=" + rcrStatus + ", bizRegNum=" + bizRegNum + "]";
 	}

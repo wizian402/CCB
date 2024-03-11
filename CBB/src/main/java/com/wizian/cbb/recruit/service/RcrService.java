@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.recruit.dao.IRcrRepository;
-import com.wizian.cbb.recruit.model.RcrResumesVO;
+import com.wizian.cbb.recruit.model.RcrPbancVO;
 
 @Service
 public class RcrService implements IRcrService{
@@ -15,7 +15,14 @@ public class RcrService implements IRcrService{
 	IRcrRepository rcrRepository;
 	
 	@Override
-	public List<RcrResumesVO> getAllResumes() {
-		return rcrRepository.getAllResumesfromDB();		 
+	public List<RcrPbancVO> getAllPbancs() {
+		return rcrRepository.getAllPbancsfromDB();		 
 	}
+	
+	
+	@Override
+	public RcrPbancVO getPbanc(int pbancSn) {
+		return rcrRepository.getPbancfromDB(pbancSn);
+	}
+	
 }
