@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wizian.cbb.recruit.dao.IRcrRepository">
-	<resultMap id="resumeMap" type="com.wizian.cbb.recruit.model.RcrResumesVO">
+	<resultMap id="pbancMap" type="com.wizian.cbb.recruit.model.RcrPbancVO">
 		<result property="pbancSn" column="pbanc_sn" />
 		<result property="pbancName" column="pbanc_nm" />
 		<result property="numRcr" column="rcrut_nope" />
@@ -16,8 +16,14 @@
 		<result property="bizRegNum" column="brno" />
 	</resultMap>
 
-<select id="getAllResumesfromDB" resultMap="resumeMap">
+<select id="getAllPbancsfromDB" resultMap="pbancMap">
 SELECT * FROM RECRUIT_NOTICE
 </select>
+
+<select id="getPbancfromDB" parameterType="int" resultMap="pbancMap">
+SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
+</select>
+
+
 
 </mapper>
