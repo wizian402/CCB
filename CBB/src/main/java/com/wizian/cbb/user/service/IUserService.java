@@ -8,4 +8,6 @@ public interface IUserService {
 	void updateRcntLoginDt(String loginId);
 
 	void updatePswdErrCnt(String loginId);
+
+	void updateUserCloseYn(String loginId, String userCloseYn);
 }

@@ -10,4 +10,6 @@ public interface IUserRepository {
 	void updateRcntLoginDt(@Param("loginId") String loginId);
 
 	void updatePswdErrCnt(@Param("loginId") String loginId);
+	
+	void updateUserCloseYn(@Param("loginId") String loginId, @Param("userCloseYn") String userCloseYn );
 }
