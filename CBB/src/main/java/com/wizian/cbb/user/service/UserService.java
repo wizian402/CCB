@@ -12,12 +12,22 @@ public class UserService implements IUserService {
 	IUserRepository userRepository;
 
 	@Override
-	public void insertUser(UserVO user) {
-		userRepository.insertUser(user);
+	public UserVO selectUser(String loginId) {
+		return userRepository.selectUser(loginId);
 	}
 
 	@Override
-	public UserVO selectUser(String loginId) {
-		return userRepository.selectUser(loginId);
+	public void updateRcntLoginDt(String loginId) {
+		userRepository.updateRcntLoginDt(loginId);
+	}
+	
+	@Override
+	public void updatePswdErrCnt(String loginId) {
+		userRepository.updatePswdErrCnt(loginId);
+	}
+
+	@Override
+	public void updateUserCloseYn(String loginId, String userCloseYn) {
+		userRepository.updateUserCloseYn(loginId, userCloseYn);
 	}
 }
