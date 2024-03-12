@@ -6,9 +6,9 @@ public class SchedulesVO {
 	private String type;
 	private String counselor;
 	private String item;
-	private Date consultationDate;
+	private String consultationDate;
 	private String consultationTime;
-	private Date creationDate;
+	private String creationDate;
 	
 	
 	
@@ -30,10 +30,10 @@ public class SchedulesVO {
 	public void setItem(String item) {
 		this.item = item;
 	}
-	public Date getConsultationDate() {
+	public String getConsultationDate() {
 		return consultationDate;
 	}
-	public void setConsultationDate(Date consultationDate) {
+	public void setConsultationDate(String consultationDate) {
 		this.consultationDate = consultationDate;
 	}
 	public String getConsultationTime() {
@@ -42,10 +42,10 @@ public class SchedulesVO {
 	public void setConsultationTime(String consultationTime) {
 		this.consultationTime = consultationTime;
 	}
-	public Date getCreationDate() {
+	public String getCreationDate() {
 		return creationDate;
 	}
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
 	
