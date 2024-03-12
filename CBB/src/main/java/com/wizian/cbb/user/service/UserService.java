@@ -1,5 +1,7 @@
 package com.wizian.cbb.user.service;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,12 @@ public class UserService implements IUserService {
 	IUserRepository userRepository;
 
 	@Override
-	public void insertUser(UserVO user) {
-		userRepository.insertUser(user);
+	public UserVO selectUser(String loginId) {
+		return userRepository.selectUser(loginId);
 	}
 
 	@Override
-	public UserVO selectUser(String loginId) {
-		return userRepository.selectUser(loginId);
+	public void updateRcntLoginDt(String loginId) {
+		userRepository.updateRcntLoginDt(loginId);
 	}
 }

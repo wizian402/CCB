@@ -14,22 +14,6 @@
 		<result property="userCloseYn" column="USER_CLOSE_YN" />
 	</resultMap>
 
-	<insert id="insertUser"
-		parameterType="com.wizian.cbb.user.model.UserVO">
-		INSERT INTO USER_INFO (
-		USER_NO,
-		LOGIN_ID,
-		PSWD,
-		USER_GROUP_CD
-		)
-		VALUES (
-		USER_INFO_SEQ.NEXTVAL,
-		#{loginId},
-		#{pswd},
-		#{userGroupCd}
-		)
-	</insert>
-
 	<select id="selectUser" parameterType="string"
 		resultType="com.wizian.cbb.user.model.UserVO">
 		SELECT
@@ -40,9 +24,18 @@
 		RCNT_LOGIN_DT AS rcntLoginDt,
 		PSWD_CHG_DT AS pswdChgDt,
 		PSWD_ERR_CNT AS pswdErrCnt,
-		USER_CLOSE_YN AS userCloseYn
+		USER_CLOSE_YN AS
+		userCloseYn
 		FROM USER_INFO
 		WHERE LOGIN_ID = #{loginId}
 	</select>
+
+	<update id="updateRcntLoginDt"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET RCNT_LOGIN_DT=SYSDATE
+		WHERE LOGIN_ID=#{loginId}
+	</update>
+
 
 </mapper>

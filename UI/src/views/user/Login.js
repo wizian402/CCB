@@ -35,16 +35,17 @@ const Login = () => {
       },
       body: JSON.stringify({ id, password }),
     })
-      .then(response => response.json()) // JSON 형식으로 응답 데이터를 파싱
+      .then(response => response.json())
       .then(data => {
-        localStorage.setItem('id', data.id); // id를 로컬 스토리지에 저장
-        localStorage.setItem('userGroupCd', data.userGroupCd); // userGroupCd를 로컬 스토리지에 저장
+        localStorage.setItem('id', data.id);
+        localStorage.setItem('userGroupCd', data.userGroupCd);
         console.log(localStorage.getItem("id"));
         console.log(localStorage.getItem("userGroupCd"));
         navigate('/dashboard')
       })
       .catch(error => {
         console.error('Error:', error);
+        alert("로그인 실패")
       });
   }
   return (
