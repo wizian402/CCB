@@ -26,28 +26,39 @@ public class UserController {
 	IUserService userService;
 
 	@PostMapping("/user/login")
-	public ResponseEntity<Map<String, String>> login(@RequestBody String loginData, HttpSession session) {
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {});
-			String loginId = loginMap.get("loginId");
-			String pswd = loginMap.get("password");
-			UserVO userVo = userService.selectUser(loginId);
-			if (userVo != null && userVo.getPswd().equals(pswd)) {
-				session.setMaxInactiveInterval(600);
-				session.setAttribute("loginId", loginId);
-				session.setAttribute("memberGroup", userVo.getUserGroupCd());
-				userService.updateRcntLoginDt(loginId);
-				Map<String, String> responseMap = new HashMap<String, String>();
-				responseMap.put("loginId", loginId);
-				responseMap.put("userGroupCd", userVo.getUserGroupCd());
-				return ResponseEntity.ok(responseMap);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ResponseEntity.badRequest().build();
+	public ResponseEntity<?> login(@RequestBody String loginData, HttpSession session) {
+	    try {
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {});
+	        String loginId = loginMap.get("loginId");
+	        String pswd = loginMap.get("password");
+	        UserVO userVo = userService.selectUser(loginId);
+	        if (userVo != null && userVo.getPswd().equals(pswd)) {
+	            session.setMaxInactiveInterval(600);
+	            session.setAttribute("loginId", loginId);
+	            session.setAttribute("memberGroup", userVo.getUserGroupCd());
+	            // 최근 로그인 시간 저장
+	            userService.updateRcntLoginDt(loginId);
+	            // React 페이지에 아이디, 그룹 리턴
+	            Map<String, String> responseMap = new HashMap<String, String>();
+	            responseMap.put("loginId", loginId);
+	            responseMap.put("userGroupCd", userVo.getUserGroupCd());
+	            return ResponseEntity.ok(responseMap);
+	        } else {
+	            // 비밀번호 틀린 횟수 +1
+	            userService.updatePswdErrCnt(loginId);
+	            userVo = userService.selectUser(loginId);
+	            int pswdErrCnt = userVo.getPswdErrCnt();
+	            Map<String, Object> errorResponse = new HashMap<String, Object>();
+	            errorResponse.put("error", "아이디 또는 비밀번호가 틀립니다.\n" + "비밀번호 오류 횟수 : " + pswdErrCnt);
+	            return ResponseEntity.badRequest().body(errorResponse);
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return ResponseEntity.badRequest().build();
 	}
+
 
 	@PostMapping("/user/logout")
 	public ResponseEntity<String> logout(HttpSession session) {

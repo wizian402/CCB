@@ -35,18 +35,26 @@ const Login = () => {
       },
       body: JSON.stringify({ loginId, password }),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.error); // 서버에서 반환한 오류 메시지 처리
+          });
+        }
+      })
       .then(data => {
-        localStorage.setItem('loginId', data.id);
+        localStorage.setItem('loginId', data.loginId);
         localStorage.setItem('userGroupCd', data.userGroupCd);
         console.log(localStorage.getItem("loginId"));
         console.log(localStorage.getItem("userGroupCd"));
-        navigate('/dashboard')
+        navigate('/dashboard');
       })
       .catch(error => {
-        console.error('Error:', error);
-        alert("로그인 실패")
+        alert(error.message);
       });
+
   }
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">

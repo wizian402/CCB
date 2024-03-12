@@ -6,4 +6,6 @@ public interface IUserService {
 	UserVO selectUser(String id);
 
 	void updateRcntLoginDt(String loginId);
+
+	void updatePswdErrCnt(String loginId);
 }

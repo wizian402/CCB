@@ -20,4 +20,9 @@ public class UserService implements IUserService {
 	public void updateRcntLoginDt(String loginId) {
 		userRepository.updateRcntLoginDt(loginId);
 	}
+	
+	@Override
+	public void updatePswdErrCnt(String loginId) {
+		userRepository.updatePswdErrCnt(loginId);
+	}
 }

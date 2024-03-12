@@ -37,5 +37,11 @@
 		WHERE LOGIN_ID=#{loginId}
 	</update>
 
+	<update id="updatePswdErrCnt"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET PSWD_ERR_CNT=PSWD_ERR_CNT+1
+		WHERE LOGIN_ID=#{loginId}
+	</update>
 
 </mapper>
