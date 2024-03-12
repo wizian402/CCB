@@ -1,7 +1,7 @@
 package com.wizian.cbb.user.controller;
 
 import java.io.IOException;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wizian.cbb.user.model.UserVO;
@@ -36,7 +37,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user/login")
-	public void login(@RequestBody String loginData, HttpSession session) {
+	public ResponseEntity<Map<String, String>> login(@RequestBody String loginData, HttpSession session) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
@@ -44,31 +45,19 @@ public class UserController {
 			String id = loginMap.get("id");
 			String pswd = loginMap.get("password");
 			UserVO userVo = userService.selectUser(id);
-			if (userVo == null) {
-
-			} else {
-				if (userVo.getPswd().equals(pswd)) {
-					session.setMaxInactiveInterval(600);
-					session.setAttribute("id", id);
-					session.setAttribute("memberGroup", userVo.getUserGroupCd());
-				} else {
-
-				}
+			if (userVo != null && userVo.getPswd().equals(pswd)) {
+				session.setMaxInactiveInterval(600);
+				session.setAttribute("id", id);
+				session.setAttribute("memberGroup", userVo.getUserGroupCd());
+				Map<String, String> responseMap = new HashMap<String, String>();
+				responseMap.put("id", id);
+				responseMap.put("userGroupCd", userVo.getUserGroupCd());
+				return ResponseEntity.ok(responseMap);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@GetMapping("/user/logout")
-	public void logout(HttpSession session) {
-	    Enumeration<String> attributeNames = session.getAttributeNames();
-	    while (attributeNames.hasMoreElements()) {
-	        String attributeName = attributeNames.nextElement();
-	        Object attributeValue = session.getAttribute(attributeName);
-	        System.out.println(attributeName + ": " + attributeValue);
-	    }
-	    session.invalidate();
+		return ResponseEntity.badRequest().build();
 	}
 
 }

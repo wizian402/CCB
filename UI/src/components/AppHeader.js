@@ -24,18 +24,21 @@ const AppHeader = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    fetch('/cbb/user/logout', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(response => {
-        navigate('/login')
-      })
-      .catch(error => {
-        console.error('로그아웃 요청에 실패했습니다.', error)
-      })
+    localStorage.clear()
+    navigate('/login')
+    // fetch('/cbb/user/logout', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   }
+    // })
+    //   .then(response => {
+    //     localStorage.removeItem('userGroup')
+    //     navigate('/login')
+    //   })
+    //   .catch(error => {
+    //     console.error('로그아웃 요청에 실패했습니다.', error)
+    //   })
   };
 
   return (
