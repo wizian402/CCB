@@ -12,4 +12,6 @@ public interface IUserRepository {
 	void updatePswdErrCnt(@Param("loginId") String loginId);
 	
 	void updateUserCloseYn(@Param("loginId") String loginId, @Param("userCloseYn") String userCloseYn );
+	
+	void findPswd(@Param("loginId") String loginId);
 }
