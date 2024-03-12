@@ -1,7 +1,5 @@
 package com.wizian.cbb.user.service;
 
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

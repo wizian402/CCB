@@ -22,7 +22,7 @@ const test = () => {
 };
 
 const Login = () => {
-  const [id, setId] = useState('')
+  const [loginId, setId] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const loginSubmit = (e) => {
@@ -33,13 +33,13 @@ const Login = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, password }),
+      body: JSON.stringify({ loginId, password }),
     })
       .then(response => response.json())
       .then(data => {
-        localStorage.setItem('id', data.id);
+        localStorage.setItem('loginId', data.id);
         localStorage.setItem('userGroupCd', data.userGroupCd);
-        console.log(localStorage.getItem("id"));
+        console.log(localStorage.getItem("loginId"));
         console.log(localStorage.getItem("userGroupCd"));
         navigate('/dashboard')
       })

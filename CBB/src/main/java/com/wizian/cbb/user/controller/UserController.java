@@ -30,16 +30,16 @@ public class UserController {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {});
-			String id = loginMap.get("id");
+			String loginId = loginMap.get("loginId");
 			String pswd = loginMap.get("password");
-			UserVO userVo = userService.selectUser(id);
+			UserVO userVo = userService.selectUser(loginId);
 			if (userVo != null && userVo.getPswd().equals(pswd)) {
 				session.setMaxInactiveInterval(600);
-				session.setAttribute("id", id);
+				session.setAttribute("loginId", loginId);
 				session.setAttribute("memberGroup", userVo.getUserGroupCd());
-				userService.updateRcntLoginDt(id);
+				userService.updateRcntLoginDt(loginId);
 				Map<String, String> responseMap = new HashMap<String, String>();
-				responseMap.put("id", id);
+				responseMap.put("loginId", loginId);
 				responseMap.put("userGroupCd", userVo.getUserGroupCd());
 				return ResponseEntity.ok(responseMap);
 			}
