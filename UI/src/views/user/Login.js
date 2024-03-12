@@ -40,7 +40,7 @@ const Login = () => {
         localStorage.setItem('id', data.id); // id를 로컬 스토리지에 저장
         localStorage.setItem('userGroupCd', data.userGroupCd); // userGroupCd를 로컬 스토리지에 저장
         console.log(localStorage.getItem("id"));
-        console.log(localStorage.getItem("       "));
+        console.log(localStorage.getItem("userGroupCd"));
         navigate('/dashboard')
       })
       .catch(error => {

@@ -60,4 +60,9 @@ public class UserController {
 		return ResponseEntity.badRequest().build();
 	}
 
+	 @PostMapping("/user/logout")
+	    public ResponseEntity<String> logout(HttpSession session) {
+	        session.invalidate();
+	        return ResponseEntity.ok("Logged out successfully");
+	    }
 }
