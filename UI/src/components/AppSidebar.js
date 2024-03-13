@@ -13,13 +13,35 @@ import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
-import {_nav as navigation} from '../_nav'
+import { _nav as acavsrNav } from 'src/nav/ACAVSRNav'
+import { _nav as adminNav } from 'src/nav/AdminNav'
+import { _nav as bzentyNav } from 'src/nav/BzentyNav'
+import { _nav as counselorNav } from 'src/nav/CounselorNav'
+import { _nav as scsbjtNav } from 'src/nav/SCSBJTNav'
+import { _nav as studentNav } from 'src/nav/studentNav'
+
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
+  const userGroup = localStorage.getItem('userGroupCd');
+
+  let selectedNav;
+  if (userGroup === '10') {
+    selectedNav = adminNav
+  } else if (userGroup === '20') {
+    selectedNav = studentNav
+  } else if (userGroup === '30') {
+    selectedNav = acavsrNav
+  } else if (userGroup === '40') {
+    selectedNav = scsbjtNav
+  } else if (userGroup === '50') {
+    selectedNav = bzentyNav
+  } else if (userGroup === '60') {
+    selectedNav = counselorNav
+  }
   return (
     <CSidebar
       position="fixed"
@@ -35,7 +57,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={selectedNav} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler

@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -12,15 +12,73 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
+import { cilMenu } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
+import HeaderNavItem from './head/HeaderNavItem'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const navigate = useNavigate()
+  let menuItems
+  const handleLogout = () => {
+    localStorage.clear()
+
+    fetch('/cbb/user/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    navigate('/login')
+  };
+
+  const userGroup = localStorage.getItem('userGroupCd');
+
+  let HeaderNavComponent;
+  if (userGroup === '10') {
+    menuItems = [
+      { name: '담당자', link: '/' },
+      { name: '담당자', link: '/' },
+      { name: '담당자', link: '/' },
+      { name: '담당자', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '20') {
+    menuItems = [
+      { name: '현장 실습', link: '/' },
+      { name: '취업 활동', link: '/' },
+      { name: '상담 신청', link: '/' },
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '30') {
+    menuItems = [
+      { name: '현장 실습 관리', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '40') {
+    menuItems = [
+      { name: '지도 교수 배정', link: '/professorSelect' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '50') {
+    menuItems = [
+      { name: '현장 실습 관리', link: '/' },
+      { name: '채용 정보 관리', link: '/' },
+      { name: '기업 정보 관리', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '60') {
+    menuItems = [
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  }
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -34,38 +92,13 @@ const AppHeader = () => {
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           <CIcon icon={logo} height={48} alt="Logo" />
         </CHeaderBrand>
-        <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
-          </CNavItem>
-        </CHeaderNav>
+        {HeaderNavComponent}
         <CHeaderNav>
           <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
+            <CNavLink onClick={handleLogout}>
+              Logout
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav className="ms-3">
-          <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
       <CHeaderDivider />

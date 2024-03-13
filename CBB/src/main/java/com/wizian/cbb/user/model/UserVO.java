@@ -1,14 +1,14 @@
 package com.wizian.cbb.user.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserVO {
 	private String userNo;
 	private String userGroupCd;
 	private String loginId;
 	private String pswd;
-	private Date rcntLoginDt;
-	private Date pswdChgDt;
+	private Timestamp rcntLoginDt;
+	private Timestamp pswdChgDt;
 	private int pswdErrCnt;
 	private String userCloseYn;
 
@@ -44,19 +44,19 @@ public class UserVO {
 		this.pswd = pswd;
 	}
 
-	public Date getRcntLoginDt() {
+	public Timestamp getRcntLoginDt() {
 		return rcntLoginDt;
 	}
 
-	public void setRcntLoginDt(Date rcntLoginDt) {
+	public void setRcntLoginDt(Timestamp rcntLoginDt) {
 		this.rcntLoginDt = rcntLoginDt;
 	}
 
-	public Date getPswdChgDt() {
+	public Timestamp getPswdChgDt() {
 		return pswdChgDt;
 	}
 
-	public void setPswdChgDt(Date pswdChgDt) {
+	public void setPswdChgDt(Timestamp pswdChgDt) {
 		this.pswdChgDt = pswdChgDt;
 	}
 
