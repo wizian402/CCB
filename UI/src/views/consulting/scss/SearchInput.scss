@@ -1,0 +1,18 @@
+.searchInputContainer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    /* 검색 입력란과 버튼을 오른쪽으로 정렬 */
+  }
+  
+  .searchInput {
+    margin-right: 10px; /* 셀렉트 박스와 입력 필드 사이 간격 */
+    height: 40px;
+    border-radius: 10px;
+    
+  }
+  
+  .searchInput:focus {
+    outline: none;
+    /* 포커스 시 테두리 제거 */
+  }

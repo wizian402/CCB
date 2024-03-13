@@ -1,0 +1,16 @@
+
+.searchContainer {
+  display: flex;
+  justify-content: space-between; /* 요소들을 오른쪽과 왼쪽으로 정렬 */
+  align-items: center; /* 요소들을 수직으로 정렬 */
+  margin-top: 20px;
+}
+.searchContainer select,
+.searchContainer input{
+  margin-right: 10px; /* 셀렉트 박스와 입력 필드 사이 간격 */
+  height: 40px;
+  border-radius: 10px;
+}
+.selectContainer {
+  display: flex; /* 셀렉트 박스를 가로로 배열 */
+}
