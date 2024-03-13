@@ -1,6 +1,5 @@
 package com.wizian.cbb.user.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +17,5 @@ public interface IUserRepository {
 	
 	void findPswd(@Param("loginId") String loginId);
 	
-	List<Map<String, Object>> getStdntInfo(String loginId);
+	Map<String, Object> getUserInfo(@Param("loginId") String loginId, @Param("tableNm") String tableNm, @Param("nameSql") String nameSql, @Param("telNoSql") String telNoSql);
 }

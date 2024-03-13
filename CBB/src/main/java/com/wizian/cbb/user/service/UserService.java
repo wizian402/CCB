@@ -1,6 +1,5 @@
 package com.wizian.cbb.user.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getStdntInfo(String loginId) {
-		return userRepository.getStdntInfo(loginId);
+	public Map<String, Object> getUserInfo(String loginId, String tableNm, String nameSql, String telNoSql) {
+		return userRepository.getUserInfo(loginId, tableNm, nameSql, telNoSql);
 	}
 }

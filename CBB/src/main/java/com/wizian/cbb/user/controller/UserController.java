@@ -1,15 +1,14 @@
 package com.wizian.cbb.user.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +35,7 @@ public class UserController {
 			String pswd = loginMap.get("password");
 			UserVO userVo = userService.selectUser(loginId);
 			Map<String, Object> errorResponse = new HashMap<String, Object>();
-			
+
 			if (userVo != null && userVo.getPswd().equals(pswd) && userVo.getUserCloseYn().equals("N")) {
 				session.setMaxInactiveInterval(600);
 				session.setAttribute("loginId", loginId);
@@ -49,15 +48,8 @@ public class UserController {
 				Map<String, String> responseMap = new HashMap<String, String>();
 				responseMap.put("loginId", loginId);
 				responseMap.put("userGroupCd", userVo.getUserGroupCd());
-				
-				for (Map<String, Object> map : userService.getStdntInfo(loginId)) {
-				    for (Map.Entry<String, Object> entry : map.entrySet()) {
-				        System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-				    }
-				}
-				
 				return ResponseEntity.ok(responseMap);
-			} else if (userVo.getPswdErrCnt() < 5 && userVo.getUserCloseYn().equals("N")    ) {
+			} else if (userVo.getPswdErrCnt() < 5 && userVo.getUserCloseYn().equals("N")) {
 				// 비밀번호 틀린 횟수 +1
 				userService.updatePswdErrCnt(loginId, userVo.getPswdErrCnt() + 1);
 				userVo = userService.selectUser(loginId);
@@ -84,5 +76,59 @@ public class UserController {
 		session.invalidate();
 		return ResponseEntity.ok("Logged out successfully");
 	}
-	
+
+	@PostMapping("/user/findPswd")
+	public ResponseEntity<?> findPswd(@RequestBody String findPswdData, HttpSession session) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> findPswdMap = objectMapper.readValue(findPswdData,
+					new TypeReference<Map<String, String>>() {
+					});
+			String tableNm = null;
+			String nameSql = null;
+			String telNoSql = null;
+
+			UserVO userVo = userService.selectUser(findPswdMap.get("loginId"));
+			if (userVo.getUserGroupCd().equals("10")) {
+				tableNm = "ADMINISTRATOR";
+				nameSql = "NM";
+				telNoSql = "ADMIN_TELNO";
+			} else if (userVo.getUserGroupCd().equals("20")) {
+				tableNm = "STDNT";
+				nameSql = "STDNT_NM";
+				telNoSql = "STDNT_TELNO";
+			} else if (userVo.getUserGroupCd().equals("30")) {
+				tableNm = "ACAVSR";
+				nameSql = "ACAVSR_NM";
+				telNoSql = "ACAVSR_TELNO";
+			} else if (userVo.getUserGroupCd().equals("40")) {
+				tableNm = "SCSBJT_USER";
+				nameSql = "SCSBJT_PIC_NM";
+				telNoSql = "STDNT_PIC_TELNO";
+			} else if (userVo.getUserGroupCd().equals("50")) {
+				tableNm = "BZENTY_USER";
+				nameSql = "BZENTY_USER_NM";
+				telNoSql = "BZENTY_USER_TELNO";
+			} else if (userVo.getUserGroupCd().equals("60")) {
+				tableNm = "COUNSELOR";
+				nameSql = "NAME";
+				telNoSql = "MBL_TELNO";
+			}
+
+			Map<String, Object> userInfo = userService.getUserInfo(findPswdMap.get("loginId"), tableNm, nameSql,
+					telNoSql);
+			if (userInfo != null) {
+				if (findPswdMap.get("userNm").equals((String) userInfo.get("Nm"))
+						&& findPswdMap.get("telNo").equals((String) userInfo.get("TelNo"))) {
+					return ResponseEntity.ok("success");
+				} else {
+					return ResponseEntity.ok("fail");
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("일치하는 정보를 찾을 수 없습니다.");
+	}
+
 }

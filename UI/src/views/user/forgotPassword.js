@@ -17,11 +17,33 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 
 const Register = () => {
   const [loginId, setLoginId] = useState('')
-  const [name, setName] = useState('')
+  const [userNm, setUserNm] = useState('')
   const [telNo, setTelNo] = useState('')
 
   const navigate = useNavigate()
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch('/cbb/user/findPswd', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ loginId, userNm, telNo }),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.text(); // 응답을 텍스트로 변환
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
   }
 
   return (
@@ -47,8 +69,8 @@ const Register = () => {
                     <CInputGroupText>@</CInputGroupText>
                     <CFormInput
                       placeholder="이름"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={userNm}
+                      onChange={(e) => setUserNm(e.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">

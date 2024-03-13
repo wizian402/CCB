@@ -54,11 +54,11 @@
 		LOGIN_ID=#{loginId}
 	</update>
 
-	<select id="getStdntInfo" resultType="hashmap">
+	<select id="getUserInfo" resultType="hashmap">
 		SELECT
-		STDNT_NM AS "StdntNm",
-		STDNT_TELNO AS "StdntTelNo"
-		FROM STDNT 
+		${nameSql}  AS "Nm",
+		${telNoSql}  AS "TelNo"
+		FROM ${tableNm} 
 		WHERE 
 		USER_NO IN(
 			SELECT USER_NO 
