@@ -1,0 +1,35 @@
+// Pagination.scss
+
+
+.paginationButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center; // 세로 중앙 정렬을 위해 추가
+  margin-top: 20px; // 버튼과 리스트 간격 조정
+}
+
+.paginationButtons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.paginationButtons button:hover {
+  background-color: #f0f0f0;
+}
+
+.paginationButtons button:disabled {
+  cursor: not-allowed;
+  color: #999;
+}
+
+.paginationButtons button.active {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-color: #ccc;
+}
+
