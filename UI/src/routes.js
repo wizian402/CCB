@@ -7,8 +7,12 @@ const Typography = React.lazy(() =>
 );
 
 // consulting
-const ConsultationItem = React.lazy(() => import("./views/consulting/ConsultationItem"));
-const ConsultationSchedule = React.lazy(() => import("./views/consulting/ConsultationSchedule"));
+const ConsultationItem = React.lazy(() =>
+  import("./views/consulting/ConsultationItem")
+);
+const ConsultationSchedule = React.lazy(() =>
+  import("./views/consulting/ConsultationSchedule")
+);
 const Schedule = React.lazy(() => import("./views/consulting/calendar"));
 
 // Base
@@ -77,22 +81,36 @@ const Flags = React.lazy(() => import("./views/icons/flags/Flags"));
 const Brands = React.lazy(() => import("./views/icons/brands/Brands"));
 
 // Notifications
+
 const Alerts = React.lazy(() => import("./views/notifications/alerts/Alerts"));
 const Badges = React.lazy(() => import("./views/notifications/badges/Badges"));
 const Modals = React.lazy(() => import("./views/notifications/modals/Modals"));
 const Toasts = React.lazy(() => import("./views/notifications/toasts/Toasts"));
-
 const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 
-const routes = [
-  { path: "/", exact: true, name: "Home" },
+// TNG
+const ProfessorSelect = React.lazy(() =>
+  import("./views/TNG/SCSBJT/ProfessorSelect")
+);
 
-  // consulting  
+const routes = [
+  // consulting
   { path: "/consultationItem", name: "Theme", element: ConsultationItem },
-  { path: "/consultationSchedule", name: "Theme", element: ConsultationSchedule, },
+  {
+    path: "/consultationSchedule",
+    name: "Theme",
+    element: ConsultationSchedule,
+  },
   { path: "/Schedule", name: "Theme", element: Schedule },
 
+  // TNG
+  {
+    path: "/professorSelect",
+    name: "ProfessorSelect",
+    element: ProfessorSelect,
+  },
 
+  { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
   { path: "/theme/colors", name: "Colors", element: Colors },
