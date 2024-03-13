@@ -47,9 +47,11 @@ const Login = () => {
       .then(data => {
         localStorage.setItem('loginId', data.loginId);
         localStorage.setItem('userGroupCd', data.userGroupCd);
-        console.log(localStorage.getItem("loginId"));
-        console.log(localStorage.getItem("userGroupCd"));
-        navigate('/dashboard');
+        if (localStorage.getItem("userGroupCd") === "40") {
+          navigate('/professorSelect');
+        } else {
+          navigate('/dashboard');
+        }
       })
       .catch(error => {
         alert(error.message);
