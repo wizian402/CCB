@@ -7,7 +7,7 @@ public interface IUserService {
 
 	void updateRcntLoginDt(String loginId);
 
-	void updatePswdErrCnt(String loginId);
+	void updatePswdErrCnt(String loginId, int pswdErrCnt);
 
 	void updateUserCloseYn(String loginId, String userCloseYn);
 }
