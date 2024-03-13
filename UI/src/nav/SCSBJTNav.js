@@ -23,7 +23,7 @@ export const _nav = [
   {
     component: CNavItem,
     name: '지도교수 배정',
-    href: 'https://coreui.io/react/docs/templates/installation/',
+    to: '/professorSelect',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   }
 ]
