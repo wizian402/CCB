@@ -54,4 +54,17 @@
 		LOGIN_ID=#{loginId}
 	</update>
 
+	<select id="getStdntInfo" resultType="hashmap">
+		SELECT
+		STDNT_NM AS "StdntNm",
+		STDNT_TELNO AS "StdntTelNo"
+		FROM STDNT 
+		WHERE 
+		USER_NO IN(
+			SELECT USER_NO 
+			FROM USER_INFO
+			WHERE 
+			LOGIN_ID=#{loginId}
+		)
+	</select>
 </mapper>

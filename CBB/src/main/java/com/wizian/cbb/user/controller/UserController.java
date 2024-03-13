@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import javax.servlet.http.HttpSession;
 
@@ -48,6 +49,13 @@ public class UserController {
 				Map<String, String> responseMap = new HashMap<String, String>();
 				responseMap.put("loginId", loginId);
 				responseMap.put("userGroupCd", userVo.getUserGroupCd());
+				
+				for (Map<String, Object> map : userService.getStdntInfo(loginId)) {
+				    for (Map.Entry<String, Object> entry : map.entrySet()) {
+				        System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+				    }
+				}
+				
 				return ResponseEntity.ok(responseMap);
 			} else if (userVo.getPswdErrCnt() < 5 && userVo.getUserCloseYn().equals("N")    ) {
 				// 비밀번호 틀린 횟수 +1
@@ -76,4 +84,5 @@ public class UserController {
 		session.invalidate();
 		return ResponseEntity.ok("Logged out successfully");
 	}
+	
 }

@@ -1,5 +1,8 @@
 package com.wizian.cbb.user.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,7 @@ public class UserService implements IUserService {
 	public void updateRcntLoginDt(String loginId) {
 		userRepository.updateRcntLoginDt(loginId);
 	}
-	
+
 	@Override
 	public void updatePswdErrCnt(String loginId, int pswdErrCnt) {
 		userRepository.updatePswdErrCnt(loginId, pswdErrCnt);
@@ -29,5 +32,10 @@ public class UserService implements IUserService {
 	@Override
 	public void updateUserCloseYn(String loginId, String userCloseYn) {
 		userRepository.updateUserCloseYn(loginId, userCloseYn);
+	}
+
+	@Override
+	public List<Map<String, Object>> getStdntInfo(String loginId) {
+		return userRepository.getStdntInfo(loginId);
 	}
 }

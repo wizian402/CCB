@@ -1,5 +1,8 @@
 package com.wizian.cbb.user.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.wizian.cbb.user.model.UserVO;
@@ -14,4 +17,6 @@ public interface IUserRepository {
 	void updateUserCloseYn(@Param("loginId") String loginId, @Param("userCloseYn") String userCloseYn );
 	
 	void findPswd(@Param("loginId") String loginId);
+	
+	List<Map<String, Object>> getStdntInfo(String loginId);
 }
