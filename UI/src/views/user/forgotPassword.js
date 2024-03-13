@@ -23,27 +23,34 @@ const Register = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    fetch('/cbb/user/findPswd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ loginId, userNm, telNo }),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.text(); // 응답을 텍스트로 변환
-        } else {
-          throw new Error('Network response was not ok.');
-        }
+    if (loginId === ''){
+      alert("아이디를 입력하세요")
+    } else if (userNm === ''){
+      alert("이름을 입력하세요")
+    } else if (telNo === ''){
+      alert("전화번호를 입력하세요")
+    } else {
+      fetch('/cbb/user/findPswd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ loginId, userNm, telNo }),
       })
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
+        .then(response => {
+          if (response.ok) {
+            return response.text(); // 응답을 텍스트로 변환
+          } else {
+            throw new Error('Network response was not ok.');
+          }
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
   }
 
   return (
