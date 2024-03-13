@@ -48,8 +48,10 @@ const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
 const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
 const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
-
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
+
+// TNG
+const ProfessorSelect = React.lazy(() => import('./views/TNG/SCSBJT/ProfessorSelect'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -97,6 +99,7 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/professorSelect', name: 'ProfessorSelect', element: ProfessorSelect }
 ]
 
 export default routes
