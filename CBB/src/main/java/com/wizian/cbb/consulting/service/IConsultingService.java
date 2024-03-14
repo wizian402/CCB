@@ -3,6 +3,7 @@ package com.wizian.cbb.consulting.service;
 import java.util.List;
 
 import com.wizian.cbb.consulting.model.ConItemVO;
+import com.wizian.cbb.consulting.model.ScheduleVO;
 
 public interface IConsultingService {
 	public List<ConItemVO> Consultationitems();
@@ -14,4 +15,7 @@ public interface IConsultingService {
 	
 	
 	public List<ConItemVO> adminSchedules();
+	
+	
+	public int insertSchedules(ScheduleVO scheduleVO);
 	}

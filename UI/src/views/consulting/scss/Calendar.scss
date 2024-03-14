@@ -1,5 +1,5 @@
 * {
-    border: solid black 1px;
+    // border: solid black 1px;
   }
   .title {
     margin-top: 50px;
@@ -20,6 +20,9 @@
   .calendar-controls select {
     padding: 8px;
     font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
   }
   
   .calendar-table {

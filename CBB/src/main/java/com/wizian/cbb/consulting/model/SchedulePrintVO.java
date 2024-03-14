@@ -2,7 +2,7 @@ package com.wizian.cbb.consulting.model;
 
 import java.sql.Date;
 
-public class SchedulesVO {
+public class SchedulePrintVO {
 	private String type;
 	private String counselor;
 	private String item;

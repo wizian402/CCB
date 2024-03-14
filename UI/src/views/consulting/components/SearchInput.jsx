@@ -1,5 +1,5 @@
 import React from "react";
-import "../scss/SearchInput.scss"
+import "../scss/SearchInput.scss";
 
 const SearchInput = ({ searchTerm, handleSearch }) => {
   return (
@@ -7,7 +7,7 @@ const SearchInput = ({ searchTerm, handleSearch }) => {
       <input
         type="text"
         placeholder="상담 항목 검색"
-        value={searchTerm}
+        value={searchTerm || ''} // searchTerm이 null이면 빈 문자열로 설정
         onChange={handleSearch}
         className="searchInput"
       />
