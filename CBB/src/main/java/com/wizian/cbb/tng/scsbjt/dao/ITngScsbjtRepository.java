@@ -1,6 +1,7 @@
 package com.wizian.cbb.tng.scsbjt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -11,4 +12,7 @@ public interface ITngScsbjtRepository {
 	TngScsbjtUserVO selecTngScsbjtUser(@Param("loginId") String loginId);
 
 	List<StdntVO> selectStdntList(@Param("scsbjtCd") String scsbjtCd);
+
+	List<Map<String, Object>> getScsbjtAcavsr();
+
 }

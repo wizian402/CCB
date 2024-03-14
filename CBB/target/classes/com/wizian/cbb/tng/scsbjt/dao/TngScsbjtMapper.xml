@@ -22,6 +22,7 @@
 		<result property="stdntGrd" column="STDNT_GRD" />
 		<result property="userNo" column="SCSBJT_CD" />
 		<result property="scsbjtCd" column="USER_NO" />
+		<result property="acavsrNo" column="ACAVSR_NO" />
 	</resultMap>
 
 	<select id="selecTngScsbjtUser" parameterType="string"

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
+  CButton,
   CCard,
   CCardBody,
   CCardHeader,
@@ -12,15 +13,21 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 
 const ProfessorSelect = () => {
-
-  const loginId = localStorage.getItem('loginId')
+  const [studentData, setStudentData] = useState([]);
+  const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
+  const [selectedStudent, setSelectedStudent] = useState(null); // 선택된 학생 상태 추가
 
   useEffect(() => {
     increment();
-  });
+  }, []);
 
   const increment = () => {
     fetch('/cbb/scsbjt', {
@@ -30,15 +37,22 @@ const ProfessorSelect = () => {
       },
       body: JSON.stringify({ loginId }),
     })
-      .then(response => {
-
-      })
+      .then(response => response.json()) 
       .then(data => {
-
+        setStudentData(data);
+        console.log(data)
       })
       .catch(error => {
-
+        console.error('Error:', error); 
       });
+  };
+
+  const handleModalOpen = (student) => {
+    setSelectedStudent(student);
+  };
+
+  const handleModalClose = () => {
+    setSelectedStudent(null);
   };
 
   return (
@@ -53,34 +67,46 @@ const ProfessorSelect = () => {
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell scope="col">NO</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">학생명</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">학번</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">지도교수</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" className="text-center">학생명</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" className="text-center">학번</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" className="text-center">지도교수</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                <CTableRow>
-                  <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                  <CTableDataCell>Mark</CTableDataCell>
-                  <CTableDataCell>Otto</CTableDataCell>
-                  <CTableDataCell>@mdo</CTableDataCell>
+              {studentData.map((student, index) => (
+                <CTableRow key={index} className="align-middle">
+                  <CTableHeaderCell scope="row">{index+1}</CTableHeaderCell>
+                  <CTableDataCell className="text-center">{student.stdntNm}</CTableDataCell>
+                  <CTableDataCell className="text-center">{student.stdntSn}</CTableDataCell>
+                  <CTableDataCell className="text-center">
+                    {student.acavsrNo === null && ( // 조건 추가
+                      <CButton onClick={() => handleModalOpen(student)}>지도교수 배정</CButton>
+                    )}
+                  </CTableDataCell>
                 </CTableRow>
-                <CTableRow>
-                  <CTableHeaderCell scope="row">2</CTableHeaderCell>
-                  <CTableDataCell>Jacob</CTableDataCell>
-                  <CTableDataCell>Thornton</CTableDataCell>
-                  <CTableDataCell>@fat</CTableDataCell>
-                </CTableRow>
-                <CTableRow>
-                  <CTableHeaderCell scope="row">3</CTableHeaderCell>
-                  <CTableDataCell colSpan="2">Larry the Bird</CTableDataCell>
-                  <CTableDataCell>@twitter</CTableDataCell>
-                </CTableRow>
+              ))}
               </CTableBody>
             </CTable>
           </CCardBody>
         </CCard>
       </CCol>
+      <CModal alignment="center" visible={selectedStudent !== null} onClose={handleModalClose}>
+        <CModalHeader>
+          <CModalTitle>지도교수 배정</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          {selectedStudent && (
+            <>
+              <p>{selectedStudent.stdntNm}</p>
+              <p>{selectedStudent.stdntSn}</p>
+            </>
+          )}
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={handleModalClose}>Close</CButton>
+          <CButton color="primary">Save changes</CButton>
+        </CModalFooter>
+      </CModal>
     </CRow>
   )
 }
