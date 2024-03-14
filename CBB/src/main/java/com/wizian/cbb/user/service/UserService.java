@@ -42,4 +42,9 @@ public class UserService implements IUserService {
 	public void updatePswd(String loginId, String pswd) {
 		userRepository.updatePswd(loginId, pswd);
 	}
+
+	@Override
+	public void updatePswdChgDt(String userId) {
+		userRepository.updatePswdChgDt(userId);
+	}
 }

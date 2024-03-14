@@ -140,9 +140,10 @@ public class UserController {
 					});
 			String userId = changePswdMap.get("userId");
 			String newPswd = changePswdMap.get("newPswd");
-			System.out.println(userId + "\n" + newPswd);
 			userService.updatePswd(userId, newPswd);
-
+			userService.updateUserCloseYn(userId, "N");
+			userService.updatePswdErrCnt(userId, 0);
+			userService.updatePswdChgDt(userId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

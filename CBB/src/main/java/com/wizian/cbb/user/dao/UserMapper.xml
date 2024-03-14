@@ -75,4 +75,12 @@
 		WHERE
 		LOGIN_ID=#{loginId}
 	</update>
+
+	<update id="updatePswdChgDt"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET PSWD_CHG_DT=SYSDATE
+		WHERE
+		LOGIN_ID=#{userId}
+	</update>
 </mapper>

@@ -21,4 +21,6 @@ public interface IUserRepository {
 	
 	void updatePswd(@Param("loginId") String loginId, @Param("pswd") String pswd);
 	
+	void updatePswdChgDt(@Param("userId") String userId);
+	
 }
