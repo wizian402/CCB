@@ -54,4 +54,20 @@ public class TngScsbjtController {
 		}
 		return acavsrList;
 	}
+
+	@PostMapping("/saveAcavsr")
+	public void saveAcavsr(@RequestBody String acavsrData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> acavsrMap = objectMapper.readValue(acavsrData,
+					new TypeReference<Map<String, String>>() {
+					});
+			String stdntSn = acavsrMap.get("stdntSn");
+			String acavsrNo = acavsrMap.get("acavsrNo");
+			System.out.println(stdntSn+ "  " + acavsrNo);
+			tngScsbjtService.updateAcavsr(stdntSn, acavsrNo);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }

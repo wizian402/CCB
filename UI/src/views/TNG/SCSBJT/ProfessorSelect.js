@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   CButton,
   CCard,
@@ -22,49 +22,35 @@ import {
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem 
-} from '@coreui/react'
+} from '@coreui/react';
 
 const ProfessorSelect = () => {
   const [studentData, setStudentData] = useState([]);
   const [acavsrData, setAcavsrData] = useState([]);
   const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
-  const [selectedStudent, setSelectedStudent] = useState(null); // 선택된 학생 상태 추가
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedProfessor, setSelectedProfessor] = useState(null);
 
   useEffect(() => {
-    increment();
+    fetchData('/cbb/scsbjt', setStudentData);
+    fetchData('/cbb/selectAcavsr', setAcavsrData);
   }, []);
 
-  const increment = () => {
-    fetch('/cbb/scsbjt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ loginId }),
-    })
-    .then(response => response.json()) 
-    .then(data => {
-      setStudentData(data);
-    })
-    .catch(error => {
-      console.error('Error:', error); 
-    });
-
-    fetch('/cbb/selectAcavsr', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ loginId }),
-    })
-    .then(response => response.json()) 
-    .then(data => {
-      setAcavsrData(data);
+  const fetchData = async (url, setter) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ loginId }),
+      });
+      const data = await response.json();
+      setter(data);
       console.log(data)
-    })
-    .catch(error => {
-      console.error('Error:', error); 
-    });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleModalOpen = (student) => {
@@ -75,8 +61,33 @@ const ProfessorSelect = () => {
     setSelectedStudent(null);
   };
 
+  const handleProfessorSelect = (professor) => {
+    setSelectedProfessor(professor);
+  };
+
+  const handleSaveChanges = () => {
+
+      const stdntSn = selectedStudent.stdntSn;
+      const acavsrNo = selectedProfessor.acavsrNo;
+
+      fetch('/cbb/saveAcavsr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({stdntSn, acavsrNo }),
+      })
+      .then(response => response.json())
+      .then(data => {
+
+      })
+      .catch(error => {
+
+      });
+
+  };
+
   return (
-    
     <CRow>
       <CCol xs={12}>
         <CCard className="mb-4">
@@ -94,18 +105,18 @@ const ProfessorSelect = () => {
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-              {studentData.map((student, index) => (
-                <CTableRow key={index} className="align-middle">
-                  <CTableHeaderCell scope="row">{index+1}</CTableHeaderCell>
-                  <CTableDataCell className="text-center">{student.stdntNm}</CTableDataCell>
-                  <CTableDataCell className="text-center">{student.stdntSn}</CTableDataCell>
-                  <CTableDataCell className="text-center">
-                    {student.acavsrNo === null && ( // 조건 추가
-                      <CButton onClick={() => handleModalOpen(student)}>지도교수 배정</CButton>
-                    )}
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
+                {studentData.map((student, index) => (
+                  <CTableRow key={index} className="align-middle">
+                    <CTableHeaderCell scope="row">{index+1}</CTableHeaderCell>
+                    <CTableDataCell className="text-center">{student.stdntNm}</CTableDataCell>
+                    <CTableDataCell className="text-center">{student.stdntSn}</CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      {student.acavsrNo === null && (
+                        <CButton onClick={() => handleModalOpen(student)}>지도교수 배정</CButton>
+                      )}
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
               </CTableBody>
             </CTable>
           </CCardBody>
@@ -123,23 +134,23 @@ const ProfessorSelect = () => {
             </>
           )}
           <CDropdown>
-            <CDropdownToggle color="secondary">Dropdown button</CDropdownToggle>
-              <CDropdownMenu>
-                {acavsrData.map((professor, index) => (
-                  <CDropdownItem key={index} onClick={() => handleProfessorSelect(professor)}>
-                {professor.acavsrNm}
-                  </CDropdownItem>
+            <CDropdownToggle color="secondary">{selectedProfessor ? selectedProfessor.acavsrNm : '지도교수 선택'}</CDropdownToggle>
+            <CDropdownMenu>
+              {acavsrData.map((professor, index) => (
+                <CDropdownItem key={index} onClick={() => handleProfessorSelect(professor)}>
+                  {professor.acavsrNm}
+                </CDropdownItem>
               ))}
             </CDropdownMenu>
           </CDropdown>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={handleModalClose}>Close</CButton>
-          <CButton color="primary">Save changes</CButton>
+          <CButton color="primary" onClick={handleSaveChanges}>Save changes</CButton>
         </CModalFooter>
       </CModal>
     </CRow>
-  )
-}
+  );
+};
 
-export default ProfessorSelect
+export default ProfessorSelect;

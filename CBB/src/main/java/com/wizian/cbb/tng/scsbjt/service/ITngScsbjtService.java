@@ -12,4 +12,6 @@ public interface ITngScsbjtService {
 	List<StdntVO> selectStdntList(String scsbjtCd);
 	
 	List<Map<String, Object>> getScsbjtAcavsr(String scsbjtCd);
+
+	void updateAcavsr(String stdntSn, String acavsrNo);
 }

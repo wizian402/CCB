@@ -15,4 +15,6 @@ public interface ITngScsbjtRepository {
 
 	List<Map<String, Object>> getScsbjtAcavsr(@Param("scsbjtCd") String scsbjtCd);
 	
+	void updateAcavsr(@Param("stdntSn") String stdntSn, @Param("acavsrNo") String acavsrNo);
+
 }

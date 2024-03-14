@@ -29,4 +29,9 @@ public class TngScsbjtService implements ITngScsbjtService {
 	public List<Map<String, Object>> getScsbjtAcavsr(String scsbjtCd) {
 		return tngScsbjtRepository.getScsbjtAcavsr(scsbjtCd);
 	}
+
+	@Override
+	public void updateAcavsr(String stdntSn, String acavsrNo) {
+		tngScsbjtRepository.updateAcavsr(stdntSn, acavsrNo);
+	}
 }

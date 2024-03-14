@@ -52,11 +52,16 @@
 
 	<select id="getScsbjtAcavsr" resultType="hashmap">
 		SELECT
-			ACAVSR_NO as "ascavsrNo",
+			ACAVSR_NO as "acavsrNo",
 			ACAVSR_NM as "acavsrNm"
 		FROM ACAVSR		
 		WHERE
 		SCSBJT_CD = #{scsbjtCd}
 	</select>
 
+	<update id="updateAcavsr" parameterType="com.wizian.cbb.tng.stdnt.model.StdntVO">
+    	UPDATE STDNT
+    	SET ACAVSR_NO = #{acavsrNo}
+    	WHERE STDNT_SN = #{stdntSn}
+	</update>
 </mapper>
