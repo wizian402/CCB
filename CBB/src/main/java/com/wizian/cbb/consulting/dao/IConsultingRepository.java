@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.wizian.cbb.consulting.model.ConItemVO;
+import com.wizian.cbb.consulting.model.ScheduleVO;
 
 public interface IConsultingRepository {
 	public List<ConItemVO> Consultationitems();
@@ -15,4 +16,12 @@ public interface IConsultingRepository {
 	
 	
 	public List<ConItemVO> adminSchedules();
+	
+	
+	
+	
+	
+	public String checkId(String id);
+	public boolean checkDuplicate(@Param("id")String id,@Param("cdNum")int cdNum,@Param("strDate")String strDate);
+	public int insertSchedule(@Param("id")String id,@Param("cdNum")int cdNum,@Param("strDate")String strDate);
 }

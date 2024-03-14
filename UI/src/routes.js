@@ -13,7 +13,7 @@ const ConsultationItem = React.lazy(() =>
 const ConsultationSchedule = React.lazy(() =>
   import("./views/consulting/ConsultationSchedule")
 );
-const Schedule = React.lazy(() => import("./views/consulting/calendar"));
+const Schedule = React.lazy(() => import("./views/consulting/TimetableRegistration"));
 
 // Base
 const Accordion = React.lazy(() => import("./views/base/accordion/Accordion"));

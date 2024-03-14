@@ -11,16 +11,6 @@
 		<result property="creationDate" column="CRT_YMD" />
 		<result property="modificationDate" column="MDFCN_YMD" />
 	</resultMap>
-	<resultMap id="selectSchedules"
-		type="com.wizian.cbb.consulting.model.SchedulesVO">
-		<result property="type" column="type" />
-		<result property="counselor" column="counselor" />
-		<result property="item" column="item" />
-		<result property="consultationDate" column="consultationDate" />
-		<result property="consultationTime" column="consultationTime" />
-		<result property="creationDate" column="creationDate" />
-	</resultMap>
-
 
 	<select id="Consultationitems" resultMap="selectConsulting">
 		SELECT * FROM
@@ -63,15 +53,26 @@
 
 
 
-
+	<resultMap id="selectSchedules"
+		type="com.wizian.cbb.consulting.model.SchedulePrintVO">
+		<result property="type" column="type" />
+		<result property="counselor" column="counselor" />
+		<result property="item" column="item" />
+		<result property="consultationDate" column="consultationDate" />
+		<result property="consultationTime" column="consultationTime" />
+		<result property="creationDate" column="creationDate" />
+	</resultMap>
 	<select id="adminSchedules" resultMap="selectSchedules">
 		SELECT
-		c.COUNSELOR_TYPE AS TYPE,
+		c.COUNSELOR_TYPE AS
+		TYPE,
 		c.NAME AS counselor,
 		c.ARSP_NM AS ITEM,
-		t.TIMETBL AS consultationTime,
+		t.TIMETBL AS
+		consultationTime,
 		s.DSCSN_DT_YMD AS consultationDate,
-		s.DSCSN_REG_YMD AS creationDate
+		s.DSCSN_REG_YMD AS
+		creationDate
 		FROM
 		CNSL_SCHEDULE s
 		JOIN
@@ -79,5 +80,31 @@
 		JOIN
 		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
 	</select>
+
+
+
+
+
+
+
+	<select id="checkId" resultType="string">
+		SELECT CNSL_SN FROM CNSL WHERE
+		USER_ID = #{id}
+	</select>
+
+	<select id="checkDuplicate" resultType="boolean">
+		SELECT COUNT(*) FROM CNSL_SCHEDULE
+		WHERE CNSL_SN = #{id} AND TIMETBL_CD = #{cdNum} AND DSCSN_DT_YMD =
+		#{strDate}
+	</select>
+
+
+	<insert id="insertSchedule">
+		INSERT INTO CNSL_SCHEDULE
+		(CNSL_SCHEDULE_SN, CNSL_SN, TIMETBL_CD,
+		DSCSN_DT_YMD, DSCSN_REG_YMD)
+		VALUES (schedule_seq.NEXTVAL, #{id}, #{cdNum}, #{strDate}, SYSDATE)
+	</insert>
+
 
 </mapper>

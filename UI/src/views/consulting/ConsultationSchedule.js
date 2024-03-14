@@ -11,7 +11,7 @@ const ConsultationSchedule = () => {
   const [searchTermDate, setSearchTermDate] = useState(""); // 상담원 이름 검색어를 저장할 상태 변수
   const [searchTermTime, setSearchTermTime] = useState(""); // 상담 시간 검색어를 저장할 상태 변수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호를 저장할 상태 변수
-  const [perPage] = useState(5); // 한 페이지당 표시할 항목 수
+  const [perPage] = useState(10); // 한 페이지당 표시할 항목 수
 
   // 페이지가 변경될 때마다 데이터를 가져오는 함수를 실행합니다.
   useEffect(() => {
