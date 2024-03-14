@@ -1,5 +1,9 @@
 package com.wizian.cbb.tng.scsbjt.dao;
 
-public interface ITngScsbjtRepository {
+import org.apache.ibatis.annotations.Param;
 
+import com.wizian.cbb.tng.scsbjt.model.TngScsbjtUserVO;
+
+public interface ITngScsbjtRepository {
+	TngScsbjtUserVO selecTngScsbjtUser(@Param("loginId") String loginId);
 }

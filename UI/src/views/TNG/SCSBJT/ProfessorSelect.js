@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -13,19 +13,22 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
-import { DocsExample } from 'src/components'
 
 const ProfessorSelect = () => {
 
-  const userGroupCd = sessionStorage.getItem('userGroupCd')
+  const loginId = localStorage.getItem('loginId')
+
+  useEffect(() => {
+    increment();
+  });
 
   const increment = () => {
-    fetch('/cbb/user/login', {
+    fetch('/cbb/scsbjt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userGroupCd }),
+      body: JSON.stringify({ loginId }),
     })
       .then(response => {
 

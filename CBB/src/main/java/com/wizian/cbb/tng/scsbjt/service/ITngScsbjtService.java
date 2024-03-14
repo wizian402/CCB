@@ -1,5 +1,7 @@
 package com.wizian.cbb.tng.scsbjt.service;
 
-public interface ITngScsbjtService {
+import com.wizian.cbb.tng.scsbjt.model.TngScsbjtUserVO;
 
+public interface ITngScsbjtService {
+	TngScsbjtUserVO selecTngScsbjtUser(String loginId);
 }

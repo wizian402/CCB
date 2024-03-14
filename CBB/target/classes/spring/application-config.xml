@@ -34,11 +34,6 @@
 		base-package="com.wizian.cbb.consulting.dao" />
 
 	<context:component-scan
-		base-package="com.wizian.cbb.member"></context:component-scan>
-	<mybatis-spring:scan
-		base-package="com.wizian.cbb.member.dao" />
-
-	<context:component-scan
 		base-package="com.wizian.cbb.user"></context:component-scan>
 	<mybatis-spring:scan
 		base-package="com.wizian.cbb.user.dao" />

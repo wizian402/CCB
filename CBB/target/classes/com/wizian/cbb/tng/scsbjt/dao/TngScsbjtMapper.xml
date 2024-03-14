@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wizian.cbb.tng.scsbjt.dao.ITngScsbjtRepository">
-	
+<mapper
+	namespace="com.wizian.cbb.tng.scsbjt.dao.ITngScsbjtRepository">
+	<resultMap id="selecTngScsbjtUser"
+		type="com.wizian.cbb.tng.scsbjt.model.TngScsbjtUserVO">
+		<result property="scsbjtPicId" column="SCSBJT_PIC_ID" />
+		<result property="userNo" column="USER_NO" />
+		<result property="scsbjtPicNm" column="SCSBJT_PIC_NM" />
+		<result property="stdntPicTelNo" column="STDNT_PIC_TELNO" />
+		<result property="scsbjtCd" column="SCSBJT_CD" />
+	</resultMap>
+
+	<select id="selecTngScsbjtUser" parameterType="string"
+		resultType="com.wizian.cbb.tng.scsbjt.model.TngScsbjtUserVO">
+		SELECT
+		SCSBJT_PIC_ID AS scsbjtPicId,
+		USER_NO AS userNo,
+		SCSBJT_PIC_NM AS scsbjtPicNm,
+		STDNT_PIC_TELNO AS stdntPicTelNo,
+		SCSBJT_CD AS scsbjtCd
+		FROM SCSBJT_USER
+		WHERE USER_NO IN(
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE
+		LOGIN_ID=#{loginId}
+		)
+	</select>
+
+
+
 </mapper>
