@@ -16,18 +16,35 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
 const Register = () => {
-  const [loginId, setLoginId] = useState('')
-  const [userNm, setUserNm] = useState('')
+  const [newPswd, setPswd] = useState('')
+  const [repeatPswd, setRepeatPswd] = useState('')
+  const userId = sessionStorage.getItem('userId')
 
   const navigate = useNavigate()
   const handleSubmit = (e) => {
-    const savedUserId = sessionStorage.getItem('loginId');
-    console.log('저장된 아이디:', savedUserId);
+    console.log(userId)
+    e.preventDefault()
+    if (newPswd !== repeatPswd) {
+      alert('비밀번호와 동일하지 않습니다.')
+    } else {
+      fetch('/cbb/user/changePswd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, newPswd }),
+      })
+        .then(response => {
+          return response.text()
+        })
+        .then(data => {
+          sessionStorage.clear()
+          navigate('/login')
+        })
+        .catch(error => {
+        });
+    }
   }
-  const test = () => {
-    const savedUserId = sessionStorage.getItem('loginId');
-    console.log('저장된 아이디:', savedUserId);
-  };
   const deleteSession = () => {
     sessionStorage.clear();
   };
@@ -43,19 +60,24 @@ const Register = () => {
                   <p className="text-medium-emphasis">새로운 비밀번호를 입력하세요.</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
-                      <CIcon icon={cilUser} />
+                      <CIcon icon={cilLockLocked} />
                     </CInputGroupText>
                     <CFormInput
+                      type="password"
                       placeholder="새로운 비밀번호"
-                      onChange={(e) => setLoginId(e.target.value)}
+                      value={newPswd}
+                      onChange={(e) => setPswd(e.target.value)}
                     />
                   </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>@</CInputGroupText>
+                  <CInputGroup className="mb-4">
+                    <CInputGroupText>
+                      <CIcon icon={cilLockLocked} />
+                    </CInputGroupText>
                     <CFormInput
+                      type="password"
                       placeholder="새로운 비밀번호 확인"
-                      value={userNm}
-                      onChange={(e) => setUserNm(e.target.value)}
+                      value={repeatPswd}
+                      onChange={(e) => setRepeatPswd(e.target.value)}
                     />
                   </CInputGroup>
                   <CRow>
@@ -72,9 +94,6 @@ const Register = () => {
                       </Link>
                     </CCol>
                   </CRow>
-                  <CButton color="link" className="px-0" onClick={test}>
-                    비밀번호 찾기
-                  </CButton>
                 </CForm>
               </CCardBody>
             </CCard>

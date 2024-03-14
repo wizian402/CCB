@@ -18,4 +18,7 @@ public interface IUserRepository {
 	void findPswd(@Param("loginId") String loginId);
 	
 	Map<String, Object> getUserInfo(@Param("loginId") String loginId, @Param("tableNm") String tableNm, @Param("nameSql") String nameSql, @Param("telNoSql") String telNoSql);
+	
+	void updatePswd(@Param("loginId") String loginId, @Param("pswd") String pswd);
+	
 }

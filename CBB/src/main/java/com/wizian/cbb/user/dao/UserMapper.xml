@@ -56,15 +56,23 @@
 
 	<select id="getUserInfo" resultType="hashmap">
 		SELECT
-		${nameSql}  AS "Nm",
-		${telNoSql}  AS "TelNo"
-		FROM ${tableNm} 
-		WHERE 
+		${nameSql} AS "Nm",
+		${telNoSql} AS "TelNo"
+		FROM ${tableNm}
+		WHERE
 		USER_NO IN(
-			SELECT USER_NO 
-			FROM USER_INFO
-			WHERE 
-			LOGIN_ID=#{loginId}
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE
+		LOGIN_ID=#{loginId}
 		)
 	</select>
+
+	<update id="updatePswd"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET PSWD=#{pswd}
+		WHERE
+		LOGIN_ID=#{loginId}
+	</update>
 </mapper>

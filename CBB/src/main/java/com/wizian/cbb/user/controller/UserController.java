@@ -131,4 +131,21 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("일치하는 정보를 찾을 수 없습니다.");
 	}
 
+	@PostMapping("/user/changePswd")
+	public ResponseEntity<?> changePswd(@RequestBody String changePswdData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> changePswdMap = objectMapper.readValue(changePswdData,
+					new TypeReference<Map<String, String>>() {
+					});
+			String userId = changePswdMap.get("userId");
+			String newPswd = changePswdMap.get("newPswd");
+			System.out.println(userId + "\n" + newPswd);
+			userService.updatePswd(userId, newPswd);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.badRequest().build();
+	}
 }

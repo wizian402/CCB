@@ -55,7 +55,7 @@ const Register = () => {
         .then(data => {
           if (data === "success") {
             console.log(data);
-            sessionStorage.setItem('loginId', loginId);
+            sessionStorage.setItem('userId', loginId);
             navigate('/changePswd');
           } else {
             alert("일치하는 회원정보가 없습니다.");

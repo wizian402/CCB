@@ -37,4 +37,9 @@ public class UserService implements IUserService {
 	public Map<String, Object> getUserInfo(String loginId, String tableNm, String nameSql, String telNoSql) {
 		return userRepository.getUserInfo(loginId, tableNm, nameSql, telNoSql);
 	}
+
+	@Override
+	public void updatePswd(String loginId, String pswd) {
+		userRepository.updatePswd(loginId, pswd);
+	}
 }
