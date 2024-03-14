@@ -33,12 +33,25 @@ public class TngScsbjtController {
 			String loginId = loginMap.get("loginId");
 			TngScsbjtUserVO tngScsbjtUserVO = tngScsbjtService.selecTngScsbjtUser(loginId);
 			stdntList = tngScsbjtService.selectStdntList(tngScsbjtUserVO.getScsbjtCd());
-			for (StdntVO stdnt : stdntList) {
-				System.out.println(stdnt.getAcavsrNo());
-			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return stdntList;
+	}
+
+	@PostMapping("/selectAcavsr")
+	public @ResponseBody List<Map<String, Object>> selectAcavsr(@RequestBody String loginData) {
+		List<Map<String, Object>> acavsrList = new ArrayList<Map<String, Object>>();
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
+			});
+			String loginId = loginMap.get("loginId");
+			TngScsbjtUserVO tngScsbjtUserVO = tngScsbjtService.selecTngScsbjtUser(loginId);
+			acavsrList = tngScsbjtService.getScsbjtAcavsr(tngScsbjtUserVO.getScsbjtCd());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return acavsrList;
 	}
 }

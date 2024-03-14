@@ -18,10 +18,15 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem 
 } from '@coreui/react'
 
 const ProfessorSelect = () => {
   const [studentData, setStudentData] = useState([]);
+  const [acavsrData, setAcavsrData] = useState([]);
   const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
   const [selectedStudent, setSelectedStudent] = useState(null); // 선택된 학생 상태 추가
 
@@ -37,14 +42,29 @@ const ProfessorSelect = () => {
       },
       body: JSON.stringify({ loginId }),
     })
-      .then(response => response.json()) 
-      .then(data => {
-        setStudentData(data);
-        console.log(data)
-      })
-      .catch(error => {
-        console.error('Error:', error); 
-      });
+    .then(response => response.json()) 
+    .then(data => {
+      setStudentData(data);
+    })
+    .catch(error => {
+      console.error('Error:', error); 
+    });
+
+    fetch('/cbb/selectAcavsr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ loginId }),
+    })
+    .then(response => response.json()) 
+    .then(data => {
+      setAcavsrData(data);
+      console.log(data)
+    })
+    .catch(error => {
+      console.error('Error:', error); 
+    });
   };
 
   const handleModalOpen = (student) => {
@@ -56,6 +76,7 @@ const ProfessorSelect = () => {
   };
 
   return (
+    
     <CRow>
       <CCol xs={12}>
         <CCard className="mb-4">
@@ -101,6 +122,16 @@ const ProfessorSelect = () => {
               <p>{selectedStudent.stdntSn}</p>
             </>
           )}
+          <CDropdown>
+            <CDropdownToggle color="secondary">Dropdown button</CDropdownToggle>
+              <CDropdownMenu>
+                {acavsrData.map((professor, index) => (
+                  <CDropdownItem key={index} onClick={() => handleProfessorSelect(professor)}>
+                {professor.acavsrNm}
+                  </CDropdownItem>
+              ))}
+            </CDropdownMenu>
+          </CDropdown>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={handleModalClose}>Close</CButton>

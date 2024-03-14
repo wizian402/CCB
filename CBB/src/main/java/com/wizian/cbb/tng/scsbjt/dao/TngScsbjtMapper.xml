@@ -50,5 +50,13 @@
 		SCSBJT_CD = #{scsbjtCd}
 	</select>
 
+	<select id="getScsbjtAcavsr" resultType="hashmap">
+		SELECT
+			ACAVSR_NO as "ascavsrNo",
+			ACAVSR_NM as "acavsrNm"
+		FROM ACAVSR		
+		WHERE
+		SCSBJT_CD = #{scsbjtCd}
+	</select>
 
 </mapper>

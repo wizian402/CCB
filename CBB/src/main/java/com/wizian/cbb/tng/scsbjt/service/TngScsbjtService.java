@@ -1,6 +1,7 @@
 package com.wizian.cbb.tng.scsbjt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,10 @@ public class TngScsbjtService implements ITngScsbjtService {
 	@Override
 	public List<StdntVO> selectStdntList(String scsbjtCd) {
 		return tngScsbjtRepository.selectStdntList(scsbjtCd);
+	}
+
+	@Override
+	public List<Map<String, Object>> getScsbjtAcavsr(String scsbjtCd) {
+		return tngScsbjtRepository.getScsbjtAcavsr(scsbjtCd);
 	}
 }

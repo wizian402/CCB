@@ -13,6 +13,6 @@ public interface ITngScsbjtRepository {
 
 	List<StdntVO> selectStdntList(@Param("scsbjtCd") String scsbjtCd);
 
-	List<Map<String, Object>> getScsbjtAcavsr();
-
+	List<Map<String, Object>> getScsbjtAcavsr(@Param("scsbjtCd") String scsbjtCd);
+	
 }
