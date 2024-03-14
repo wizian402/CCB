@@ -15,7 +15,29 @@ import {
 } from '@coreui/react'
 import { DocsExample } from 'src/components'
 
-const Tables = () => {
+const ProfessorSelect = () => {
+
+  const userGroupCd = sessionStorage.getItem('userGroupCd')
+
+  const increment = () => {
+    fetch('/cbb/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userGroupCd }),
+    })
+      .then(response => {
+
+      })
+      .then(data => {
+
+      })
+      .catch(error => {
+
+      });
+  };
+
   return (
     <CRow>
       <CCol xs={12}>
@@ -24,35 +46,35 @@ const Tables = () => {
             <strong>지도교수 배정</strong>
           </CCardHeader>
           <CCardBody>
-              <CTable>
-                <CTableHead>
-                  <CTableRow>
-                    <CTableHeaderCell scope="col">NO</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">학생명</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">학번</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">지도교수</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  <CTableRow>
-                    <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                    <CTableDataCell>Mark</CTableDataCell>
-                    <CTableDataCell>Otto</CTableDataCell>
-                    <CTableDataCell>@mdo</CTableDataCell>
-                  </CTableRow>
-                  <CTableRow>
-                    <CTableHeaderCell scope="row">2</CTableHeaderCell>
-                    <CTableDataCell>Jacob</CTableDataCell>
-                    <CTableDataCell>Thornton</CTableDataCell>
-                    <CTableDataCell>@fat</CTableDataCell>
-                  </CTableRow>
-                  <CTableRow>
-                    <CTableHeaderCell scope="row">3</CTableHeaderCell>
-                    <CTableDataCell colSpan="2">Larry the Bird</CTableDataCell>
-                    <CTableDataCell>@twitter</CTableDataCell>
-                  </CTableRow>
-                </CTableBody>
-              </CTable>
+            <CTable>
+              <CTableHead>
+                <CTableRow>
+                  <CTableHeaderCell scope="col">NO</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">학생명</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">학번</CTableHeaderCell>
+                  <CTableHeaderCell scope="col">지도교수</CTableHeaderCell>
+                </CTableRow>
+              </CTableHead>
+              <CTableBody>
+                <CTableRow>
+                  <CTableHeaderCell scope="row">1</CTableHeaderCell>
+                  <CTableDataCell>Mark</CTableDataCell>
+                  <CTableDataCell>Otto</CTableDataCell>
+                  <CTableDataCell>@mdo</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell scope="row">2</CTableHeaderCell>
+                  <CTableDataCell>Jacob</CTableDataCell>
+                  <CTableDataCell>Thornton</CTableDataCell>
+                  <CTableDataCell>@fat</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell scope="row">3</CTableHeaderCell>
+                  <CTableDataCell colSpan="2">Larry the Bird</CTableDataCell>
+                  <CTableDataCell>@twitter</CTableDataCell>
+                </CTableRow>
+              </CTableBody>
+            </CTable>
           </CCardBody>
         </CCard>
       </CCol>
@@ -60,4 +82,4 @@ const Tables = () => {
   )
 }
 
-export default Tables
+export default ProfessorSelect
