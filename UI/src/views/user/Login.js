@@ -16,11 +16,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
-const test = () => {
-  console.log(localStorage.getItem("id"));
-  console.log(localStorage.getItem("userGroupCd"));
-};
-
 const Login = () => {
   const [loginId, setId] = useState('')
   const [password, setPassword] = useState('')
@@ -28,9 +23,9 @@ const Login = () => {
   const loginSubmit = (e) => {
     e.preventDefault();
 
-    if (loginId === ''){
+    if (loginId === '') {
       alert("아이디를 입력하세요")
-    } else if (password === ''){
+    } else if (password === '') {
       alert("비밀번호를 입력하세요")
     } else {
       fetch('/cbb/user/login', {
@@ -40,22 +35,20 @@ const Login = () => {
         },
         body: JSON.stringify({ loginId, password }),
       })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.text().then(errorMessage => {
-            // HTML 형식의 오류 응답이면 오류 메시지를 그대로 출력
-            if (errorMessage.startsWith('<!doctype')) {
-              throw new Error('아이디 또는 비밀번호가 틀립니다.\n5회 이상 틀릴시 계정이 잠깁니다.');
-            } else {
-              // JSON 형식의 오류 응답이면 파싱하여 오류 메시지 출력
-              const errorData = JSON.parse(errorMessage);
-              throw new Error(errorData.error);
-            }
-          });
-        }
-      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.text().then(errorMessage => {
+              if (errorMessage.startsWith('<!doctype')) {
+                throw new Error('아이디 또는 비밀번호가 틀립니다.\n5회 이상 틀릴시 계정이 잠깁니다.');
+              } else {
+                const errorData = JSON.parse(errorMessage);
+                throw new Error(errorData.error);
+              }
+            });
+          }
+        })
         .then(data => {
           localStorage.setItem('loginId', data.loginId);
           localStorage.setItem('userGroupCd', data.userGroupCd);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -19,16 +19,24 @@ const Register = () => {
   const [loginId, setLoginId] = useState('')
   const [userNm, setUserNm] = useState('')
   const [telNo, setTelNo] = useState('')
-
   const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (loginId === ''){
+    if (loginId === '') {
       alert("아이디를 입력하세요")
-    } else if (userNm === ''){
+    } else if (!/^[a-zA-Z0-9]+$/.test(loginId)) {
+      alert("아이디는 숫자와 영어 문자만 입력해야 합니다");
+    } else if (userNm === '') {
       alert("이름을 입력하세요")
-    } else if (telNo === ''){
+    } else if (!/^[가-힣]+$/.test(userNm)) {
+      alert("이름은 한글만 입력해야 합니다");
+    } else if (telNo === '') {
       alert("전화번호를 입력하세요")
+    } else if (telNo.length !== 11) {
+      alert("전화번호는 11자리여야 합니다");
+    } else if (isNaN(telNo)) {
+      alert("전화번호는 숫자만 입력해야 합니다");
     } else {
       fetch('/cbb/user/findPswd', {
         method: 'POST',
@@ -39,16 +47,22 @@ const Register = () => {
       })
         .then(response => {
           if (response.ok) {
-            return response.text(); // 응답을 텍스트로 변환
+            return response.text();
           } else {
             throw new Error('Network response was not ok.');
           }
         })
         .then(data => {
-          console.log(data);
+          if (data === "success") {
+            console.log(data);
+            sessionStorage.setItem('loginId', loginId);
+            navigate('/changePswd');
+          } else {
+            alert("일치하는 회원정보가 없습니다.");
+          }
         })
         .catch(error => {
-          console.error("Error:", error);
+          alert("일치하는 회원정보가 없습니다.");
         });
     }
   }
@@ -90,11 +104,20 @@ const Register = () => {
                       onChange={(e) => setTelNo(e.target.value)}
                     />
                   </CInputGroup>
-                  <div className="d-grid">
-                    <CButton color="success" type="submit">
-                      비밀번호 찾기
-                    </CButton>
-                  </div>
+                  <CRow>
+                    <CCol>
+                      <CButton color="primary" type="submit" className="w-100 text-white fw-bold">
+                        비밀번호 찾기
+                      </CButton>
+                    </CCol>
+                    <CCol>
+                      <Link to="/login">
+                        <CButton color="danger" className="w-100 text-white fw-bold">
+                          비밀번호 찾기 취소
+                        </CButton>
+                      </Link>
+                    </CCol>
+                  </CRow>
                 </CForm>
               </CCardBody>
             </CCard>

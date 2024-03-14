@@ -89,26 +89,16 @@ const Toasts = React.lazy(() => import("./views/notifications/toasts/Toasts"));
 const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 
 // TNG
-const ProfessorSelect = React.lazy(() =>
-  import("./views/TNG/SCSBJT/ProfessorSelect")
-);
+const ProfessorSelect = React.lazy(() => import("./views/TNG/SCSBJT/ProfessorSelect"));
 
 const routes = [
   // consulting
   { path: "/consultationItem", name: "Theme", element: ConsultationItem },
-  {
-    path: "/consultationSchedule",
-    name: "Theme",
-    element: ConsultationSchedule,
-  },
+  { path: "/consultationSchedule", name: "Theme", element: ConsultationSchedule, },
   { path: "/Schedule", name: "Theme", element: Schedule },
 
   // TNG
-  {
-    path: "/professorSelect",
-    name: "ProfessorSelect",
-    element: ProfessorSelect,
-  },
+  { path: "/professorSelect", name: "ProfessorSelect", element: ProfessorSelect, },
 
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
