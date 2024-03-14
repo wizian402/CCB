@@ -11,6 +11,18 @@
 		<result property="stdntPicTelNo" column="STDNT_PIC_TELNO" />
 		<result property="scsbjtCd" column="SCSBJT_CD" />
 	</resultMap>
+	<resultMap id="selectStdnts"
+		type="com.wizian.cbb.tng.stdnt.model.StdntVO">
+		<result property="stdntSn" column="STDNT_SN" />
+		<result property="stdntNm" column="STDNT_NM" />
+		<result property="stdntTelNo" column="STDNT_TELNO" />
+		<result property="stdntEmlAddr" column="STDNT_EML_ADDR" />
+		<result property="stdntBrdt" column="STDNT_BRDT" />
+		<result property="stdntAddr" column="STDNT_ADDR" />
+		<result property="stdntGrd" column="STDNT_GRD" />
+		<result property="userNo" column="SCSBJT_CD" />
+		<result property="scsbjtCd" column="USER_NO" />
+	</resultMap>
 
 	<select id="selecTngScsbjtUser" parameterType="string"
 		resultType="com.wizian.cbb.tng.scsbjt.model.TngScsbjtUserVO">
@@ -29,6 +41,13 @@
 		)
 	</select>
 
+	<select id="selectStdntList" resultMap="selectStdnts">
+		SELECT *
+		FROM
+		STDNT
+		WHERE
+		SCSBJT_CD = #{scsbjtCd}
+	</select>
 
 
 </mapper>
