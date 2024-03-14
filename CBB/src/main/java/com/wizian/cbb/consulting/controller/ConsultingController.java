@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wizian.cbb.consulting.model.ConItemVO;
+import com.wizian.cbb.consulting.model.SchedulePrintVO;
+import com.wizian.cbb.consulting.model.ScheduleVO;
 import com.wizian.cbb.consulting.service.IConsultingService;
 
 @Controller
@@ -64,10 +66,19 @@ public class ConsultingController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/consulting/schedules")
-	public @ResponseBody List<Schedules> adminSchedules() {
+	public @ResponseBody List<SchedulePrintVO> adminSchedules() {
 		List list = consultingService.adminSchedules();
 		System.out.println(list);
 		return list;
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping(value = "/consulting/insertSchedule")
+	public @ResponseBody int insertSchedule(@RequestBody ScheduleVO scheduleVO) {
+		int num = 0;
+		System.out.println(scheduleVO);
+		num = consultingService.insertSchedules(scheduleVO);
+		return num;
 	}
 
 }
