@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom';
 
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -21,32 +22,22 @@ import { _nav as scsbjtNav } from 'src/nav/SCSBJTNav'
 import { _nav as studentNav } from 'src/nav/studentNav'
 
 
-const AppSidebar = ({ selectedMenu }) => {
+const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   const userGroup = localStorage.getItem('userGroupCd');
 
-  let selectedNav;
-  if (userGroup === '10') {
-    selectedNav = adminNav
-  } else if (userGroup === '20') {
-    selectedNav = studentNav
-  } else if (userGroup === '30') {
-    selectedNav = acavsrNav
-  } else if (userGroup === '40') {
-    if (selectedMenu === '/professorSelect') {
-      selectedNav = acavsrNav
-    } else {
-      selectedNav = scsbjtNav
-    }
-  } else if (userGroup === '50') {
-    selectedNav = bzentyNav
-  } else if (userGroup === '60') {
-    selectedNav = counselorNav
-  }
+  const location = useLocation();
+  const currentUri = location.pathname; // 현재 URI 값
 
+  console.log(currentUri)
+
+  let selectedNav;
+  if (currentUri === '/professorSelect') {
+      selectedNav = scsbjtNav
+  } 
 
   return (
     <CSidebar

@@ -51,7 +51,6 @@ const ProfessorSelect = () => {
       });
       const data = await response.json();
       setter(data);
-      console.log(data);
     } catch (error) {
       console.error('Error:', error);
     }
