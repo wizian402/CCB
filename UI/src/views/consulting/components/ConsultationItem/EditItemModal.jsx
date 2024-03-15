@@ -1,24 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {
+  CButton,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect
+} from "@coreui/react";
 
-const EditItemModal = ({ showModal, onClose, selectedItem, fetchData }) => {
-  const [editedItem, setEditedItem] = useState({ conItemsID: "", conItems: "", use: "" });
+const EditItemModal = (props) => {
+  const [visible, setVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    itemID: props.item.itemID,
+    item: props.item.item,
+    use: props.item.use
+  });
 
-  useEffect(() => {
-    if (selectedItem) {
-      setEditedItem(selectedItem);
-    }
-  }, [selectedItem]);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setEditedItem({
-      ...editedItem,
-      [name]: value,
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await fetch(
         "http://localhost:8181/cbb/consulting/items/update",
@@ -28,7 +35,7 @@ const EditItemModal = ({ showModal, onClose, selectedItem, fetchData }) => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(editedItem),
+          body: JSON.stringify(formData),
         }
       );
 
@@ -39,10 +46,10 @@ const EditItemModal = ({ showModal, onClose, selectedItem, fetchData }) => {
       const responseData = await response.json();
       if (responseData === 1) {
         alert("수정되었습니다.");
-        fetchData();
-        onClose();
+        window.location.reload();
       } else {
         alert("다시 시도해주세요.");
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error updating item:", error);
@@ -50,59 +57,56 @@ const EditItemModal = ({ showModal, onClose, selectedItem, fetchData }) => {
   };
 
   return (
-    showModal && (
-      <div className="modal1">
-        <div className="modal-content">
-          <h1>항목 수정</h1>
-          <form className="form-container" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="itemCode">항목 코드</label>
-              <input
-                type="text"
-                id="itemCode"
-                name="conItemsID"
-                value={editedItem.conItemsID}
-                readOnly
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="itemName">상담 항목</label>
-              <input
-                type="text"
-                id="itemName"
-                name="conItems"
-                value={editedItem.conItems}
+    <>
+      <CButton onClick={() => setVisible(!visible)}>항목 수정</CButton>
+      <CModal
+        alignment="center"
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
+        <CModalHeader>
+          <CModalTitle>항목 수정</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <div>
+            <CInputGroup className="mb-5">
+              <CInputGroupText id="itemID">항목 코드</CInputGroupText>
+              <CFormInput
+                aria-describedby="itemID"
+                name="itemID"
+                value={formData.itemID}
                 onChange={handleChange}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="use">사용 여부</label>
-              <select
-                id="use"
+            </CInputGroup>
+            <CInputGroup className="mb-5">
+              <CInputGroupText id="item">상담 항목</CInputGroupText>
+              <CFormInput
+                aria-describedby="item"
+                name="item"
+                value={formData.item}
+                onChange={handleChange}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-5">
+              <CInputGroupText id="use">사용 여부</CInputGroupText>
+              <CFormSelect
+                aria-label="Use"
                 name="use"
-                value={editedItem.use}
+                value={formData.use}
                 onChange={handleChange}
               >
                 <option value="Y">Y</option>
                 <option value="N">N</option>
-              </select>
-            </div>
-            <div className="buttons">
-              <button type="submit" className="submit-button">
-                수정
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="cancel-button"
-              >
-                취소
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    )
+              </CFormSelect>
+            </CInputGroup>
+          </div>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="primary" onClick={handleSubmit}>저장</CButton>
+          <CButton color="secondary" onClick={() => setVisible(false)}>취소</CButton>
+        </CModalFooter>
+      </CModal>
+    </>
   );
 };
 

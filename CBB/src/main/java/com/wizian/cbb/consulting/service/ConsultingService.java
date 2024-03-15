@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.consulting.dao.IConsultingRepository;
 import com.wizian.cbb.consulting.model.ConItemVO;
+import com.wizian.cbb.consulting.model.ResultVO;
+import com.wizian.cbb.consulting.model.SchedulePrintVO;
 import com.wizian.cbb.consulting.model.ScheduleVO;
 
 
@@ -46,14 +48,14 @@ public class ConsultingService implements IConsultingService {
     
     
     @Override
-    public List<ConItemVO> adminSchedules() {
-    	return consultingRepository.adminSchedules();
+    public List<SchedulePrintVO> adminSchedulesList() {
+    	return consultingRepository.adminScheduleList();
     }
    
     
     
     @Override
-    public int insertSchedules(ScheduleVO scheduleVO) {
+    public int insertSchedule(ScheduleVO scheduleVO) {
         String id = consultingRepository.checkId(scheduleVO.getId());
         if (id == null) {
             return 0;
@@ -91,6 +93,12 @@ public class ConsultingService implements IConsultingService {
         return num;
     }
 
-
+    
+    
+    
+    @Override
+    public List<ResultVO> resultList() {
+    	return consultingRepository.resultList();
+    }
 }
 
