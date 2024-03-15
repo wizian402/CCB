@@ -64,7 +64,6 @@ public class TngScsbjtController {
 					});
 			String stdntSn = acavsrMap.get("stdntSn");
 			String acavsrNo = acavsrMap.get("acavsrNo");
-			System.out.println(stdntSn+ "  " + acavsrNo);
 			tngScsbjtService.updateAcavsr(stdntSn, acavsrNo);
 		} catch (Exception e) {
 			// TODO: handle exception

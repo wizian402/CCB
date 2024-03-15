@@ -59,7 +59,7 @@
 		SCSBJT_CD = #{scsbjtCd}
 	</select>
 
-	<update id="updateAcavsr" parameterType="com.wizian.cbb.tng.stdnt.model.StdntVO">
+	<update id="updateAcavsr">
     	UPDATE STDNT
     	SET ACAVSR_NO = #{acavsrNo}
     	WHERE STDNT_SN = #{stdntSn}
