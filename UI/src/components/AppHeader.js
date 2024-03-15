@@ -18,7 +18,7 @@ import { AppBreadcrumb } from './index'
 import { logo } from 'src/assets/brand/logo'
 import HeaderNavItem from './head/HeaderNavItem'
 
-const AppHeader = () => {
+const AppHeader = ({ setSelectedMenu }) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
   const navigate = useNavigate()
@@ -45,31 +45,31 @@ const AppHeader = () => {
       { name: '담당자', link: '/' },
       { name: '담당자', link: '/' }
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   } else if (userGroup === '20') {
     menuItems = [
       { name: '현장 실습', link: '/' },
       { name: '취업 활동', link: '/' },
       { name: '상담 신청', link: '/' },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   } else if (userGroup === '30') {
     menuItems = [
       { name: '현장 실습 관리', link: '/' }
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   } else if (userGroup === '40') {
     menuItems = [
       { name: '지도 교수 배정', link: '/professorSelect' }
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   } else if (userGroup === '50') {
     menuItems = [
       { name: '현장 실습 관리', link: '/' },
       { name: '채용 정보 관리', link: '/' },
       { name: '기업 정보 관리', link: '/' }
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   } else if (userGroup === '60') {
     menuItems = [
       { name: '상담', link: '/' },
@@ -77,7 +77,7 @@ const AppHeader = () => {
       { name: '상담', link: '/' },
       { name: '상담', link: '/' }
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem setSelectedMenu={setSelectedMenu} navItem={menuItems} />
   }
 
   return (

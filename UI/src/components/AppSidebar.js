@@ -21,7 +21,7 @@ import { _nav as scsbjtNav } from 'src/nav/SCSBJTNav'
 import { _nav as studentNav } from 'src/nav/studentNav'
 
 
-const AppSidebar = () => {
+const AppSidebar = ({ selectedMenu }) => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
@@ -36,12 +36,18 @@ const AppSidebar = () => {
   } else if (userGroup === '30') {
     selectedNav = acavsrNav
   } else if (userGroup === '40') {
-    selectedNav = scsbjtNav
+    if (selectedMenu === '/professorSelect') {
+      selectedNav = acavsrNav
+    } else {
+      selectedNav = scsbjtNav
+    }
   } else if (userGroup === '50') {
     selectedNav = bzentyNav
   } else if (userGroup === '60') {
     selectedNav = counselorNav
   }
+
+
   return (
     <CSidebar
       position="fixed"
@@ -58,6 +64,7 @@ const AppSidebar = () => {
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={selectedNav} />
+
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler
