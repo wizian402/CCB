@@ -63,6 +63,7 @@ const Paginations = () => {
                 <CPaginationItem>1</CPaginationItem>
                 <CPaginationItem>2</CPaginationItem>
                 <CPaginationItem>3</CPaginationItem>
+                <CPaginationItem>4</CPaginationItem>
                 <CPaginationItem aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
                 </CPaginationItem>

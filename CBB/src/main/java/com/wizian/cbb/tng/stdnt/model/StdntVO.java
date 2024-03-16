@@ -10,6 +10,7 @@ public class StdntVO {
 	private String stdntGrd;
 	private String userNo;
 	private String scsbjtCd;
+	private String acavsrNo;
 
 	public int getStdntSn() {
 		return stdntSn;
@@ -82,4 +83,13 @@ public class StdntVO {
 	public void setScsbjtCd(String scsbjtCd) {
 		this.scsbjtCd = scsbjtCd;
 	}
+
+	public String getAcavsrNo() {
+		return acavsrNo;
+	}
+
+	public void setAcavsrNo(String acavsrNo) {
+		this.acavsrNo = acavsrNo;
+	}
+
 }

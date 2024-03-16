@@ -22,6 +22,7 @@
 		<result property="stdntGrd" column="STDNT_GRD" />
 		<result property="userNo" column="SCSBJT_CD" />
 		<result property="scsbjtCd" column="USER_NO" />
+		<result property="acavsrNo" column="ACAVSR_NO" />
 	</resultMap>
 
 	<select id="selecTngScsbjtUser" parameterType="string"
@@ -49,5 +50,18 @@
 		SCSBJT_CD = #{scsbjtCd}
 	</select>
 
+	<select id="getScsbjtAcavsr" resultType="hashmap">
+		SELECT
+			ACAVSR_NO as "acavsrNo",
+			ACAVSR_NM as "acavsrNm"
+		FROM ACAVSR		
+		WHERE
+		SCSBJT_CD = #{scsbjtCd}
+	</select>
 
+	<update id="updateAcavsr">
+    	UPDATE STDNT
+    	SET ACAVSR_NO = #{acavsrNo}
+    	WHERE STDNT_SN = #{stdntSn}
+	</update>
 </mapper>
