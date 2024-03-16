@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom';
 
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -28,20 +29,16 @@ const AppSidebar = () => {
 
   const userGroup = localStorage.getItem('userGroupCd');
 
+  const location = useLocation();
+  const currentUri = location.pathname; // 현재 URI 값
+
+  console.log(currentUri)
+
   let selectedNav;
-  if (userGroup === '10') {
-    selectedNav = adminNav
-  } else if (userGroup === '20') {
-    selectedNav = studentNav
-  } else if (userGroup === '30') {
-    selectedNav = acavsrNav
-  } else if (userGroup === '40') {
-    selectedNav = scsbjtNav
-  } else if (userGroup === '50') {
-    selectedNav = bzentyNav
-  } else if (userGroup === '60') {
-    selectedNav = counselorNav
-  }
+  if (currentUri === '/professorSelect') {
+      selectedNav = scsbjtNav
+  } 
+
   return (
     <CSidebar
       position="fixed"
@@ -58,6 +55,7 @@ const AppSidebar = () => {
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={selectedNav} />
+
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler

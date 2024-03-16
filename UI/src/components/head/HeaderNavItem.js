@@ -13,7 +13,7 @@ function HeaderNavItem({ navItem }) {
   return (
     <CHeaderNav className="d-none d-md-flex me-auto">
       {navItem.map((navItem, index) => (
-        <MenuItem key={index} name={navItem.name} link={navItem.link} />
+        <MenuItem  key={index} name={navItem.name} link={navItem.link} />
       ))}
     </CHeaderNav>
   );

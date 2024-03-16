@@ -30,7 +30,7 @@ const Dropdowns = () => {
             </p>
             <DocsExample href="components/dropdown#single-button">
               <CDropdown>
-                <CDropdownToggle color="secondary">Dropdown button</CDropdownToggle>
+                <CDropdownToggle color="secondary">Dropdown butsston</CDropdownToggle>
                 <CDropdownMenu>
                   <CDropdownItem href="#">Action</CDropdownItem>
                   <CDropdownItem href="#">Another action</CDropdownItem>

@@ -16,11 +16,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
-const test = () => {
-  console.log(localStorage.getItem("id"));
-  console.log(localStorage.getItem("userGroupCd"));
-};
-
 const Login = () => {
   const [loginId, setId] = useState('')
   const [password, setPassword] = useState('')
@@ -28,32 +23,45 @@ const Login = () => {
   const loginSubmit = (e) => {
     e.preventDefault();
 
-    fetch('/cbb/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ loginId, password }),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then(data => {
-            throw new Error(data.error); // 서버에서 반환한 오류 메시지 처리
-          });
-        }
+    if (loginId === '') {
+      alert("아이디를 입력하세요")
+    } else if (password === '') {
+      alert("비밀번호를 입력하세요")
+    } else {
+      fetch('/cbb/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ loginId, password }),
       })
-      .then(data => {
-        localStorage.setItem('loginId', data.loginId);
-        localStorage.setItem('userGroupCd', data.userGroupCd);
-        console.log(localStorage.getItem("loginId"));
-        console.log(localStorage.getItem("userGroupCd"));
-        navigate('/dashboard');
-      })
-      .catch(error => {
-        alert(error.message);
-      });
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.text().then(errorMessage => {
+              if (errorMessage.startsWith('<!doctype')) {
+                throw new Error('아이디 또는 비밀번호가 틀립니다.\n5회 이상 틀릴시 계정이 잠깁니다.');
+              } else {
+                const errorData = JSON.parse(errorMessage);
+                throw new Error(errorData.error);
+              }
+            });
+          }
+        })
+        .then(data => {
+          localStorage.setItem('loginId', data.loginId);
+          localStorage.setItem('userGroupCd', data.userGroupCd);
+          if (localStorage.getItem("userGroupCd") === "40") {
+            navigate('/professorSelect');
+          } else {
+            navigate('/dashboard');
+          }
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
 
   }
   return (

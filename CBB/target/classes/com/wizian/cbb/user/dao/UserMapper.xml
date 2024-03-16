@@ -41,7 +41,7 @@
 	<update id="updatePswdErrCnt"
 		parameterType="com.wizian.cbb.user.model.UserVO">
 		UPDATE USER_INFO
-		SET PSWD_ERR_CNT=PSWD_ERR_CNT+1
+		SET PSWD_ERR_CNT=#{pswdErrCnt}
 		WHERE
 		LOGIN_ID=#{loginId}
 	</update>
@@ -54,4 +54,33 @@
 		LOGIN_ID=#{loginId}
 	</update>
 
+	<select id="getUserInfo" resultType="hashmap">
+		SELECT
+		${nameSql} AS "Nm",
+		${telNoSql} AS "TelNo"
+		FROM ${tableNm}
+		WHERE
+		USER_NO IN(
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE
+		LOGIN_ID=#{loginId}
+		)
+	</select>
+
+	<update id="updatePswd"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET PSWD=#{pswd}
+		WHERE
+		LOGIN_ID=#{loginId}
+	</update>
+
+	<update id="updatePswdChgDt"
+		parameterType="com.wizian.cbb.user.model.UserVO">
+		UPDATE USER_INFO
+		SET PSWD_CHG_DT=SYSDATE
+		WHERE
+		LOGIN_ID=#{userId}
+	</update>
 </mapper>
