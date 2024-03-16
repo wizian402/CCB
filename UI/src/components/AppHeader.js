@@ -65,7 +65,7 @@ const AppHeader = () => {
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
   } else if (userGroup === '50') {
     menuItems = [
-      { name: '현장 실습 관리', link: '/' },
+      { name: '현장 실습 관리', link: '/tngApplication' },
       { name: '채용 정보 관리', link: '/' },
       { name: '기업 정보 관리', link: '/' }
     ];
