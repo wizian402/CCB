@@ -27,11 +27,11 @@ const Layout = () => {
           <CCardBody>
               <CForm>
                 <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                  <CFormLabel htmlFor="inputText" className="col-sm-2 col-form-label">
                     산업체명
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputEmail3" />
+                    <CFormInput type="text" id="inputText" />
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -47,7 +47,7 @@ const Layout = () => {
                     실습 인원수
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputEmail3" />
+                    <CFormInput type="text" id="inputText" />
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -79,7 +79,15 @@ const Layout = () => {
                     총 실습 시간
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputEmail3" />
+                    <CFormInput type="text" id="inputText" />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                    담당 업무
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput type="text" id="inputText" />
                   </CCol>
                 </CRow>
                 <CButton type="submit">현장 실습 신청</CButton>
