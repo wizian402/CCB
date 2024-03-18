@@ -216,20 +216,36 @@ const ModalContent = ({ selectedStudent, selectedProfessor, acavsrData, handlePr
     <CModalBody>
       {selectedStudent && (
         <>
-          <p>{selectedStudent.stdntNm}</p>
-          <p>{selectedStudent.stdntSn}</p>
+          <CTable>
+            <CTableBody>
+              <CTableRow>
+                <CTableDataCell className="text-center">학생 이름</CTableDataCell>
+                <CTableDataCell className="text-center">{selectedStudent.stdntNm}</CTableDataCell>
+              </CTableRow>
+              <CTableRow>
+                <CTableDataCell className="text-center">학번</CTableDataCell>
+                <CTableDataCell className="text-center">{selectedStudent.stdntSn}</CTableDataCell>
+              </CTableRow>
+              <CTableRow>
+                <CTableDataCell className="text-center">지도교수</CTableDataCell>
+                <CTableDataCell className="text-center">
+                  <CDropdown>
+                    <CDropdownToggle color="secondary">{selectedProfessor ? selectedProfessor.acavsrNm : '지도교수 선택'}</CDropdownToggle>
+                    <CDropdownMenu>
+                      {acavsrData.map((professor, index) => (
+                        <CDropdownItem key={index} onClick={() => handleProfessorSelect(professor)}>
+                          {professor.acavsrNm}
+                        </CDropdownItem>
+                      ))}
+                    </CDropdownMenu>
+                  </CDropdown>
+                </CTableDataCell>
+              </CTableRow>
+            </CTableBody>
+          </CTable>
+
         </>
       )}
-      <CDropdown>
-        <CDropdownToggle color="secondary">{selectedProfessor ? selectedProfessor.acavsrNm : '지도교수 선택'}</CDropdownToggle>
-        <CDropdownMenu>
-          {acavsrData.map((professor, index) => (
-            <CDropdownItem key={index} onClick={() => handleProfessorSelect(professor)}>
-              {professor.acavsrNm}
-            </CDropdownItem>
-          ))}
-        </CDropdownMenu>
-      </CDropdown>
     </CModalBody>
     <CModalFooter>
       <CButton color="primary" onClick={handleSaveChanges} disabled={!selectedProfessor || !selectedStudent}>지도교수 배정</CButton>

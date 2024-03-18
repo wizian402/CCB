@@ -173,17 +173,56 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
         <CModalTitle>현장 실습 승인</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <p>산업체 명: {selectedTng ? getBzentyNm(selectedTng.bzentyUserNo) : '-'}</p>
-        <p>학기: {selectedTng ? selectedTng.semester : '-'}</p>
-        <p>실습 인원수: {selectedTng ? selectedTng.tngNope : '-'}</p>
-        <p>실습 시작일: {selectedTng ? selectedTng.tngStYMD : '-'}</p>
-        <p>실습 종료일: {selectedTng ? selectedTng.tngEndYMD : '-'}</p>
-        <p>신청 시작일: {selectedTng ? selectedTng.aplyStDt : '-'}</p>
-        <p>신청 종료일: {selectedTng ? selectedTng.aplyEndDt : '-'}</p>
-        <p>진행 상태: {selectedTng ? selectedTng.prgrsStts : '-'}</p>
-        <p>총 실습시간: {selectedTng ? selectedTng.ttlTngHr : '-'}</p>
-        <p>이수 기준 시간: {selectedTng ? selectedTng.cmcrsHr : '-'}</p>
-        <p>담당 업무명: {selectedTng ? selectedTng.tkcgTaskNm : '-'}</p>
+        <CTable>
+          <CTableBody>
+            <CTableRow>
+              <CTableDataCell className="text-center">산업체 명</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? getBzentyNm(selectedTng.bzentyUserNo) : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">학기</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.semester : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">실습 인원수</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngNope : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">실습 시작일</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngStYMD : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">실습 종료일</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngEndYMD : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">신청 시작일</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.aplyStDt : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">신청 종료일</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.aplyEndDt : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">진행 상태</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.prgrsStts : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">총 실습시간</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.ttlTngHr : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">이수 기준 시간</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.cmcrsHr : '-'}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell className="text-center">담당 업무명</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tkcgTaskNm : '-'}</CTableDataCell>
+            </CTableRow>
+          </CTableBody>
+        </CTable>
+        <CButton color="primary" >지도교수 배정</CButton>
+        <CButton color="secondary" >취소</CButton>
       </CModalBody>
     </CModal>
   );
