@@ -66,18 +66,20 @@ const Layout = () => {
       alert("연도를 입력하세요.")
     } else if (semester === '') {
       alert("학기를 입력하세요.")
-    } else if (tngNope === '') {
-      alert("인원수를 입력하세요.")
+    } else if (isNaN(tngNope)) {
+      alert("인원수를 숫자로 입력하세요.")
     } else if (tngStYmd === '') {
       alert("실습 시작일을 입력하세요.")
     } else if (tngEndYmd === '') {
       alert("실습 종료일을 입력하세요.")
     } else if (aplyEndDt === '') {
       alert("신청 종료일을 입력하세요.")
-    } else if (ttlTngHr === '') {
-      alert("총 실습 시간을 입력하세요.")
+    } else if (isNaN(ttlTngHr)) {
+      alert("총 실습 시간을 숫자로 입력하세요.")
     } else if (tkcgTaskNm === '') {
-      alert("담당 업무를 입력하게요.")
+      alert("담당 업무를 입력하세요.")
+    } else if (new Date(aplyEndDt) < new Date(tngStYmd)) {
+      alert("신청 종료일이 실습 시작일 이전이어야 합니다.");
     } else {
       const yearAndSemesterValue = `${year} ${semester}`;
       setYearAndSemester(yearAndSemesterValue);
@@ -87,7 +89,7 @@ const Layout = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ loginId, yearAndSemester, tngNope, tngStYmd, tngEndYmd, aplyEndDt, ttlTngHr, tkcgTaskNm }),
+          body: JSON.stringify({ loginId, yearAndSemester: yearAndSemesterValue, tngNope, tngStYmd, tngEndYmd, aplyEndDt, ttlTngHr, tkcgTaskNm }),
         })
           .then(response => response.json())
           .then(data => {
@@ -101,6 +103,7 @@ const Layout = () => {
       }
     }
   }
+
 
   return (
     <CRow>
