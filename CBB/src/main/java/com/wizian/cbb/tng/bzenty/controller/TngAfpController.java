@@ -54,11 +54,8 @@ public class TngAfpController {
 			String cmcrsHr = String.valueOf(Integer.parseInt(ttlTngHr) * 8/10);
 			Map<String, Object> userNo = tngAfpService.selectBzentyUserNo(loginId);
 			String bzentyUserNo = (String) userNo.get("bzentyUserNo");
-			System.out.println(cmcrsHr);
 			tngAfpService.insertTng(bzentyUserNo, yearAndSemester, tngNope, tngStYmd, tngEndYmd, aplyEndDt, "10",
 					ttlTngHr, cmcrsHr, tkcgTaskNm);
-			List<Map<String, Object>> list = tngAfpService.selectPrgrsStts();
-			System.out.println(list);
 		} catch (Exception e) {
 			// 예외 처리
 			e.printStackTrace();
