@@ -5,8 +5,8 @@
 	namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
 	<resultMap id="selectConsulting"
 		type="com.wizian.cbb.consulting.model.ConItemVO">
-		<result property="conItemsID" column="DSCSN_TTL_SN" />
-		<result property="conItems" column="DSCSN_TTL" />
+		<result property="itemID" column="DSCSN_TTL_SN" />
+		<result property="item" column="DSCSN_TTL" />
 		<result property="use" column="USE_YN" />
 		<result property="creationDate" column="CRT_YMD" />
 		<result property="modificationDate" column="MDFCN_YMD" />
@@ -23,18 +23,18 @@
 		DSCSN_TTL,
 		USE_YN
 		) VALUES (
-		#{conItemsID},
-		#{conItems},
+		#{itemID},
+		#{item},
 		#{use}
 		)
 	</insert>
 
 	<update id="itemUpdate">
 		UPDATE DSCSN_TTL
-		SET DSCSN_TTL = #{conItems},
+		SET DSCSN_TTL = #{item},
 		USE_YN =
 		#{use}
-		WHERE DSCSN_TTL_SN = #{conItemsID}
+		WHERE DSCSN_TTL_SN = #{itemID}
 	</update>
 
 	<delete id="itemDelete" parameterType="string">
@@ -44,7 +44,7 @@
 
 	<select id="itemCheck" resultType="string">
 		SELECT DSCSN_TTL_SN FROM
-		DSCSN_TTL WHERE DSCSN_TTL_SN = #{conItemsID}
+		DSCSN_TTL WHERE DSCSN_TTL_SN = #{itemID}
 	</select>
 
 
@@ -53,7 +53,7 @@
 
 
 
-	<resultMap id="selectSchedules"
+	<resultMap id="scheduleList"
 		type="com.wizian.cbb.consulting.model.SchedulePrintVO">
 		<result property="type" column="type" />
 		<result property="counselor" column="counselor" />
@@ -62,11 +62,12 @@
 		<result property="consultationTime" column="consultationTime" />
 		<result property="creationDate" column="creationDate" />
 	</resultMap>
-	<select id="adminSchedules" resultMap="selectSchedules">
+	<select id="adminScheduleList" resultMap="scheduleList">
 		SELECT
-		c.COUNSELOR_TYPE AS
+		c.COUNSELOR_TYPE
+		AS
 		TYPE,
-		c.NAME AS counselor,
+		c.CNSLR_NM AS counselor,
 		c.ARSP_NM AS ITEM,
 		t.TIMETBL AS
 		consultationTime,
@@ -76,7 +77,8 @@
 		FROM
 		CNSL_SCHEDULE s
 		JOIN
-		CNSL c ON s.CNSL_SN = c.CNSL_SN
+		COUNSELOR c ON s.CNSL_SN =
+		c.CNSL_SN
 		JOIN
 		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
 	</select>
@@ -88,23 +90,69 @@
 
 
 	<select id="checkId" resultType="string">
-		SELECT CNSL_SN FROM CNSL WHERE
+		SELECT CNSL_SN FROM COUNSELOR
+		WHERE
 		USER_ID = #{id}
 	</select>
 
 	<select id="checkDuplicate" resultType="boolean">
-		SELECT COUNT(*) FROM CNSL_SCHEDULE
-		WHERE CNSL_SN = #{id} AND TIMETBL_CD = #{cdNum} AND DSCSN_DT_YMD =
+		SELECT COUNT(*) FROM
+		CNSL_SCHEDULE
+		WHERE CNSL_SN = #{id} AND TIMETBL_CD = #{cdNum} AND
+		DSCSN_DT_YMD =
 		#{strDate}
 	</select>
 
 
 	<insert id="insertSchedule">
 		INSERT INTO CNSL_SCHEDULE
-		(CNSL_SCHEDULE_SN, CNSL_SN, TIMETBL_CD,
+		(CNSL_SCHEDULE_SN, CNSL_SN,
+		TIMETBL_CD,
 		DSCSN_DT_YMD, DSCSN_REG_YMD)
-		VALUES (schedule_seq.NEXTVAL, #{id}, #{cdNum}, #{strDate}, SYSDATE)
+		VALUES (schedule_seq.NEXTVAL,
+		#{id}, #{cdNum}, #{strDate}, SYSDATE)
 	</insert>
 
+
+
+
+
+
+
+
+
+
+
+	<resultMap id="resultList"
+		type="com.wizian.cbb.consulting.model.ResultVO">
+		<result property="type" column="COUNSELOR_TYPE" />
+		<result property="counselor" column="CNSLR_NM" />
+		<result property="item" column="DSCSN_TTL" />
+		<result property="student" column="STDNT_NM" />
+		<result property="content" column="PRCS_RSLT_CN" />
+		<result property="consultationDate" column="DSCSN_DT_YMD" />
+		<result property="creationDate" column="RSLT_REG_YMD" />
+		<result property="time" column="TIMETBL" />
+	</resultMap>
+
+	<select id="resultList" resultMap="resultList">
+		SELECT
+		C.COUNSELOR_TYPE,
+		C.CNSLR_NM,
+		D.DSCSN_TTL,
+		B.DSCSN_DT_YMD,
+		E.STDNT_NM,
+		F.PRCS_RSLT_CN,
+		F.RSLT_REG_YMD,
+		G.TIMETBL
+		FROM
+		DSCSN_RSVT A
+		JOIN CNSL_SCHEDULE B ON A.CNSL_SCHEDULE_SN = B.CNSL_SCHEDULE_SN
+		JOIN COUNSELOR C ON B.CNSL_SN = C.CNSL_SN
+		JOIN DSCSN_TTL D ON A.DSCSN_TTL_SN = D.DSCSN_TTL_SN
+		JOIN STDNT E ON A.STDNT_SN = E.STDNT_SN
+		JOIN DSCSN_RSLT_CN F ON A.DSCSN_RSVT_SN = F.DSCSN_RSVT_SN
+		JOIN TIMETBL G ON B.TIMETBL_CD = G.TIMETBL_CD
+	</select>
 
 </mapper>

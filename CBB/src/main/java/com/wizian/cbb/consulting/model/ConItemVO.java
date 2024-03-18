@@ -3,24 +3,22 @@ package com.wizian.cbb.consulting.model;
 import java.sql.Date;
 
 public class ConItemVO {
-	private String conItemsID;
-	private String conItems;
+	private String itemID;
+	private String item;
 	private char use;
 	private String creationDate;
 	private String modificationDate;
-	
-	
-	public String getConItemsID() {
-		return conItemsID;
+	public String getItemID() {
+		return itemID;
 	}
-	public void setConItemsID(String conItemsID) {
-		this.conItemsID = conItemsID;
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
-	public String getConItems() {
-		return conItems;
+	public String getItem() {
+		return item;
 	}
-	public void setConItems(String conItems) {
-		this.conItems = conItems;
+	public void setItem(String item) {
+		this.item = item;
 	}
 	public char getUse() {
 		return use;
@@ -44,9 +42,10 @@ public class ConItemVO {
 	
 	@Override
 	public String toString() {
-		return "ConItemVO [conItemsID=" + conItemsID + ", conItems=" + conItems + ", use=" + use + ", creationDate="
-				+ creationDate + ", modificationDate=" + modificationDate + "]";
+		return "ConItemVO [itemID=" + itemID + ", item=" + item + ", use=" + use + ", creationDate=" + creationDate
+				+ ", modificationDate=" + modificationDate + "]";
 	}
+	
 	
 	
 	

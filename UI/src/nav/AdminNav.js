@@ -93,7 +93,7 @@ export const _nav = [
       {
         component: CNavItem,
         name: "학생 상담 종합 이력",
-        to: "#",
+        to: "/history",
       },
     ],
   },
