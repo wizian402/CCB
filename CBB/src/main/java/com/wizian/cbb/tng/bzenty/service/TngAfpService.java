@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.tng.bzenty.dao.ITngAfpRepository;
-import com.wizian.cbb.tng.bzenty.model.TngVO;
 
 @Service
 public class TngAfpService implements ITngAfpService {

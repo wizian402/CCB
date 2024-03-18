@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.wizian.cbb.tng.bzenty.model.TngVO;
-
 public interface ITngAfpRepository {
 	Map<String, Object> companyNm(@Param("loginId") String loginId);
 

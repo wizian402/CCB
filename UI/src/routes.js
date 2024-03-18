@@ -82,7 +82,6 @@ const routes = [
   { path: "/tngList", name: "현장실습목록", element: TNGList, },
   { path: "/tngApproval", name: "현장실습 참여 관리", element: TngApproval, },
 
-  { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
   { path: "/theme/colors", name: "Colors", element: Colors },

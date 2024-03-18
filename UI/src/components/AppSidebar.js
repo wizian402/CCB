@@ -34,8 +34,6 @@ const AppSidebar = () => {
   const location = useLocation();
   const currentUri = location.pathname; // 현재 URI 값
 
-  console.log(currentUri)
-
   let selectedNav;
   if (currentUri === '/professorSelect') {
     selectedNav = scsbjtNav

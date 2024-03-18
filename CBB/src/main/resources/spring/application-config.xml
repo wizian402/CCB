@@ -47,14 +47,19 @@
 		base-package="com.wizian.cbb.tng.scsbjt"></context:component-scan>
 	<mybatis-spring:scan
 		base-package="com.wizian.cbb.tng.scsbjt.dao" />
-		
+
 	<context:component-scan
 		base-package="com.wizian.cbb.tng.stdnt"></context:component-scan>
-		
-			<context:component-scan
+
+	<context:component-scan
 		base-package="com.wizian.cbb.tng.bzenty"></context:component-scan>
 	<mybatis-spring:scan
 		base-package="com.wizian.cbb.tng.bzenty.dao" />
+
+	<context:component-scan
+		base-package="com.wizian.cbb.tng.admin"></context:component-scan>
+	<mybatis-spring:scan
+		base-package="com.wizian.cbb.tng.admin.dao" />
 
 </beans>
   
