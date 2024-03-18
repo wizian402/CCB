@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.admin.dao.IAdmPerRepository">
+	<resultMap id="selectAllTng"
+		type="com.wizian.cbb.tng.bzenty.model.TngVO">
+		<result property="tngNo" column="TNG_NO" />
+		<result property="bzentyUserNo" column="BZENTY_USER_NO" />
+		<result property="semester" column="SEMESTER" />
+		<result property="tngNope" column="TNG_NOPE" />
+		<result property="tngStYMD" column="TNG_ST_YMD" />
+		<result property="tngEndYMD" column="TNG_END_YMD" />
+		<result property="aplyStDt" column="APLY_ST_DT" />
+		<result property="aplyEndDt" column="APLY_END_DT" />
+		<result property="prgrsStts" column="PRGRS_STTS" />
+		<result property="ttlTngHr" column="TTL_TNG_HR" />
+		<result property="cmcrsHr" column="CMCRS_HR" />
+		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
+	</resultMap>
+
+	<select id="selectAllTng" resultMap="selectAllTng">
+		Select *
+		FROM TNG
+	</select>
+
+	<select id="selectBzentyNm" resultType="hashmap">
+		SELECT BZU.BZENTY_USER_NO AS "bzentyUserNo",
+		CI.BZENTY_NM AS "bzentyNm"
+		FROM 
+		BZENTY_USER BZU
+		JOIN 
+		COMPANY_INFO CI ON BZU.BRNO = CI.BRNO
+	</select>
+</mapper>

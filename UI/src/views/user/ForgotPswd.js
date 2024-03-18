@@ -54,7 +54,6 @@ const Register = () => {
         })
         .then(data => {
           if (data === "success") {
-            console.log(data);
             sessionStorage.setItem('userId', loginId);
             navigate('/changePswd');
           } else {

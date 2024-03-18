@@ -555,7 +555,7 @@ const Modals = () => {
           <CCardBody>
             <p className="text-medium-emphasis small">
               Add <code>alignment=&#34;center&#34;</code> to <code>&lt;CModal&gt;</code> to
-              vertically center the modal.
+              vertically center the mosdal.
             </p>
             <DocsExample href="components/modal#vertically-centered">
               {VerticallyCentered()}

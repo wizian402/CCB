@@ -54,6 +54,10 @@ const Login = () => {
           localStorage.setItem('userGroupCd', data.userGroupCd);
           if (localStorage.getItem("userGroupCd") === "40") {
             navigate('/professorSelect');
+          } else if (localStorage.getItem("userGroupCd") === "50") {
+            navigate('/tngApplication');
+          } else if (localStorage.getItem("userGroupCd") === "10") {
+            navigate('/tngApproval');
           } else {
             navigate('/dashboard');
           }
