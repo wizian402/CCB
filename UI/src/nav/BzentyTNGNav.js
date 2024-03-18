@@ -29,7 +29,7 @@ export const _nav = [
   {
     component: CNavItem,
     name: '현장 실습 목록',
-    to: '/',
+    to: '/tngList',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
   {

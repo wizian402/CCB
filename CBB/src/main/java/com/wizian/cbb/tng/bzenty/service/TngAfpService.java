@@ -35,4 +35,5 @@ public class TngAfpService implements ITngAfpService {
 	public List<Map<String, Object>> selectPrgrsStts() {
 		return tngAfpRepository.selectPrgrsStts();
 	}
+
 }

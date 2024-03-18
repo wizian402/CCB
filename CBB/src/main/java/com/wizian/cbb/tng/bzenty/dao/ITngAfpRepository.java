@@ -17,5 +17,7 @@ public interface ITngAfpRepository {
 			@Param("aplyEndDt") String aplyEndDt, @Param("prgrsStts") String prgrsStts,
 			@Param("ttlTngHr") String ttlTngHr, @Param("cmcrsHr") String cmcrsHr,
 			@Param("tkcgTaskNm") String tkcgTaskNm);
+
 	List<Map<String, Object>> selectPrgrsStts();
+	
 }

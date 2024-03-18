@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.wizian.cbb.tng.bzenty.dao.ITngAfpRepository">
+	namespace="com.wizian.cbb.tng.bzenty.dao.ITngListRepository">
 
 	<resultMap id="selectTngList"
 		type="com.wizian.cbb.tng.bzenty.model.TngVO">
@@ -20,24 +20,6 @@
 		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
 	</resultMap>
 
-	<select id="companyNm" resultType="hashmap">
-		SELECT
-		BZENTY_NM AS "bzentyNm"
-		FROM
-		COMPANY_INFO
-		WHERE
-		BRNO IN (
-		SELECT BRNO
-		FROM BZENTY_USER
-		WHERE USER_NO
-		IN (
-		SELECT USER_NO
-		FROM USER_INFO
-		WHERE LOGIN_ID = #{loginId}
-		)
-		)
-	</select>
-
 	<select id="selectBzentyUserNo" resultType="hashmap">
 		SELECT
 		BZENTY_USER_NO
@@ -53,17 +35,18 @@
 		)
 	</select>
 
-	<insert id="insertTng">
-		INSERT INTO TNG(
-		TNG_NO, BZENTY_USER_NO, SEMESTER,
-		TNG_NOPE, TNG_ST_YMD,
-		TNG_END_YMD, APLY_ST_DT, APLY_END_DT, PRGRS_STTS,
-		TTL_TNG_HR,
-		CMCRS_HR, TKCG_TASK_NM)
-		VALUES(TNG_SEQ.NEXTVAL,
-		#{bzentyUserNo}, #{semester}, #{tngNope}, #{tngStYmd}, #{tngEndYmd},
-		SYSDATE, #{aplyEndDt}, #{prgrsStts}, #{ttlTngHr}, #{cmcrsHr},
-		#{tkcgTaskNm})
-	</insert>
+	<select id="selectPrgrsStts" resultType="hashmap">
+		SELECT
+		CD AS "cd",
+		NM AS "nm"
+		FROM
+		COM_CD
+		WHERE DIV = '2000'
+	</select>
 
+	<select id="selectTngList" resultMap="selectTngList">
+		Select * 
+		FROM TNG
+		WHERE BZENTY_USER_NO = #{bzentyUserNo}
+	</select>
 </mapper>

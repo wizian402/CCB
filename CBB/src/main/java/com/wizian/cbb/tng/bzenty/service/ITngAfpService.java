@@ -3,6 +3,8 @@ package com.wizian.cbb.tng.bzenty.service;
 import java.util.List;
 import java.util.Map;
 
+import com.wizian.cbb.tng.bzenty.model.TngVO;
+
 public interface ITngAfpService {
 	Map<String, Object> companyNm(String loginId);
 
@@ -12,4 +14,5 @@ public interface ITngAfpService {
 			String aplyEndDt, String prgrsStts, String ttlTngHr, String cmcrsHr, String tkcgTaskNm);
 
 	List<Map<String, Object>> selectPrgrsStts();
+	
 }

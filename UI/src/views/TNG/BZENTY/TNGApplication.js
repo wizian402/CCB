@@ -37,7 +37,7 @@ const Layout = () => {
   const [visible, setVisible] = useState(false) // 상태 변수 추가
 
   const handleModalClose = () => {
-    navigate('/dashboard');
+    navigate('/tngList');
   };
 
   useEffect(() => {
