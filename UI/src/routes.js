@@ -9,6 +9,7 @@ const ConsultationItem = React.lazy(() => import("./views/consulting/Consultatio
 const ConsultationSchedule = React.lazy(() => import("./views/consulting/ConsultationSchedule"));
 const Schedule = React.lazy(() => import("./views/consulting/TimetableRegistration"));
 
+
 // Base
 const Accordion = React.lazy(() => import("./views/base/accordion/Accordion"));
 const Breadcrumbs = React.lazy(() => import("./views/base/breadcrumbs/Breadcrumbs"));
@@ -61,16 +62,24 @@ const ProfessorSelect = React.lazy(() => import("./views/TNG/SCSBJT/ProfessorSel
 const TNGApplication = React.lazy(() => import("./views/TNG/BZENTY/TNGApplication"));
 const TNGList = React.lazy(() => import("./views/TNG/BZENTY/TngList"));
 
+
 const routes = [
   // consulting
   { path: "/consultationItem", name: "Theme", element: ConsultationItem },
-  { path: "/consultationSchedule", name: "Theme", element: ConsultationSchedule, },
-  { path: "/Schedule", name: "Theme", element: Schedule },
+
+  {
+    path: "/consultationSchedule",
+    name: "Theme",
+    element: ConsultationSchedule,
+  },
+  { path: "/schedule", name: "Theme", element: Schedule },
+  { path: "/history", name: "Theme", element: History },
 
   // TNG
   { path: "/professorSelect", name: "ProfessorSelect", element: ProfessorSelect, },
   { path: "/tngApplication", name: "TNGApplication", element: TNGApplication, },
   { path: "/tngList", name: "TNGList", element: TNGList, },
+
 
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

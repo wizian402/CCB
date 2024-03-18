@@ -3,7 +3,6 @@ import "./scss/ConsultationItem.scss";
 import Pagination from "./components/Pagenation";
 import SearchInput from "./components/SearchInput";
 import AddItemModal from "./components/ConsultationItem/AddItemModal";
-import EditItemModal from "./components/ConsultationItem/EditItemModal";
 import ItemTable from "./components/ConsultationItem/ItemTable";
 
 const ConsultationItem = () => {
@@ -11,9 +10,7 @@ const ConsultationItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+
 
   useEffect(() => {
     fetchData();
@@ -42,45 +39,15 @@ const ConsultationItem = () => {
     setCurrentPage(pageNumber);
   };
 
-  const openAddModal = () => {
-    setShowAddModal(true);
-  };
-
-  const closeAddModal = () => {
-    setShowAddModal(false);
-  };
-
-  const openEditModal = (item) => {
-    setSelectedItem(item);
-    setShowEditModal(true);
-  };
-
-  const closeEditModal = () => {
-    setShowEditModal(false);
-    setSelectedItem(null);
-  };
-
   return (
     <div>
       <h1 className="title">상담 항목</h1>
       <SearchInput searchTerm={searchTerm} handleSearch={handleSearch} />
-      <AddItemModal
-        showModal={showAddModal}
-        onClose={closeAddModal}
-        fetchData={fetchData}
-      />
-      <EditItemModal
-        showModal={showEditModal}
-        onClose={closeEditModal}
-        selectedItem={selectedItem}
-        fetchData={fetchData}
-      />
       <ItemTable
         items={counselingItems}
         searchTerm={searchTerm}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
-        openEditModal={openEditModal}
       />
       <Pagination
         currentPage={currentPage}
@@ -93,9 +60,7 @@ const ConsultationItem = () => {
         )}
         onPageChange={handlePageClick}
       />
-      <button onClick={openAddModal} className="registerButton">
-        등록
-      </button>
+      <AddItemModal></AddItemModal>
     </div>
   );
 };
