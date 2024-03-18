@@ -25,4 +25,9 @@ public class AdmPerService implements IAdmPerService {
 		return admPerRepository.selectBzentyNm();
 	}
 
+	@Override
+	public void approvalTng(String tngNo) {
+		admPerRepository.approvalTng(tngNo);
+	}
+
 }

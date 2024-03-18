@@ -96,6 +96,7 @@ const TngList = () => {
 
   const handleModalClose = () => {
     setSelectedTng(null);
+    fetchTngList(); // 모달이 닫힌 후 테이블 다시 불러오기
   };
 
   const renderPaginationItems = () => {
@@ -167,6 +168,23 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
     return bzentyNmData ? bzentyNmData.bzentyNm : '';
   };
 
+  const handleApproval = () => {
+    fetch('/cbb/tng/approvalTng', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }, body: JSON.stringify({ tngNo: selectedTng.tngNo }),
+    })
+      .then(response => response.json())
+      .then(data => { })
+      .catch(error => console.error('Error fetching bzentyNmList:', error));
+    onClose();
+  };
+
+  const handleModalClose = () => {
+    onClose();
+  };
+
   return (
     <CModal alignment="center" visible={selectedTng !== null} onClose={onClose}>
       <CModalHeader>
@@ -221,8 +239,10 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
             </CTableRow>
           </CTableBody>
         </CTable>
-        <CButton color="primary" >지도교수 배정</CButton>
-        <CButton color="secondary" >취소</CButton>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+          <CButton color="primary" style={{ flex: 1 }} onClick={handleApproval}>현장 실습 승인</CButton>
+          <CButton color="danger" style={{ flex: 1 }} onClick={handleModalClose}>취소</CButton>
+        </div>
       </CModalBody>
     </CModal>
   );

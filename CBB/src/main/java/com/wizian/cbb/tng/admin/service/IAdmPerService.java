@@ -9,4 +9,6 @@ public interface IAdmPerService {
 	List<TngVO> selectAllTng();
 	
 	List<Map<String, Object>> selectBzentyNm();
+	
+	void approvalTng(String tngNo);
 }
