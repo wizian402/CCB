@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -34,6 +35,16 @@ const ProfessorSelect = () => {
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const userGroupCd = localStorage.getItem('userGroupCd');
+    if (userGroupCd !== '40') {
+      localStorage.clear()
+      alert('로그인후 이용가능합니다.')
+      navigate('/login');
+    }
+  }, []);
 
   useEffect(() => {
     fetchData('/cbb/scsbjt', setStudentData);

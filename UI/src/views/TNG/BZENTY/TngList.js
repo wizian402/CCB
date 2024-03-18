@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CCard,
   CCardBody,
@@ -21,6 +22,16 @@ const TngList = () => {
   const [tngList, setTngList] = useState([]);
   const [tngStts, setTngStts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const userGroupCd = localStorage.getItem('userGroupCd');
+    if (userGroupCd !== '50') {
+      localStorage.clear()
+      alert('로그인후 이용가능합니다.')
+      navigate('/login');
+    }
+  }, []);
 
   useEffect(() => {
     fetch('/cbb/tng/list', {

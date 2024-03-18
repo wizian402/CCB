@@ -20,6 +20,7 @@ import { _nav as bzentyNav } from 'src/nav/BzentyNav'
 import { _nav as counselorNav } from 'src/nav/CounselorNav'
 import { _nav as scsbjtNav } from 'src/nav/SCSBJTNav'
 import { _nav as bzentyTNGNav } from 'src/nav/BzentyTNGNav'
+import { _nav as adminTNGNav } from 'src/nav/AdminTNGNav'
 import { _nav as studentNav } from 'src/nav/studentNav'
 
 
@@ -42,6 +43,8 @@ const AppSidebar = () => {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngList') {
     selectedNav = bzentyTNGNav
+  } else if (currentUri === '/tngApproval') {
+    selectedNav = adminTNGNav
   }
 
   return (

@@ -22,7 +22,6 @@ import {
 const Layout = () => {
   localStorage.getItem("userGroupCd")
   const navigate = useNavigate()
-
   const [comNm, setComNm] = useState('')
   const [year, setYear] = useState('2024년')
   const [semester, setSemester] = useState('1학기')
@@ -35,6 +34,15 @@ const Layout = () => {
   const [tkcgTaskNm, setTkcgTaskNm] = useState('')
   const [loginId, setLoginId] = useState(localStorage.getItem('loginId'))
   const [visible, setVisible] = useState(false) // 상태 변수 추가
+
+  useEffect(() => {
+    const userGroupCd = localStorage.getItem('userGroupCd');
+    if (userGroupCd !== '50') {
+      localStorage.clear()
+      alert('로그인후 이용가능합니다.')
+      navigate('/login');
+    }
+  }, []);
 
   const handleModalClose = () => {
     navigate('/tngList');

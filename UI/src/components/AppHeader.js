@@ -40,10 +40,7 @@ const AppHeader = () => {
   let HeaderNavComponent;
   if (userGroup === '10') {
     menuItems = [
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' }
+      { name: '현장 실습 참여 관리', link: '/tngApproval' }
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
   } else if (userGroup === '20') {
