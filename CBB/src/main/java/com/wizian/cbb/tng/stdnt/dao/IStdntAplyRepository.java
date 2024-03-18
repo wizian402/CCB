@@ -1,5 +1,9 @@
 package com.wizian.cbb.tng.stdnt.dao;
 
-public interface IStdntAplyRepository {
+import java.util.List;
 
+import com.wizian.cbb.tng.bzenty.model.TngVO;
+
+public interface IStdntAplyRepository {
+	List<TngVO> selectProcTng();
 }
