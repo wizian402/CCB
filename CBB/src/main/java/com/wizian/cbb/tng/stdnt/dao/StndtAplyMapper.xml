@@ -19,6 +19,18 @@
 		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
 	</resultMap>
 
+	<resultMap id="selectTngStdnt"
+		type="com.wizian.cbb.tng.stdnt.model.TngStdntVO">
+		<result property="tngAplyNo" column="TNG_APLY_NO" />
+		<result property="tngNo" column="TNG_NO" />
+		<result property="stdntSn" column="STDNT_SN" />
+		<result property="profEvlYN" column="PROF_EVL_YN" />
+		<result property="indstEvlYn" column="INDST_EVL_YN" />
+		<result property="tngPrgrsStts" column="TNG_PRGRS_STTS" />
+		<result property="ttrHr" column="TTRHR" />
+		<result property="cmcrsYn" column="CMCRS_YN" />
+	</resultMap>
+
 	<select id="selectProcTng" resultMap="selectProcTng">
 		Select *
 		FROM TNG
@@ -37,8 +49,6 @@
 		)
 	</insert>
 
-
-
 	<select id="selectStndtSn" resultType="hashmap">
 		SELECT STDNT_SN AS
 		"stdntSn"
@@ -52,4 +62,12 @@
 		LOGIN_ID = #{loginId}
 		)
 	</select>
+
+	<select id="countTngStdnt" resultType="int">
+		SELECT COUNT(*)
+		FROM TNG_STDNT
+		WHERE TNG_NO = #{tngNo} AND STDNT_SN = #{stdntSn}
+	</select>
+
+
 </mapper>

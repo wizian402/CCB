@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.tng.bzenty.model.TngVO;
 import com.wizian.cbb.tng.stdnt.dao.IStdntAplyRepository;
+import com.wizian.cbb.tng.stdnt.model.TngStdntVO;
 
 @Service
 public class StdntAplyService implements IStdntAplyService {
@@ -28,6 +29,11 @@ public class StdntAplyService implements IStdntAplyService {
 	@Override
 	public Map<String, Object> selectStndtSn(String loginId) {
 		return stdntAplyRepository.selectStndtSn(loginId);
+	}
+
+	@Override
+	public int countTngStdnt(int tngNo, int stdntSn) {
+		return stdntAplyRepository.countTngStdnt(tngNo, stdntSn);
 	}
 
 }

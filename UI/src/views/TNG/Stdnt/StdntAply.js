@@ -167,9 +167,25 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
       },
       body: JSON.stringify({ loginId: loginId, tngNo: selectedTng.tngNo }),
     })
-      .then(response => { })
-      .then(data => { })
-      .catch(error => console.error('Error fetching StdntAlpyTng:', error));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        if (data == 'success') {
+          alert("등록에 성공했습니다.")
+        } else if (data == 'fail') {
+          alert("이미 신청한 실습입니다.")
+        } else {
+          console.log('Unexpected response received from server:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching StdntAlpyTng:', error);
+      });
+
   };
 
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,7 @@ public class StdntAplyController {
 	}
 
 	@PostMapping("/tng/stdntAplyTng")
-	public void stdntAplyTng(@RequestBody String aplyData) {
+	public ResponseEntity<String> stdntAplyTng(@RequestBody String aplyData) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> alpyMap = objectMapper.readValue(aplyData, new TypeReference<Map<String, String>>() {
@@ -36,10 +38,18 @@ public class StdntAplyController {
 			int tngNo = Integer.parseInt(alpyMap.get("tngNo"));
 			Map<String, Object> tempMap = stdntAplyService.selectStndtSn(loginId);
 			int stdntSn = Integer.parseInt(String.valueOf(tempMap.get("stdntSn")));
-			stdntAplyService.stdntAplyTng(tngNo, stdntSn);
+			if (stdntAplyService.countTngStdnt(tngNo, stdntSn) != 0) {
+				System.out.println("fail");
+				return ResponseEntity.ok("fail");
+			} else {
+				stdntAplyService.stdntAplyTng(tngNo, stdntSn);
+				System.out.println("success");
+				return ResponseEntity.ok("success");
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
 		}
+
 	}
 
 }
