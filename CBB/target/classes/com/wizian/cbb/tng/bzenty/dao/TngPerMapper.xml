@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.bzenty.dao.ITngPerRepository">
+
+	<resultMap id="selectTngStdntList"
+		type="com.wizian.cbb.tng.stdnt.model.StdntVO">
+		<result property="stdntSn" column="STDNT_SN" />
+		<result property="stdntNm" column="STDNT_NM" />
+		<result property="stdntTelNo" column="STDNT_TELNO" />
+		<result property="stdntEmlAddr" column="STDNT_EML_ADDR" />
+		<result property="stdntBrdt" column="STDNT_BRDT" />
+		<result property="stdntAddr" column="STDNT_ADDR" />
+		<result property="stdntGrd" column="STDNT_GRD" />
+		<result property="userNo" column="SCSBJT_CD" />
+		<result property="scsbjtCd" column="USER_NO" />
+		<result property="acavsrNo" column="ACAVSR_NO" />
+	</resultMap>
+	
+	<select id="selectTngStdntList" resultMap="selectTngStdntList">
+		SELECT *
+		FROM
+		STDNT
+		WHERE STDNT_SN
+		IN (
+		SELECT 
+		STDNT_SN
+		FROM 
+		TNG_STDNT
+		WHERE
+		TNG_NO=#{tngNo}
+		)
+	</select>
+</mapper>

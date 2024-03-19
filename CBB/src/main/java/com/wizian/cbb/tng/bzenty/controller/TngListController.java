@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,14 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wizian.cbb.tng.bzenty.model.TngVO;
-import com.wizian.cbb.tng.bzenty.service.TngListService;
+import com.wizian.cbb.tng.bzenty.service.ITngListService;
 
 @RestController
 public class TngListController {
 
 	@Autowired
-	@Qualifier("tngListService")
-	TngListService tngListService;
+	ITngListService tngListService;
 
 	@PostMapping("/tng/list")
 	public @ResponseBody List<TngVO> tngList(@RequestBody String companyNm) {

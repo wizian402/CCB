@@ -21,6 +21,7 @@ import { _nav as counselorNav } from 'src/nav/CounselorNav'
 import { _nav as scsbjtNav } from 'src/nav/SCSBJTNav'
 import { _nav as bzentyTNGNav } from 'src/nav/BzentyTNGNav'
 import { _nav as adminTNGNav } from 'src/nav/AdminTNGNav'
+import { _nav as stdntAplyNav } from 'src/nav/StdntAplyNav'
 import { _nav as studentNav } from 'src/nav/studentNav'
 
 
@@ -32,17 +33,19 @@ const AppSidebar = () => {
   const userGroup = localStorage.getItem('userGroupCd');
 
   const location = useLocation();
-  const currentUri = location.pathname; // 현재 URI 값
+  const currentUri = location.pathname;
 
   let selectedNav;
   if (currentUri === '/professorSelect') {
     selectedNav = scsbjtNav
-  } else if (currentUri === '/tngApplication') {
+  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngList') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngApproval') {
     selectedNav = adminTNGNav
+  } else if (currentUri === '/stdntAply') {
+    selectedNav = stdntAplyNav
   }
 
   return (

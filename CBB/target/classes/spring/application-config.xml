@@ -50,6 +50,8 @@
 
 	<context:component-scan
 		base-package="com.wizian.cbb.tng.stdnt"></context:component-scan>
+	<mybatis-spring:scan
+		base-package="com.wizian.cbb.tng.stdnt.dao" />
 
 	<context:component-scan
 		base-package="com.wizian.cbb.tng.bzenty"></context:component-scan>
@@ -60,6 +62,8 @@
 		base-package="com.wizian.cbb.tng.admin"></context:component-scan>
 	<mybatis-spring:scan
 		base-package="com.wizian.cbb.tng.admin.dao" />
+
+
 
 </beans>
   

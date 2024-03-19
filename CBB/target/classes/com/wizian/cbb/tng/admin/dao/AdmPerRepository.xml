@@ -32,4 +32,10 @@
 		JOIN 
 		COMPANY_INFO CI ON BZU.BRNO = CI.BRNO
 	</select>
+	
+	<update id="approvalTng">
+    	UPDATE TNG
+    	SET PRGRS_STTS = '20'
+    	WHERE TNG_NO = #{tngNo}
+	</update>
 </mapper>

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wizian.cbb.tng.bzenty.service.TngAfpService;
+import com.wizian.cbb.tng.bzenty.service.ITngAfpService;
 
 @RestController
 public class TngAfpController {
 
 	@Autowired
 	@Qualifier("tngAfpService")
-	TngAfpService tngAfpService;
+	ITngAfpService tngAfpService;
 
 	@PostMapping("/tng/companyNm")
 	public ResponseEntity<Map<String, Object>> getCompanyNm(@RequestBody String companyNm) {
