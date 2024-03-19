@@ -33,10 +33,10 @@ public class StdntAplyController {
 			Map<String, String> alpyMap = objectMapper.readValue(aplyData, new TypeReference<Map<String, String>>() {
 			});
 			String loginId = alpyMap.get("loginId");
-			String tngNo = alpyMap.get("tngNo");
-			String stdntSn = alpyMap.get("stdntSn");
+			int tngNo = Integer.parseInt(alpyMap.get("tngNo"));
 			Map<String, Object> tempMap = stdntAplyService.selectStndtSn(loginId);
-			System.out.println(tempMap);
+			int stdntSn = Integer.parseInt(String.valueOf(tempMap.get("stdntSn")));
+			stdntAplyService.stdntAplyTng(tngNo, stdntSn);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

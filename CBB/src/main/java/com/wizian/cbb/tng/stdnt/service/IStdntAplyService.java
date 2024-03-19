@@ -8,7 +8,7 @@ import com.wizian.cbb.tng.bzenty.model.TngVO;
 public interface IStdntAplyService {
 	List<TngVO> selectProcTng();
 
-	void stdntAplyTng(String tngNo, String stdntSn);
+	void stdntAplyTng(int tngNo, int stdntSn);
 
 	Map<String, Object> selectStndtSn(String loginId);
 }

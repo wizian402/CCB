@@ -165,12 +165,12 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ loginId: loginId }),
+      body: JSON.stringify({ loginId: loginId, tngNo: selectedTng.tngNo }),
     })
       .then(response => { })
       .then(data => { })
       .catch(error => console.error('Error fetching StdntAlpyTng:', error));
-};
+  };
 
 
   const handleApproval = () => {

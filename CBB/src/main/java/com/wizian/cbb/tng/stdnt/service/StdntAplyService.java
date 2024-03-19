@@ -21,7 +21,7 @@ public class StdntAplyService implements IStdntAplyService {
 	}
 
 	@Override
-	public void stdntAplyTng(String tngNo, String stdntSn) {
+	public void stdntAplyTng(int tngNo, int stdntSn) {
 		stdntAplyRepository.stdntAplyTng(tngNo, stdntSn);
 	}
 

@@ -10,7 +10,7 @@ import com.wizian.cbb.tng.bzenty.model.TngVO;
 public interface IStdntAplyRepository {
 	List<TngVO> selectProcTng();
 
-	void stdntAplyTng(@Param("tngNo") String tngNo, @Param("stdntSn") String stdntSn);
+	void stdntAplyTng(@Param("tngNo") int tngNo, @Param("stdntSn") int stdntSn);
 
 	Map<String, Object> selectStndtSn(@Param("loginId") String loginId);
 }
