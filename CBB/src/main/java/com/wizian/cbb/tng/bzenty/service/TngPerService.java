@@ -1,6 +1,7 @@
 package com.wizian.cbb.tng.bzenty.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,16 @@ public class TngPerService implements ITngPerService {
 	@Override
 	public List<StdntVO> selectTngStdntList(String tngNo) {
 		return tngPerRepository.selectTngStdntList(tngNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectScsbjt() {
+		return tngPerRepository.selectScsbjt();
+	}
+
+	@Override
+	public List<Map<String, Object>> stdntPrgrsStts() {
+		return tngPerRepository.stdntPrgrsStts();
 	}
 
 }

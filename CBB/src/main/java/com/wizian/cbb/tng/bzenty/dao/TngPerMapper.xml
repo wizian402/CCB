@@ -13,23 +13,41 @@
 		<result property="stdntBrdt" column="STDNT_BRDT" />
 		<result property="stdntAddr" column="STDNT_ADDR" />
 		<result property="stdntGrd" column="STDNT_GRD" />
-		<result property="userNo" column="SCSBJT_CD" />
-		<result property="scsbjtCd" column="USER_NO" />
+		<result property="userNo" column="USER_NO" />
+		<result property="scsbjtCd" column="SCSBJT_CD" />
 		<result property="acavsrNo" column="ACAVSR_NO" />
 	</resultMap>
-	
+
 	<select id="selectTngStdntList" resultMap="selectTngStdntList">
 		SELECT *
 		FROM
 		STDNT
 		WHERE STDNT_SN
 		IN (
-		SELECT 
+		SELECT
 		STDNT_SN
-		FROM 
+		FROM
 		TNG_STDNT
 		WHERE
 		TNG_NO=#{tngNo}
 		)
+	</select>
+
+	<select id="selectScsbjt" resultType="hashmap">
+		SELECT
+		SCSBJT_CD AS
+		"scsbjtCd",
+		SCSBJT_NM AS "scsbjtNm"
+		FROM
+		SCSBJT
+	</select>
+
+	<select id="stdntPrgrsStts" resultType="hashmap">
+		SELECT
+		CD AS "cd",
+		NM AS "nm"
+		FROM
+		COM_CD
+		WHERE DIV = '2001'
 	</select>
 </mapper>

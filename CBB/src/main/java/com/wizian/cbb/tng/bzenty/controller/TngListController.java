@@ -41,7 +41,7 @@ public class TngListController {
 
 	@PostMapping("/tng/stts")
 	public @ResponseBody List<Map<String, Object>> tngList() {
-		List<Map<String, Object>> list = tngListService.selectPrgrsStts();
-		return list;
+		List<Map<String, Object>> sttsList = tngListService.selectPrgrsStts();
+		return sttsList;
 	}
 }

@@ -28,13 +28,22 @@ public class TngPerController {
 			});
 			String tngNo = tngMap.get("tngNo");
 			List<StdntVO> stdntList = tngPerService.selectTngStdntList(tngNo);
-			for(StdntVO vo: stdntList) {
-				System.out.println(vo.getStdntSn());
-			}
 			return stdntList;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;
+	}
+
+	@PostMapping("/tng/getScsbjt")
+	public List<Map<String, String>> getScsbjt() {
+		List<Map<String, String>> scsbjtList = tngPerService.selectScsbjt();
+		return scsbjtList;
+	}
+
+	@PostMapping("/tng/stdntStts")
+	public @ResponseBody List<Map<String, Object>> stdntStts() {
+		List<Map<String, Object>> sttsList = tngPerService.stdntPrgrsStts();
+		return sttsList;
 	}
 }

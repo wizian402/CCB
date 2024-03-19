@@ -20,8 +20,8 @@
 		<result property="stdntBrdt" column="STDNT_BRDT" />
 		<result property="stdntAddr" column="STDNT_ADDR" />
 		<result property="stdntGrd" column="STDNT_GRD" />
-		<result property="userNo" column="SCSBJT_CD" />
-		<result property="scsbjtCd" column="USER_NO" />
+		<result property="userNo" column="USER_NO" />
+		<result property="scsbjtCd" column="SCSBJT_CD" />
 		<result property="acavsrNo" column="ACAVSR_NO" />
 	</resultMap>
 

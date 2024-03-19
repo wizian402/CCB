@@ -16,7 +16,8 @@ import {
 const TngAplyStdntList = () => {
   const [tngNo, setTngNo] = useState(null);
   const [stdntList, setStdntList] = useState([]);
-
+  const [scsbjtList, setScsbjtList] = useState([]);
+  const [sttstList, setSttsList] = useState([]);
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
     setTngNo(selectedTngNo);
@@ -25,9 +26,10 @@ const TngAplyStdntList = () => {
   useEffect(() => {
     if (tngNo) {
       fetchStdntList();
+      fetchScsbjt();
+      fetchStdntStts();
     }
   }, [tngNo]);
-
 
   const fetchStdntList = () => {
     fetch('/cbb/tng/perStdnt', {
@@ -39,9 +41,38 @@ const TngAplyStdntList = () => {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         setStdntList(data);
       })
       .catch(error => console.error('Error fetching student list:', error));
+  };
+
+  const fetchScsbjt = () => {
+    fetch('/cbb/tng/getScsbjt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setScsbjtList(data)
+      })
+      .catch(error => console.error('Error fetching scsbjt list:', error));
+  };
+
+  const fetchStdntStts = () => {
+    fetch('/cbb/tng/stdntStts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setSttsList(data)
+      })
+      .catch(error => console.error('Error fetching stdntStts list:', error));
   };
 
   return (
@@ -68,10 +99,12 @@ const TngAplyStdntList = () => {
                   <CTableRow key={index}>
                     <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.department}</CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      {scsbjtList.find(item => item.scsbjtCd === stdnt.scsbjtCd)?.scsbjtNm}
+                    </CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntGrd}</CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntBrdt}</CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.status}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.tngPrgrsStts}</CTableDataCell>
                   </CTableRow>
                 ))}
               </CTableBody>
