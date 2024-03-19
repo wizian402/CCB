@@ -1,6 +1,7 @@
 package com.wizian.cbb.tng.stdnt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,16 @@ public class StdntAplyService implements IStdntAplyService {
 	@Override
 	public List<TngVO> selectProcTng() {
 		return stdntAplyRepository.selectProcTng();
+	}
+
+	@Override
+	public void stdntAplyTng(String tngNo, String stdntSn) {
+		stdntAplyRepository.stdntAplyTng(tngNo, stdntSn);
+	}
+
+	@Override
+	public Map<String, Object> selectStndtSn(String loginId) {
+		return stdntAplyRepository.selectStndtSn(loginId);
 	}
 
 }

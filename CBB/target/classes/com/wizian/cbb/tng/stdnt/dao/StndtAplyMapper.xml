@@ -18,10 +18,33 @@
 		<result property="cmcrsHr" column="CMCRS_HR" />
 		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
 	</resultMap>
-	
+
 	<select id="selectProcTng" resultMap="selectProcTng">
 		Select *
 		FROM TNG
-		WHERE PRGRS_STTS='20'
+		WHERE
+		PRGRS_STTS='20'
+	</select>
+
+	<insert id="stdntAplyTng">
+		INSERT INTO TNG_STDNT(
+		TNG_APLY_NO, TNG_NO, STDNT_SN,
+		PROF_EVL_YN, INDST_EVL_YN, TNG_PRGRS_STTS, TTRHR, CMCRS_YN
+		)
+		VALUES(
+		TNG_STDNT_SEQ.NEXTVAL, #{tngNo}, #{#stdntSn}, 'N', 'N', '10', '0','N'
+		)
+	</insert>
+
+	<select id="selectStndtSn" resultType="hashmap">
+		SELECT STDNT_SN AS "stdntSn"
+		FROM STDNT
+		WHERE USER_NO IN (
+		SELECT
+		USER_NO
+		FROM
+		USER_INFO
+		WHERE LOGIN_ID = #{loginId}
+		)
 	</select>
 </mapper>
