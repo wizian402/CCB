@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
 import {
   CCard,
   CCardBody,
@@ -8,29 +7,42 @@ import {
   CRow,
   CTable,
   CTableBody,
-  CTableCaption,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-  CPagination,
-  CPaginationItem
 } from '@coreui/react';
 
 const TngAplyStdntList = () => {
-  const location = useLocation();
   const [tngNo, setTngNo] = useState(null);
+  const [stdntList, setStdntList] = useState([]);
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
     setTngNo(selectedTngNo);
-    console.log(selectedTngNo);
-
-    // 페이지를 나갈 때 세션에서 selectedTngNo 삭제
-    return () => {
-      sessionStorage.removeItem("selectedTngNo");
-    };
   }, []);
+
+  useEffect(() => {
+    if (tngNo) {
+      fetchStdntList();
+    }
+  }, [tngNo]);
+
+
+  const fetchStdntList = () => {
+    fetch('/cbb/tng/perStdnt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setStdntList(data);
+      })
+      .catch(error => console.error('Error fetching student list:', error));
+  };
 
   return (
     <CRow>
@@ -52,7 +64,16 @@ const TngAplyStdntList = () => {
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-
+                {stdntList.map((stdnt, index) => (
+                  <CTableRow key={index}>
+                    <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.department}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntGrd}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntBrdt}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.status}</CTableDataCell>
+                  </CTableRow>
+                ))}
               </CTableBody>
             </CTable>
           </CCardBody>
