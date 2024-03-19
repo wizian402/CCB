@@ -33,12 +33,12 @@ const AppSidebar = () => {
   const userGroup = localStorage.getItem('userGroupCd');
 
   const location = useLocation();
-  const currentUri = location.pathname; // 현재 URI 값
+  const currentUri = location.pathname;
 
   let selectedNav;
   if (currentUri === '/professorSelect') {
     selectedNav = scsbjtNav
-  } else if (currentUri === '/tngApplication') {
+  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngList') {
     selectedNav = bzentyTNGNav

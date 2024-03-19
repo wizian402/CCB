@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CCard,
   CCardBody,
@@ -8,7 +8,6 @@ import {
   CRow,
   CTable,
   CTableBody,
-  CTableCaption,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
@@ -22,13 +21,13 @@ const TngList = () => {
   const [tngList, setTngList] = useState([]);
   const [tngStts, setTngStts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '50') {
-      localStorage.clear()
-      alert('로그인후 이용가능합니다.')
+      localStorage.clear();
+      alert('로그인후 이용가능합니다.');
       navigate('/login');
     }
   }, []);
@@ -69,6 +68,13 @@ const TngList = () => {
     return status ? status.nm : '';
   };
 
+  const handleTableRowClick = (tngNo, prgrsStts) => {
+    if (prgrsStts === '20') {
+      sessionStorage.setItem('selectedTngNo', tngNo);
+      navigate(`/tngAplyStdntList`);
+    }
+  };
+
   const RenderedPaginationItems = React.memo(() => {
     return Array.from({ length: Math.ceil(tngList.length / 10) }, (_, index) => (
       <CPaginationItem
@@ -106,7 +112,7 @@ const TngList = () => {
               </CTableHead>
               <CTableBody>
                 {currentTngList.map((item, index) => (
-                  <CTableRow key={index}>
+                  <CTableRow key={index} onClick={() => handleTableRowClick(item.tngNo, item.prgrsStts)}>
                     <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.semester}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.aplyStDt}</CTableDataCell>
