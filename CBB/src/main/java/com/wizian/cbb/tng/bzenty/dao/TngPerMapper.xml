@@ -52,6 +52,14 @@
 	<update id="selecStdnt">
 		UPDATE TNG_STDNT
 		SET TNG_PRGRS_STTS = '20'
-		WHERE TNG_NO = #{tngNo} AND STDNT_SN =#{stdntSn}
+		WHERE TNG_NO
+		= #{tngNo} AND STDNT_SN =#{stdntSn}
 	</update>
+
+	<delete id="delTngAply">
+		DELETE FROM TNG_STDNT
+		WHERE STDNT_SN = #{stdntSn}
+		AND TNG_NO &lt;&gt; #{tngNo}
+	</delete>
+
 </mapper>

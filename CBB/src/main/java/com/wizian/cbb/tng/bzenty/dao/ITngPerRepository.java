@@ -15,4 +15,6 @@ public interface ITngPerRepository {
 	List<Map<String, Object>> stdntPrgrsStts();
 	
 	void selecStdnt(@Param("tngNo") String tngNo,@Param("stdntSn") String stdntSn);
+	
+	void delTngAply(@Param("tngNo") String tngNo,@Param("stdntSn") String stdntSn);
 }

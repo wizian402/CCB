@@ -56,8 +56,8 @@ public class TngPerController {
 			});
 			String tngNo = stndtMap.get("tngNo");
 			String stdntSn = stndtMap.get("stdntSn");
-			System.out.println(tngNo+ "        " + stdntSn);
 			tngPerService.selecStdnt(tngNo, stdntSn);
+			tngPerService.delTngAply(tngNo, stdntSn);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

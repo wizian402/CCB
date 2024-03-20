@@ -35,4 +35,9 @@ public class TngPerService implements ITngPerService {
 		tngPerRepository.selecStdnt(tngNo, stdntSn);
 	}
 
+	@Override
+	public void delTngAply(String tngNo, String stdntSn) {
+		tngPerRepository.delTngAply(tngNo, stdntSn);
+	}
+
 }

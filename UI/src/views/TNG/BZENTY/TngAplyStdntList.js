@@ -121,12 +121,12 @@ const TngAplyStdntList = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} tngNo={tngNo} />
+      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} tngNo={tngNo} fetchStdntList={fetchStdntList} />
     </CRow>
   );
 };
 
-const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo }) => {
+const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntList }) => {
   const handleApproval = () => {
     fetch('/cbb/tng/selecStdnt', {
       method: 'POST',
@@ -138,6 +138,7 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo }) => {
       .then(response => response.json())
       .then(data => { })
       .catch(error => console.error('Error fetching scsbjt list:', error));
+    fetchStdntList();
     onClose();
   };
 

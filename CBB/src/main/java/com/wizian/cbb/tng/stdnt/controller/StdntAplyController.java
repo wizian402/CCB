@@ -39,11 +39,9 @@ public class StdntAplyController {
 			Map<String, Object> tempMap = stdntAplyService.selectStndtSn(loginId);
 			int stdntSn = Integer.parseInt(String.valueOf(tempMap.get("stdntSn")));
 			if (stdntAplyService.countTngStdnt(tngNo, stdntSn) != 0) {
-				System.out.println("fail");
 				return ResponseEntity.ok("fail");
 			} else {
 				stdntAplyService.stdntAplyTng(tngNo, stdntSn);
-				System.out.println("success");
 				return ResponseEntity.ok("success");
 			}
 		} catch (Exception e) {
