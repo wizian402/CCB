@@ -13,7 +13,11 @@ import {
   CTableHeaderCell,
   CTableRow,
   CPagination,
-  CPaginationItem
+  CPaginationItem,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
 } from '@coreui/react';
 
 const TngList = () => {
@@ -21,7 +25,9 @@ const TngList = () => {
   const [tngList, setTngList] = useState([]);
   const [tngStts, setTngStts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState(""); // 선택한 진행 상태
   const navigate = useNavigate();
+  const [filteredTngList, setFilteredTngList] = useState([]); // 필터된 현장 실습 목록
 
   useEffect(() => {
     const userGroupCd = localStorage.getItem('userGroupCd');
@@ -63,6 +69,11 @@ const TngList = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setFilteredTngList(tngList.filter(item => selectedStatus === "" || item.prgrsStts === selectedStatus));
+    setCurrentPage(1); // 필터링이 변경될 때 페이지를 1페이지로 초기화
+  }, [selectedStatus, tngList]);
+
   const getStatusName = (code) => {
     const status = tngStts.find(item => item.cd === code);
     return status ? status.nm : '';
@@ -72,11 +83,18 @@ const TngList = () => {
     if (prgrsStts === '20') {
       sessionStorage.setItem('selectedTngNo', tngNo);
       navigate(`/tngAplyStdntList`);
+    } else if (prgrsStts === '30') {
+      sessionStorage.setItem('selectedTngNo', tngNo);
+      navigate(`/tngProgStdnt`);
     }
   };
 
+  const handleDropdownItemClick = (status) => {
+    setSelectedStatus(status);
+  };
+
   const RenderedPaginationItems = React.memo(() => {
-    return Array.from({ length: Math.ceil(tngList.length / 10) }, (_, index) => (
+    return Array.from({ length: Math.ceil(filteredTngList.length / 10) }, (_, index) => (
       <CPaginationItem
         key={index}
         active={index + 1 === currentPage}
@@ -89,7 +107,8 @@ const TngList = () => {
 
   const indexOfLastItem = currentPage * 10;
   const indexOfFirstItem = indexOfLastItem - 10;
-  const currentTngList = tngList.slice(indexOfFirstItem, indexOfLastItem);
+  const currentTngList = filteredTngList.slice(indexOfFirstItem, indexOfLastItem);
+
 
   return (
     <CRow>
@@ -99,40 +118,57 @@ const TngList = () => {
             <strong>현장 실습 목록</strong>
           </CCardHeader>
           <CCardBody>
-            <CTable>
-              <CTableHead>
-                <CTableRow>
-                  <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학기</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">신청일</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">실습인원</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">담당업무</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">진행상태</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {currentTngList.map((item, index) => (
-                  <CTableRow key={index} onClick={() => handleTableRowClick(item.tngNo, item.prgrsStts)}>
-                    <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.semester}</CTableDataCell>
-                    <CTableDataCell className="text-center">20{item ? `${parseInt(item.aplyStDt.substring(0, 2), 10)}년 ${parseInt(item.aplyStDt.substring(3, 5), 10)}월 ${parseInt(item.aplyStDt.substring(6, 8), 10)}일`
-                      : '-'}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.tngNope}명</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.tkcgTaskNm}</CTableDataCell>
-                    <CTableDataCell className="text-center">{getStatusName(item.prgrsStts)}</CTableDataCell>
-                  </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
-            <CPagination className="justify-content-center" aria-label="Page navigation example">
-              <CPaginationItem aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </CPaginationItem>
-              <RenderedPaginationItems />
-              <CPaginationItem aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </CPaginationItem>
-            </CPagination>
+            <CDropdown>
+              <CDropdownToggle color="secondary">진행 상태</CDropdownToggle>
+              <CDropdownMenu>
+                <CDropdownItem onClick={() => handleDropdownItemClick("")}>전체</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("10")}>산업체 신청</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("20")}>현장실습 승인</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("60")}>학생 선발 완료</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("30")}>실습 운영</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("40")}>실습 종료</CDropdownItem>
+              </CDropdownMenu>
+            </CDropdown>
+            {filteredTngList.length === 0 ? (
+              <div className="text-center">해당 현장 실습은 없습니다.</div>
+            ) : (
+              <React.Fragment>
+                {/* 필터링된 현장 실습 목록이 있을 때 테이블 및 페이지네이션 표시 */}
+                <CTable>
+                  <CTableHead>
+                    <CTableRow>
+                      <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학기</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">신청일</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">실습인원</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">담당업무</CTableHeaderCell>
+                      <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">진행상태</CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    {currentTngList.map((item, index) => (
+                      <CTableRow key={index} onClick={() => handleTableRowClick(item.tngNo, item.prgrsStts)}>
+                        <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.semester}</CTableDataCell>
+                        <CTableDataCell className="text-center">20{item.aplyStDt}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.tngNope}명</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.tkcgTaskNm}</CTableDataCell>
+                        <CTableDataCell className="text-center">{getStatusName(item.prgrsStts)}</CTableDataCell>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                </CTable>
+                <CPagination className="justify-content-center" aria-label="Page navigation example">
+                  <CPaginationItem aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </CPaginationItem>
+                  <RenderedPaginationItems />
+                  <CPaginationItem aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </CPaginationItem>
+                </CPagination>
+              </React.Fragment>
+            )}
           </CCardBody>
         </CCard>
       </CCol>
@@ -141,3 +177,4 @@ const TngList = () => {
 };
 
 export default TngList;
+
