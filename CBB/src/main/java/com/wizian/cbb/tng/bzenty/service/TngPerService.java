@@ -30,4 +30,9 @@ public class TngPerService implements ITngPerService {
 		return tngPerRepository.stdntPrgrsStts();
 	}
 
+	@Override
+	public void selecStdnt(String tngNo, String stdntSn) {
+		tngPerRepository.selecStdnt(tngNo, stdntSn);
+	}
+
 }

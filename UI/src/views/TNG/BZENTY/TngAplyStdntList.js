@@ -23,7 +23,6 @@ const TngAplyStdntList = () => {
   const [tngNo, setTngNo] = useState(null);
   const [stdntList, setStdntList] = useState([]);
   const [scsbjtList, setScsbjtList] = useState([]);
-  const [sttstList, setSttsList] = useState([]);
   const [selectedTng, setSelectedTng] = useState(null);
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const TngAplyStdntList = () => {
     if (tngNo) {
       fetchStdntList();
       fetchScsbjt();
-      fetchStdntStts();
     }
   }, [tngNo]);
 
@@ -72,20 +70,6 @@ const TngAplyStdntList = () => {
         setScsbjtList(data)
       })
       .catch(error => console.error('Error fetching scsbjt list:', error));
-  };
-
-  const fetchStdntStts = () => {
-    fetch('/cbb/tng/stdntStts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setSttsList(data)
-      })
-      .catch(error => console.error('Error fetching stdntStts list:', error));
   };
 
   const handleModalOpen = (selectedTng) => {
@@ -137,13 +121,23 @@ const TngAplyStdntList = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} />
+      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} tngNo={tngNo} />
     </CRow>
   );
 };
 
-const TNGDetailModal = ({ selectedTng, onClose, scsbjtList }) => {
+const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo }) => {
   const handleApproval = () => {
+    fetch('/cbb/tng/selecStdnt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo: tngNo, stdntSn: selectedTng.stdntSn })
+    })
+      .then(response => response.json())
+      .then(data => { })
+      .catch(error => console.error('Error fetching scsbjt list:', error));
     onClose();
   };
 

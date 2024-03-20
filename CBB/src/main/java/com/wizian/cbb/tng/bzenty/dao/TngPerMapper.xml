@@ -20,11 +20,14 @@
 	</resultMap>
 
 	<select id="selectTngStdntList" resultMap="selectTngStdntList">
-		SELECT s.*, cc.NM AS TNG_PRGRS_STTS
+		SELECT s.*, cc.NM AS
+		TNG_PRGRS_STTS
 		FROM STDNT s
-		INNER JOIN TNG_STDNT t ON s.STDNT_SN = t.STDNT_SN
+		INNER JOIN TNG_STDNT t ON s.STDNT_SN =
+		t.STDNT_SN
 		INNER JOIN COM_CD cc ON t.TNG_PRGRS_STTS = cc.CD
-		WHERE t.TNG_NO = #{tngNo} AND cc.DIV = 2001
+		WHERE
+		t.TNG_NO = #{tngNo} AND cc.DIV = 2001
 	</select>
 
 	<select id="selectScsbjt" resultType="hashmap">
@@ -45,4 +48,10 @@
 		COM_CD
 		WHERE DIV = '2001'
 	</select>
+
+	<update id="selecStdnt">
+		UPDATE TNG_STDNT
+		SET TNG_PRGRS_STTS = '20'
+		WHERE TNG_NO = #{tngNo} AND STDNT_SN =#{stdntSn}
+	</update>
 </mapper>

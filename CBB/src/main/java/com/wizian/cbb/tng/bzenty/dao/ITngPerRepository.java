@@ -13,4 +13,6 @@ public interface ITngPerRepository {
 	List<Map<String, String>> selectScsbjt();
 	
 	List<Map<String, Object>> stdntPrgrsStts();
+	
+	void selecStdnt(@Param("tngNo") String tngNo,@Param("stdntSn") String stdntSn);
 }

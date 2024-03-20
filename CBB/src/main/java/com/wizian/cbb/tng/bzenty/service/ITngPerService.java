@@ -11,4 +11,6 @@ public interface ITngPerService {
 	List<Map<String, String>> selectScsbjt();
 	
 	List<Map<String, Object>> stdntPrgrsStts();
+	
+	void selecStdnt(String tngNo, String stdntSn);
 }

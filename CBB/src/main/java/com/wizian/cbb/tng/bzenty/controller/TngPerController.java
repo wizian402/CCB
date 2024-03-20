@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,5 +46,21 @@ public class TngPerController {
 	public @ResponseBody List<Map<String, Object>> stdntStts() {
 		List<Map<String, Object>> sttsList = tngPerService.stdntPrgrsStts();
 		return sttsList;
+	}
+	
+	@PostMapping("/tng/selecStdnt")
+	public ResponseEntity<String> selecStdnt(@RequestBody String stndtData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> stndtMap = objectMapper.readValue(stndtData, new TypeReference<Map<String, String>>() {
+			});
+			String tngNo = stndtMap.get("tngNo");
+			String stdntSn = stndtMap.get("stdntSn");
+			System.out.println(tngNo+ "        " + stdntSn);
+			tngPerService.selecStdnt(tngNo, stdntSn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 }
