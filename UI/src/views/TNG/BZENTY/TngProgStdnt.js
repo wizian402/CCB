@@ -23,6 +23,7 @@ import {
 const TngProgStdnt = () => {
   const [tngNo, setTngNo] = useState(null);
   const [selectedTng, setSelectedTng] = useState(null);
+  const [stdntList, setStdntList] = useState([]);
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
@@ -34,6 +35,27 @@ const TngProgStdnt = () => {
       navigate('/login');
     }
   }, []);
+
+  useEffect(() => {
+    if (tngNo) {
+      fetchStdntList();
+    }
+  }, [tngNo]);
+
+  const fetchStdntList = () => {
+    fetch('/cbb/tng/perStdnt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setStdntList(data);
+      })
+      .catch(error => console.error('Error fetching student list:', error));
+  };
 
   const handleModalOpen = (selectedTng) => {
     setSelectedTng(selectedTng);
@@ -54,15 +76,23 @@ const TngProgStdnt = () => {
             <CTable>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학생이름</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학과</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학년</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">생년월일</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">진행상태</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" style={{ width: '12%' }} className="text-center">NO</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" style={{ width: '22%' }} className="text-center">학번</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" style={{ width: '22%' }} className="text-center">학생이름</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" style={{ width: '22%' }} className="text-center">총 실습 시간</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" style={{ width: '22%' }} className="text-center">성적</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
+                {stdntList.map((stdnt, index) => (
+                  <CTableRow key={index} onClick={() => handleModalOpen(stdnt)}>
+                    <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntSn}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
+                    <CTableDataCell className="text-center">?</CTableDataCell>
+                    <CTableDataCell className="text-center">?</CTableDataCell>
+                  </CTableRow>
+                ))}
               </CTableBody>
             </CTable>
           </CCardBody>
