@@ -55,7 +55,6 @@ const TngAplyStdntList = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setStdntList(data);
       })
       .catch(error => console.error('Error fetching student list:', error));

@@ -91,7 +91,9 @@ const TngList = () => {
   };
 
   const handleModalOpen = (selectedTng) => {
-    setSelectedTng(selectedTng);
+    if (selectedTng.prgrsStts == '10') {
+      setSelectedTng(selectedTng);
+    }
   };
 
   const handleModalClose = () => {
