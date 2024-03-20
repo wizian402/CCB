@@ -185,6 +185,14 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
     onClose();
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}년 ${month}월 ${day}일`;
+  };
+
   return (
     <CModal alignment="center" visible={selectedTng !== null} onClose={onClose}>
       <CModalHeader>
@@ -203,23 +211,24 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">실습 인원수</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngNope : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngNope : '-'}명</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">실습 시작일</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngStYMD : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.tngStYMD) : '-'}</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">실습 종료일</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngEndYMD : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.tngEndYMD) : '-'}</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">신청 시작일</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.aplyStDt : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">20{selectedTng ? `${parseInt(selectedTng.aplyStDt.substring(0, 2), 10)}년 ${parseInt(selectedTng.aplyStDt.substring(3, 5), 10)}월 ${parseInt(selectedTng.aplyStDt.substring(6, 8), 10)}일`
+                : '-'}</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">신청 종료일</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.aplyEndDt : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.aplyEndDt) : '-'}</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">진행 상태</CTableDataCell>
@@ -227,11 +236,11 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose }) => {
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">총 실습시간</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.ttlTngHr : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.ttlTngHr : '-'}시간</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">이수 기준 시간</CTableDataCell>
-              <CTableDataCell className="text-center">{selectedTng ? selectedTng.cmcrsHr : '-'}</CTableDataCell>
+              <CTableDataCell className="text-center">{selectedTng ? selectedTng.cmcrsHr : '-'}시간</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableDataCell className="text-center">담당 업무명</CTableDataCell>

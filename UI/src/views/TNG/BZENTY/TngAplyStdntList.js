@@ -28,7 +28,13 @@ const TngAplyStdntList = () => {
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
+    const userGroupCd = localStorage.getItem('userGroupCd');
     setTngNo(selectedTngNo);
+    if (userGroupCd !== '50') {
+      localStorage.clear()
+      alert('로그인후 이용가능합니다.')
+      navigate('/login');
+    }
   }, []);
 
   useEffect(() => {

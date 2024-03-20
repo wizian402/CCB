@@ -115,7 +115,8 @@ const TngList = () => {
                   <CTableRow key={index} onClick={() => handleTableRowClick(item.tngNo, item.prgrsStts)}>
                     <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.semester}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.aplyStDt}</CTableDataCell>
+                    <CTableDataCell className="text-center">20{item ? `${parseInt(item.aplyStDt.substring(0, 2), 10)}년 ${parseInt(item.aplyStDt.substring(3, 5), 10)}월 ${parseInt(item.aplyStDt.substring(6, 8), 10)}일`
+                      : '-'}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.tngNope}명</CTableDataCell>
                     <CTableDataCell className="text-center">{item.tkcgTaskNm}</CTableDataCell>
                     <CTableDataCell className="text-center">{getStatusName(item.prgrsStts)}</CTableDataCell>
