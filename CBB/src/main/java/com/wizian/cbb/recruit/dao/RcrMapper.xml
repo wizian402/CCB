@@ -24,6 +24,8 @@ SELECT * FROM RECRUIT_NOTICE
 SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
 </select>
 
-
+<select id="getComInfoFromDB" parameterType="int" resultMap="hashMap">
+SELECT * from COMPANY_INFO WHERE BRNO = #{bizRegNum}
+</select>
 
 </mapper>

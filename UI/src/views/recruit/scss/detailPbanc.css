@@ -1,0 +1,53 @@
+/* *{
+    border: 1px solid black;
+} */
+
+@font-face {
+    font-family: 'NPSfontBold';
+    src: url('../../../../public/NPSfont_bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+body {
+    font-family: 'NPSfontBold', sans-serif;
+}
+
+.container{
+    border-radius: 10px;
+    background-color: white;
+
+    
+}
+
+.itm {
+    background: #bddcf1;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    height : 40px;
+    line-height: 10px;
+    }
+
+.itmL {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    background: #bddcf1;
+    margin: 10px 0px 10px 0px;
+    height : 40px;
+    line-height: 10px;
+}
+
+.itmR {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background: #e2f2ff;
+    margin: 10px 0px 10px 0px;
+    height : 40px;
+    line-height: 10px;
+}
+
+.itmC {
+    background: #e2f2ff;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}

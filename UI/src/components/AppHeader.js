@@ -46,7 +46,7 @@ const AppHeader = () => {
   } else if (userGroup === '20') {
     menuItems = [
       { name: '현장 실습', link: '/stdntAply' },
-      { name: '취업 활동', link: '/' },
+      { name: '취업 활동', link: '/recruit/tablePbanc' },
       { name: '상담 신청', link: '/' },
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />

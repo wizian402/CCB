@@ -66,6 +66,13 @@ const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
 const TngAplyStdntList = React.lazy(() => import("./views/TNG/BZENTY/TngAplyStdntList"));
 const TngProgStdnt = React.lazy(() => import("./views/TNG/BZENTY/TngProgStdnt"));
 
+
+//RECRUIT
+const TablePbanc = React.lazy(() => import('./views/recruit/TablePbanc'));
+const DetailPbanc = React.lazy(() => import('./views/recruit/DetailPbanc'));
+
+
+
 const routes = [
   // consulting
   { path: "/consultationItem", name: "Theme", element: ConsultationItem },
@@ -87,6 +94,13 @@ const routes = [
   { path: "/tngAplyStdntList", name: "현장실습 신청 학생", element: TngAplyStdntList, },
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt, },
 
+
+  // RECRUIT
+  { path: '/recruit/tablePbanc', name: 'TablePbanc', element: TablePbanc },
+  { path: '/recruit/detailPbanc/:pbancSn', name: 'detailPbanc', element: DetailPbanc },
+
+
+  //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
   { path: "/theme/colors", name: "Colors", element: Colors },
