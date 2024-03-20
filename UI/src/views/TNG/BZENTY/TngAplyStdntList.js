@@ -11,6 +11,12 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
+  CButton
 } from '@coreui/react';
 
 const TngAplyStdntList = () => {
@@ -18,6 +24,8 @@ const TngAplyStdntList = () => {
   const [stdntList, setStdntList] = useState([]);
   const [scsbjtList, setScsbjtList] = useState([]);
   const [sttstList, setSttsList] = useState([]);
+  const [selectedTng, setSelectedTng] = useState(null);
+
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
     setTngNo(selectedTngNo);
@@ -75,6 +83,14 @@ const TngAplyStdntList = () => {
       .catch(error => console.error('Error fetching stdntStts list:', error));
   };
 
+  const handleModalOpen = (selectedTng) => {
+    setSelectedTng(selectedTng);
+  };
+
+  const handleModalClose = () => {
+    setSelectedTng(null);
+  };
+
   return (
     <CRow>
       <CCol xs={12}>
@@ -96,15 +112,19 @@ const TngAplyStdntList = () => {
               </CTableHead>
               <CTableBody>
                 {stdntList.map((stdnt, index) => (
-                  <CTableRow key={index}>
+                  <CTableRow key={index} onClick={() => handleModalOpen(stdnt)}>
                     <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
                     <CTableDataCell className="text-center">
                       {scsbjtList.find(item => item.scsbjtCd === stdnt.scsbjtCd)?.scsbjtNm}
                     </CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.stdntGrd}</CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.stdntBrdt}</CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.tngPrgrsStts}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntGrd}학년</CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      {stdnt.stdntBrdt && stdnt.stdntBrdt.replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')}
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      {stdnt.tngPrgrsStts}
+                    </CTableDataCell>
                   </CTableRow>
                 ))}
               </CTableBody>
@@ -112,8 +132,62 @@ const TngAplyStdntList = () => {
           </CCardBody>
         </CCard>
       </CCol>
+      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} />
     </CRow>
   );
 };
+
+const TNGDetailModal = ({ selectedTng, onClose, scsbjtList }) => {
+  const handleApproval = () => {
+    onClose();
+  };
+
+  const handleModalClose = () => {
+    onClose();
+  };
+
+  return (
+    <CModal alignment="center" visible={selectedTng !== null} onClose={onClose}>
+      <CModalHeader closeButton>
+        <CModalTitle>현장 실습 승인</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CTable>
+          <CTableBody>
+            <CTableRow>
+              <CTableHeaderCell>학생 이름:</CTableHeaderCell>
+              <CTableDataCell>{selectedTng && selectedTng.stdntNm}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableHeaderCell>학과:</CTableHeaderCell>
+              <CTableDataCell>{selectedTng && scsbjtList.find(item => item.scsbjtCd === selectedTng.scsbjtCd)?.scsbjtNm}</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableHeaderCell>학년:</CTableHeaderCell>
+              <CTableDataCell>{selectedTng && selectedTng.stdntGrd}학년</CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableHeaderCell>생년월일:</CTableHeaderCell>
+              <CTableDataCell>
+                {selectedTng && selectedTng.stdntBrdt &&
+                  `${selectedTng.stdntBrdt.substring(0, 4)}년 ${parseInt(selectedTng.stdntBrdt.substring(4, 6), 10)}월 ${parseInt(selectedTng.stdntBrdt.substring(6, 8), 10)}일`
+                }
+              </CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableHeaderCell>연락처:</CTableHeaderCell>
+              <CTableDataCell>{selectedTng && selectedTng.stdntTelNo && selectedTng.stdntTelNo.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')}</CTableDataCell>
+            </CTableRow>
+          </CTableBody>
+        </CTable>
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="primary" onClick={handleApproval}>승인</CButton>
+        <CButton color="secondary" onClick={handleModalClose}>닫기</CButton>
+      </CModalFooter>
+    </CModal>
+  );
+};
+
 
 export default TngAplyStdntList;

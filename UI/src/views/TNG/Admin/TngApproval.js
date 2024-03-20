@@ -96,7 +96,7 @@ const TngList = () => {
 
   const handleModalClose = () => {
     setSelectedTng(null);
-    fetchTngList(); // 모달이 닫힌 후 테이블 다시 불러오기
+    fetchTngList();
   };
 
   const renderPaginationItems = () => {
