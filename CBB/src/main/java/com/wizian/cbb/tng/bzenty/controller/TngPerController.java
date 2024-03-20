@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wizian.cbb.tng.bzenty.model.TngVO;
 import com.wizian.cbb.tng.bzenty.service.ITngPerService;
 import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
@@ -47,7 +48,7 @@ public class TngPerController {
 		List<Map<String, Object>> sttsList = tngPerService.stdntPrgrsStts();
 		return sttsList;
 	}
-	
+
 	@PostMapping("/tng/selecStdnt")
 	public ResponseEntity<String> selecStdnt(@RequestBody String stndtData) {
 		try {
@@ -56,8 +57,14 @@ public class TngPerController {
 			});
 			String tngNo = stndtMap.get("tngNo");
 			String stdntSn = stndtMap.get("stdntSn");
-			tngPerService.selecStdnt(tngNo, stdntSn);
-			tngPerService.delTngAply(tngNo, stdntSn);
+			TngVO tngVO = tngPerService.selectTng(tngNo);
+			if (Integer.parseInt(tngVO.getTngNope()) <= tngPerService.stdntCnt(tngNo)) {
+				return ResponseEntity.ok("fail");
+			} else {
+				tngPerService.selecStdnt(tngNo, stdntSn);
+				tngPerService.delTngAply(tngNo, stdntSn);
+				return ResponseEntity.ok("success");
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.tng.bzenty.dao.ITngPerRepository;
+import com.wizian.cbb.tng.bzenty.model.TngVO;
 import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
 @Service
@@ -38,6 +39,16 @@ public class TngPerService implements ITngPerService {
 	@Override
 	public void delTngAply(String tngNo, String stdntSn) {
 		tngPerRepository.delTngAply(tngNo, stdntSn);
+	}
+
+	@Override
+	public int stdntCnt(String tngNo) {
+		return tngPerRepository.stdntCnt(tngNo);
+	}
+
+	@Override
+	public TngVO selectTng(String tngNo) {
+		return tngPerRepository.selectTng(tngNo);
 	}
 
 }

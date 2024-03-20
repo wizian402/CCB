@@ -73,7 +73,9 @@ const TngAplyStdntList = () => {
   };
 
   const handleModalOpen = (selectedTng) => {
-    setSelectedTng(selectedTng);
+    if (selectedTng.tngPrgrsStts == '실습신청') {
+      setSelectedTng(selectedTng);
+    }
   };
 
   const handleModalClose = () => {
@@ -135,9 +137,24 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntLis
       },
       body: JSON.stringify({ tngNo: tngNo, stdntSn: selectedTng.stdntSn })
     })
-      .then(response => response.json())
-      .then(data => { })
-      .catch(error => console.error('Error fetching scsbjt list:', error));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        if (data == 'success') {
+          alert("학생선발을 완료했습니다.")
+        } else if (data == 'fail') {
+          alert("정원이 다 찼습니다.")
+        } else {
+          console.log('Unexpected response received from server:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching selecStdnt:', error);
+      });
     fetchStdntList();
     onClose();
   };
@@ -149,7 +166,7 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntLis
   return (
     <CModal alignment="center" visible={selectedTng !== null} onClose={onClose}>
       <CModalHeader closeButton>
-        <CModalTitle>현장 실습 승인</CModalTitle>
+        <CModalTitle>현장 실습 학생 선발</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <CTable>
