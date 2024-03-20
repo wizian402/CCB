@@ -72,6 +72,9 @@ const TngList = () => {
     if (prgrsStts === '20') {
       sessionStorage.setItem('selectedTngNo', tngNo);
       navigate(`/tngAplyStdntList`);
+    } else if (prgrsStts === '30') {
+      sessionStorage.setItem('selectedTngNo', tngNo);
+      navigate(`/tngProgStdnt`);
     }
   };
 
