@@ -4,5 +4,23 @@
 <mapper
 	namespace="com.wizian.cbb.tng.bzenty.dao.ITngProgRepository">
 
-
+	<select id="tngPerStdntList" resultType="hashmap">
+		SELECT
+		STDNT.STDNT_SN AS "stdntSn",
+		STDNT.STDNT_NM AS "stdntNm",
+		STDNT.STDNT_TELNO AS "stdntTelNo",
+		STDNT.STDNT_EML_ADDR AS "stdntEmlAddr",
+		STDNT.STDNT_BRDT AS "stdntBrdt",
+		STDNT.STDNT_ADDR AS "stdntAddr",
+		STDNT.STDNT_GRD AS "stdntGrd",
+		STDNT.SCSBJT_CD AS "scsbjtCd",
+		STDNT.USER_NO AS "userNo",
+		STDNT.ACAVSR_NO AS "acavsrNo",
+		TNG_STDNT.TTRHR AS "stdntHr",
+		TNG_STDNT.INDST_EVL_YN AS "idnstEvlYn"
+		FROM STDNT
+		LEFT JOIN TNG_STDNT ON STDNT.STDNT_SN =
+		TNG_STDNT.STDNT_SN
+		WHERE TNG_NO = #{tngNo} AND TNG_PRGRS_STTS = '30'
+	</select>
 </mapper>

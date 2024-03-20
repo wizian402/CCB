@@ -43,7 +43,7 @@ const TngProgStdnt = () => {
   }, [tngNo]);
 
   const fetchStdntList = () => {
-    fetch('/cbb/tng/perStdnt', {
+    fetch('/cbb/tng/progStdnt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,9 +51,7 @@ const TngProgStdnt = () => {
       body: JSON.stringify({ tngNo }),
     })
       .then(response => response.json())
-      .then(data => {
-        setStdntList(data);
-      })
+      .then(data => { })
       .catch(error => console.error('Error fetching student list:', error));
   };
 
