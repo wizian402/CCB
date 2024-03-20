@@ -104,6 +104,14 @@ const StdntAply = () => {
     return paginationItems;
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}년 ${month}월 ${day}일`;
+  };
+
   return (
     <CRow>
       <CCol xs={12}>
@@ -129,9 +137,9 @@ const StdntAply = () => {
                     <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{getBzentyNm(item.bzentyUserNo)}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.tkcgTaskNm}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.tngStYMD}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.tngEndYMD}</CTableDataCell>
-                    <CTableDataCell className="text-center">{item.aplyEndDt}</CTableDataCell>
+                    <CTableDataCell className="text-center">{item.tngStYMD ? formatDate(item.tngStYMD) : '-'}</CTableDataCell>
+                    <CTableDataCell className="text-center">{item.tngEndYMD ? formatDate(item.tngEndYMD) : '-'}</CTableDataCell>
+                    <CTableDataCell className="text-center">{item.aplyEndDt ? formatDate(item.aplyEndDt) : '-'}</CTableDataCell>
                   </CTableRow>
                 ))}
               </CTableBody>
@@ -157,6 +165,14 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
   const getBzentyNm = (bzentyUserNo) => {
     const bzentyNmData = bzentyNmList.find(item => item.bzentyUserNo === bzentyUserNo);
     return bzentyNmData ? bzentyNmData.bzentyNm : '';
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}년 ${month}월 ${day}일`;
   };
 
   const fetchStdntAlpyTng = () => {
@@ -217,15 +233,15 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
               </CTableRow>
               <CTableRow>
                 <CTableDataCell className="text-center">실습 시작일</CTableDataCell>
-                <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngStYMD : '-'}</CTableDataCell>
+                <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.tngStYMD) : '-'}</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell className="text-center">실습 종료일</CTableDataCell>
-                <CTableDataCell className="text-center">{selectedTng ? selectedTng.tngEndYMD : '-'}</CTableDataCell>
+                <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.tngEndYMD) : '-'}</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell className="text-center">신청 종료일</CTableDataCell>
-                <CTableDataCell className="text-center">{selectedTng ? selectedTng.aplyEndDt : '-'}</CTableDataCell>
+                <CTableDataCell className="text-center">{selectedTng ? formatDate(selectedTng.aplyEndDt) : '-'}</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell className="text-center">총 실습시간</CTableDataCell>
