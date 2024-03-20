@@ -31,11 +31,5 @@ export const _nav = [
     name: '현장 실습 목록',
     to: '/tngList',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: '산업체 정보',
-    to: '/dashboard',
-    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   }
 ]

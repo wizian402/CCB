@@ -22,4 +22,6 @@ public interface ITngPerRepository {
 	int stdntCnt(@Param("tngNo") String tngNo);
 
 	TngVO selectTng(@Param("tngNo") String tngNo);
+	
+	void closeTngAply(@Param("tngNo") String tngNo);
 }

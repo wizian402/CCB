@@ -51,4 +51,9 @@ public class TngPerService implements ITngPerService {
 		return tngPerRepository.selectTng(tngNo);
 	}
 
+	@Override
+	public void closeTngAply(String tngNo) {
+		tngPerRepository.closeTngAply(tngNo);
+	}
+
 }

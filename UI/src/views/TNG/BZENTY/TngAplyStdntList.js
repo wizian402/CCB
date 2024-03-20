@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CCard,
   CCardBody,
@@ -90,36 +91,40 @@ const TngAplyStdntList = () => {
             <strong>현장 실습 신청 학생</strong>
           </CCardHeader>
           <CCardBody>
-            <CTable>
-              <CTableHead>
-                <CTableRow>
-                  <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학생이름</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학과</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학년</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">생년월일</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">진행상태</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {stdntList.map((stdnt, index) => (
-                  <CTableRow key={index} onClick={() => handleModalOpen(stdnt)}>
-                    <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
-                    <CTableDataCell className="text-center">
-                      {scsbjtList.find(item => item.scsbjtCd === stdnt.scsbjtCd)?.scsbjtNm}
-                    </CTableDataCell>
-                    <CTableDataCell className="text-center">{stdnt.stdntGrd}학년</CTableDataCell>
-                    <CTableDataCell className="text-center">
-                      {stdnt.stdntBrdt && stdnt.stdntBrdt.replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')}
-                    </CTableDataCell>
-                    <CTableDataCell className="text-center">
-                      {stdnt.tngPrgrsStts}
-                    </CTableDataCell>
+            {stdntList.length === 0 ? (
+              <div>신청 학생이 없습니다.</div>
+            ) : (
+              <CTable>
+                <CTableHead>
+                  <CTableRow>
+                    <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학생이름</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학과</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">학년</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">생년월일</CTableHeaderCell>
+                    <CTableHeaderCell scope="col" style={{ width: '15%' }} className="text-center">진행상태</CTableHeaderCell>
                   </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
+                </CTableHead>
+                <CTableBody>
+                  {stdntList.map((stdnt, index) => (
+                    <CTableRow key={index} onClick={() => handleModalOpen(stdnt)}>
+                      <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                      <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {scsbjtList.find(item => item.scsbjtCd === stdnt.scsbjtCd)?.scsbjtNm}
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">{stdnt.stdntGrd}학년</CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {stdnt.stdntBrdt && stdnt.stdntBrdt.replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')}
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {stdnt.tngPrgrsStts}
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+            )}
           </CCardBody>
         </CCard>
       </CCol>
@@ -129,6 +134,7 @@ const TngAplyStdntList = () => {
 };
 
 const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntList }) => {
+  const navigate = useNavigate();
   const handleApproval = () => {
     fetch('/cbb/tng/selecStdnt', {
       method: 'POST',
@@ -145,9 +151,11 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntLis
       })
       .then(data => {
         if (data == 'success') {
+          fetchStdntList();
           alert("학생선발을 완료했습니다.")
         } else if (data == 'fail') {
           alert("정원이 다 찼습니다.")
+          navigate('/tngList');
         } else {
           console.log('Unexpected response received from server:', data);
         }
@@ -155,7 +163,6 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntLis
       .catch(error => {
         console.error('Error fetching selecStdnt:', error);
       });
-    fetchStdntList();
     onClose();
   };
 

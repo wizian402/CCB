@@ -58,12 +58,14 @@ public class TngPerController {
 			String tngNo = stndtMap.get("tngNo");
 			String stdntSn = stndtMap.get("stdntSn");
 			TngVO tngVO = tngPerService.selectTng(tngNo);
-			if (Integer.parseInt(tngVO.getTngNope()) <= tngPerService.stdntCnt(tngNo)) {
-				return ResponseEntity.ok("fail");
-			} else {
+			if (Integer.parseInt(tngVO.getTngNope()) > tngPerService.stdntCnt(tngNo)) {
 				tngPerService.selecStdnt(tngNo, stdntSn);
 				tngPerService.delTngAply(tngNo, stdntSn);
 				return ResponseEntity.ok("success");
+			} 
+			if (Integer.parseInt(tngVO.getTngNope()) <= tngPerService.stdntCnt(tngNo)) {
+				tngPerService.closeTngAply(tngNo);
+				return ResponseEntity.ok("fail");	
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

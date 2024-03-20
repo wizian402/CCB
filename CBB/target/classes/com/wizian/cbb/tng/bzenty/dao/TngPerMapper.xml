@@ -72,6 +72,12 @@
 		= #{tngNo} AND STDNT_SN =#{stdntSn}
 	</update>
 
+	<update id="closeTngAply">
+		UPDATE TNG
+		SET PRGRS_STTS = '60'
+		WHERE TNG_NO = #{tngNo}
+	</update>
+
 	<delete id="delTngAply">
 		DELETE FROM TNG_STDNT
 		WHERE STDNT_SN = #{stdntSn}
