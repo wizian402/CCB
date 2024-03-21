@@ -51,7 +51,9 @@ const TngProgStdnt = () => {
       body: JSON.stringify({ tngNo }),
     })
       .then(response => response.json())
-      .then(data => { })
+      .then(data => { 
+        setStdntList(data)
+      })
       .catch(error => console.error('Error fetching student list:', error));
   };
 
@@ -87,8 +89,8 @@ const TngProgStdnt = () => {
                     <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntSn}</CTableDataCell>
                     <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
-                    <CTableDataCell className="text-center">?</CTableDataCell>
-                    <CTableDataCell className="text-center">?</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntHr}시간</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.idnstEvlYn}</CTableDataCell>
                   </CTableRow>
                 ))}
               </CTableBody>
