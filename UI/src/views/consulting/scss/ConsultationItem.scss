@@ -220,3 +220,12 @@ button.editButton:hover {
 .registerButton:hover {
   background-color: black;
 }
+
+/* ConsultationItem.scss */
+
+.modal-container {  
+  width: 50%; /* 부모 요소에 너비를 지정합니다. */
+  margin: 20px auto; /* 수평 중앙 정렬 */
+  text-align: center; /* 자식 요소를 가로로 정렬합니다. */
+}
+

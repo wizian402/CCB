@@ -4,13 +4,11 @@ import Pagination from "./components/Pagenation";
 import SearchInput from "./components/SearchInput";
 import AddItemModal from "./components/ConsultationItem/AddItemModal";
 import ItemTable from "./components/ConsultationItem/ItemTable";
-
 const ConsultationItem = () => {
   const [counselingItems, setCounselingItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
 
   useEffect(() => {
     fetchData();
@@ -18,9 +16,7 @@ const ConsultationItem = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8181/cbb/consulting/items`
-      );
+      const response = await fetch(`/cbb/consulting/items`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -60,7 +56,10 @@ const ConsultationItem = () => {
         )}
         onPageChange={handlePageClick}
       />
-      <AddItemModal></AddItemModal>
+
+      <div className="modal-container">
+        <AddItemModal className="centered"></AddItemModal>
+      </div>
     </div>
   );
 };

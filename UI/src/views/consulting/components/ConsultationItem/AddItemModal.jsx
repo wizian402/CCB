@@ -33,7 +33,7 @@ const AddItemModal = () => {
     console.log(formData);
     try {
       const response = await fetch(
-        "http://localhost:8181/cbb/consulting/items/insert",
+        "/cbb/consulting/items/insert",
         {
           method: "POST",
           headers: {

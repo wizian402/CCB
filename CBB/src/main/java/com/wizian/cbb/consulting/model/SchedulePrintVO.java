@@ -1,6 +1,5 @@
 package com.wizian.cbb.consulting.model;
 
-import java.sql.Date;
 
 public class SchedulePrintVO {
 	private String type;
@@ -8,9 +7,7 @@ public class SchedulePrintVO {
 	private String item;
 	private String consultationDate;
 	private String consultationTime;
-	private String creationDate;
-	
-	
+	private String creationDate;	
 	
 	public String getType() {
 		return type;
@@ -48,12 +45,15 @@ public class SchedulePrintVO {
 	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
+
 	
 	@Override
 	public String toString() {
-		return "SchedulesVO [type=" + type + ", counselor=" + counselor + ", item=" + item + ", consultationDate="
-				+ consultationDate + ", consultationTime=" + consultationTime + ", creationDate=" + creationDate + "]";
+		return "SchedulePrintVO [type=" + type + ", counselor=" + counselor + ", item=" + item + ", consultationDate="
+				+ consultationDate + ", consultationTime=" + consultationTime + ", creationDate=" + creationDate
+				+ "]";
 	}
+
 	
 
 }
