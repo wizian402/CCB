@@ -48,6 +48,8 @@ public class UserController {
 				Map<String, String> responseMap = new HashMap<String, String>();
 				responseMap.put("loginId", loginId);
 				responseMap.put("userGroupCd", userVo.getUserGroupCd());
+				// 학생 취업상태 조회 위해 추가 by 송양민
+				responseMap.put("userNo", userVo.getUserNo());
 				return ResponseEntity.ok(responseMap);
 			} else if (userVo.getPswdErrCnt() < 5 && userVo.getUserCloseYn().equals("N")) {
 				// 비밀번호 틀린 횟수 +1
