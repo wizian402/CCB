@@ -28,11 +28,6 @@ public class TngProgController {
 			String tngNo = tngMap.get("tngNo");
 			System.out.println(tngNo);
 			List<Map<String, Object>> stdntList = tngProgService.tngPerStdntList(tngNo);
-
-			System.out.println(stdntList);
-			for(Map<String, Object> temp: stdntList) {
-				System.out.println(temp);
-			}
 			return stdntList;
 		} catch (Exception e) {
 			// TODO: handle exception
