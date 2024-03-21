@@ -24,8 +24,30 @@ SELECT * FROM RECRUIT_NOTICE
 SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
 </select>
 
-<select id="getComInfoFromDB" parameterType="int" resultMap="hashMap">
-SELECT * from COMPANY_INFO WHERE BRNO = #{bizRegNum}
+<select id="getComInfo" resultType="hashMap" parameterType="string">
+    SELECT 
+        "BRNO" AS brno,
+        "LCNT_ADDR" AS lcntAddr,
+        "ENT_KND" AS entKnd,
+        "TPBIZ_NM" AS tpBizNm,
+        "BZENTY_NM" AS bzentyNm,
+        "BZENTY_RPRSV_NM" AS bzentyRprsvNm,
+        "ANL_SLS_AMT" AS anlSlsAmt,
+        "ANLSL_AMT" AS anlslAmt,
+        "FNDN_YR" AS fndnYr,
+        "CPTL" AS cptl,
+        "TNOWK" AS tnowk,
+        "LAST_REG_DT" AS lastRegDt
+    FROM "SCOTT"."COMPANY_INFO" WHERE "BRNO" = #{bizRegNum}
 </select>
+
+<select id="getSTDNTInfo" resultType="hashMap" parameterType="string">
+        SELECT STDNT_SN FROM STDNT
+        WHERE USER_NO = #{userNo}
+</select>
+
+
+
+
 
 </mapper>

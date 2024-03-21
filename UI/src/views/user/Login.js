@@ -50,6 +50,7 @@ const Login = () => {
           }
         })
         .then(data => {
+          localStorage.setItem('userNo', data.userNo); // 학생 취업 지원 상태 위해서 추가 by송양민
           localStorage.setItem('loginId', data.loginId);
           localStorage.setItem('userGroupCd', data.userGroupCd);
           if (localStorage.getItem("userGroupCd") === "40") {
