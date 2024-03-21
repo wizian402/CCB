@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.bzenty.dao.ITngAfpRepository">
+
+	<resultMap id="selectTngList"
+		type="com.wizian.cbb.tng.bzenty.model.TngVO">
+		<result property="tngNo" column="TNG_NO" />
+		<result property="bzentyUserNo" column="BZENTY_USER_NO" />
+		<result property="semester" column="SEMESTER" />
+		<result property="tngNope" column="TNG_NOPE" />
+		<result property="tngStYMD" column="TNG_ST_YMD" />
+		<result property="tngEndYMD" column="TNG_END_YMD" />
+		<result property="aplyStDt" column="APLY_ST_DT" />
+		<result property="aplyEndDt" column="APLY_END_DT" />
+		<result property="prgrsStts" column="PRGRS_STTS" />
+		<result property="ttlTngHr" column="TTL_TNG_HR" />
+		<result property="cmcrsHr" column="CMCRS_HR" />
+		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
+	</resultMap>
+
+	<select id="companyNm" resultType="hashmap">
+		SELECT
+		BZENTY_NM AS "bzentyNm"
+		FROM
+		COMPANY_INFO
+		WHERE
+		BRNO IN (
+		SELECT BRNO
+		FROM BZENTY_USER
+		WHERE USER_NO
+		IN (
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE LOGIN_ID = #{loginId}
+		)
+		)
+	</select>
+
+	<select id="selectBzentyUserNo" resultType="hashmap">
+		SELECT
+		BZENTY_USER_NO
+		AS "bzentyUserNo"
+		FROM
+		BZENTY_USER
+		WHERE USER_NO
+		IN (
+		SELECT USER_NO
+		FROM
+		USER_INFO
+		WHERE LOGIN_ID = #{loginId}
+		)
+	</select>
+
+	<insert id="insertTng">
+		INSERT INTO TNG(
+		TNG_NO, BZENTY_USER_NO, SEMESTER,
+		TNG_NOPE, TNG_ST_YMD,
+		TNG_END_YMD, APLY_ST_DT, APLY_END_DT, PRGRS_STTS,
+		TTL_TNG_HR,
+		CMCRS_HR, TKCG_TASK_NM)
+		VALUES(TNG_SEQ.NEXTVAL,
+		#{bzentyUserNo}, #{semester}, #{tngNope}, #{tngStYmd}, #{tngEndYmd},
+		SYSDATE, #{aplyEndDt}, #{prgrsStts}, #{ttlTngHr}, #{cmcrsHr},
+		#{tkcgTaskNm})
+	</insert>
+
+</mapper>

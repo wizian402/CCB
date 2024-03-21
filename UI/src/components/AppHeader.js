@@ -44,12 +44,13 @@ const AppHeader = () => {
       { name: "담당자", link: "/" },
       { name: "담당자", link: "/" },
       { name: "상담 관리", link: "/consultationItem" },
+      { name: '현장 실습 참여 관리', link: '/tngApproval' }
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   } else if (userGroup === "20") {
     menuItems = [
-      { name: "현장 실습", link: "/" },
-      { name: "취업 활동", link: "/" },
+      { name: '현장 실습', link: '/stdntAply' },
+      { name: '취업 활동', link: '/recruit/tablePbanc' },
       { name: "상담 신청", link: "/consultationRequest" },
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
@@ -73,7 +74,24 @@ const AppHeader = () => {
       { name: "상담", link: "/" },
       { name: "상담", link: "/" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '50') {
+    menuItems = [
+      { name: '현장 실습 관리', link: '/tngApplication' },
+      { name: '채용 정보 관리', link: '/' },
+      { name: '기업 정보 관리', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+  } else if (userGroup === '60') {
+    menuItems = [
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' },
+      { name: '상담', link: '/' }
+    ];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+
   }
 
   return (

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.bzenty.dao.ITngPerRepository">
+
+	<resultMap id="selectTngStdntList"
+		type="com.wizian.cbb.tng.bzenty.model.StdntTngSttsVO">
+		<result property="stdntSn" column="STDNT_SN" />
+		<result property="stdntNm" column="STDNT_NM" />
+		<result property="stdntTelNo" column="STDNT_TELNO" />
+		<result property="stdntEmlAddr" column="STDNT_EML_ADDR" />
+		<result property="stdntBrdt" column="STDNT_BRDT" />
+		<result property="stdntAddr" column="STDNT_ADDR" />
+		<result property="stdntGrd" column="STDNT_GRD" />
+		<result property="userNo" column="USER_NO" />
+		<result property="scsbjtCd" column="SCSBJT_CD" />
+		<result property="acavsrNo" column="ACAVSR_NO" />
+		<result property="tngPrgrsStts" column="TNG_PRGRS_STTS" />
+	</resultMap>
+
+	<resultMap id="selectTng"
+		type="com.wizian.cbb.tng.bzenty.model.TngVO">
+		<result property="tngNo" column="TNG_NO" />
+		<result property="bzentyUserNo" column="BZENTY_USER_NO" />
+		<result property="semester" column="SEMESTER" />
+		<result property="tngNope" column="TNG_NOPE" />
+		<result property="tngStYMD" column="TNG_ST_YMD" />
+		<result property="tngEndYMD" column="TNG_END_YMD" />
+		<result property="aplyStDt" column="APLY_ST_DT" />
+		<result property="aplyEndDt" column="APLY_END_DT" />
+		<result property="prgrsStts" column="PRGRS_STTS" />
+		<result property="ttlTngHr" column="TTL_TNG_HR" />
+		<result property="cmcrsHr" column="CMCRS_HR" />
+		<result property="tkcgTaskNm" column="TKCG_TASK_NM" />
+	</resultMap>
+
+	<select id="selectTngStdntList" resultMap="selectTngStdntList">
+		SELECT s.*, cc.NM AS
+		TNG_PRGRS_STTS
+		FROM STDNT s
+		INNER JOIN TNG_STDNT t ON s.STDNT_SN =
+		t.STDNT_SN
+		INNER JOIN COM_CD cc ON t.TNG_PRGRS_STTS = cc.CD
+		WHERE
+		t.TNG_NO = #{tngNo} AND cc.DIV = 2001
+	</select>
+
+	<select id="selectScsbjt" resultType="hashmap">
+		SELECT
+		SCSBJT_CD AS
+		"scsbjtCd",
+		SCSBJT_NM AS "scsbjtNm"
+		FROM
+		SCSBJT
+	</select>
+
+	<select id="stdntPrgrsStts" resultType="hashmap">
+		SELECT
+		CD AS "cd",
+		NM AS
+		"nm"
+		FROM
+		COM_CD
+		WHERE DIV = '2001'
+	</select>
+
+	<update id="selecStdnt">
+		UPDATE TNG_STDNT
+		SET TNG_PRGRS_STTS = '20'
+		WHERE TNG_NO
+		= #{tngNo} AND STDNT_SN =#{stdntSn}
+	</update>
+
+	<update id="closeTngAply">
+		UPDATE TNG
+		SET PRGRS_STTS = '60'
+		WHERE TNG_NO = #{tngNo}
+	</update>
+
+	<delete id="delTngAply">
+		DELETE FROM TNG_STDNT
+		WHERE STDNT_SN = #{stdntSn}
+		AND
+		TNG_NO &lt;&gt; #{tngNo}
+	</delete>
+
+	<select id="stdntCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM TNG_STDNT
+		WHERE TNG_PRGRS_STTS='20' AND TNG_NO=#{tngNo}
+	</select>
+
+	<select id="selectTng" resultMap="selectTng">
+		Select * 
+		FROM TNG
+		WHERE TNG_NO = #{tngNo}
+	</select>
+</mapper>
