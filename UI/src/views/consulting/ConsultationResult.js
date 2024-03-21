@@ -32,9 +32,7 @@ const StudentResult = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8181/cbb/consulting/result`
-      );
+      const response = await fetch(`/cbb/consulting/result`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -143,17 +141,17 @@ const StudentResult = () => {
                       </CTableDataCell>
                     </CTableRow>
                   ))}
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageClick}
+                  />
                 </CTableBody>
               </CTable>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageClick}
-      />
     </div>
   );
 };

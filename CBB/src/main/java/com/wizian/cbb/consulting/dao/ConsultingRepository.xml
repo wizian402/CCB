@@ -3,6 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
+	<!--//////////////상담 항목 관리////////////////////// -->
 	<resultMap id="selectConsulting"
 		type="com.wizian.cbb.consulting.model.ConItemVO">
 		<result property="itemID" column="DSCSN_TTL_SN" />
@@ -46,13 +47,13 @@
 		SELECT DSCSN_TTL_SN FROM
 		DSCSN_TTL WHERE DSCSN_TTL_SN = #{itemID}
 	</select>
+	<!--//////////////상담 항목 관리////////////////////// -->
 
 
 
 
 
-
-
+	<!--//////////////상담원 시간표 확인////////////////////// -->
 	<resultMap id="scheduleList"
 		type="com.wizian.cbb.consulting.model.SchedulePrintVO">
 		<result property="type" column="type" />
@@ -84,11 +85,6 @@
 	</select>
 
 
-
-
-
-
-
 	<select id="checkId" resultType="string">
 		SELECT CNSL_SN FROM COUNSELOR
 		WHERE
@@ -112,6 +108,7 @@
 		VALUES (schedule_seq.NEXTVAL,
 		#{id}, #{cdNum}, #{strDate}, SYSDATE)
 	</insert>
+	<!--//////////////상담원 시간표 확인////////////////////// -->
 
 
 
@@ -121,8 +118,7 @@
 
 
 
-
-
+	<!--//////////////학생 상담 종합 이력////////////////////// -->
 	<resultMap id="resultList"
 		type="com.wizian.cbb.consulting.model.ResultVO">
 		<result property="type" column="COUNSELOR_TYPE" />
@@ -147,12 +143,39 @@
 		G.TIMETBL
 		FROM
 		DSCSN_RSVT A
-		JOIN CNSL_SCHEDULE B ON A.CNSL_SCHEDULE_SN = B.CNSL_SCHEDULE_SN
-		JOIN COUNSELOR C ON B.CNSL_SN = C.CNSL_SN
+		JOIN CNSL_SCHEDULE B ON
+		A.CNSL_SCHEDULE_SN = B.CNSL_SCHEDULE_SN
+		JOIN COUNSELOR C ON B.CNSL_SN =
+		C.CNSL_SN
 		JOIN DSCSN_TTL D ON A.DSCSN_TTL_SN = D.DSCSN_TTL_SN
-		JOIN STDNT E ON A.STDNT_SN = E.STDNT_SN
-		JOIN DSCSN_RSLT_CN F ON A.DSCSN_RSVT_SN = F.DSCSN_RSVT_SN
+		JOIN STDNT
+		E ON A.STDNT_SN = E.STDNT_SN
+		JOIN DSCSN_RSLT_CN F ON A.DSCSN_RSVT_SN =
+		F.DSCSN_RSVT_SN
 		JOIN TIMETBL G ON B.TIMETBL_CD = G.TIMETBL_CD
 	</select>
+	<!--//////////////학생 상담 종합 이력////////////////////// -->
 
+
+	<!--//////////////학생 상담 신청////////////////////// -->
+	<resultMap id="counselorList"
+		type="com.wizian.cbb.consulting.model.ConuselorVO">
+		<result property="sonuselorId" column="CNSL_SN" />
+		<result property="name" column="CNSLR_NM" />
+		<result property="phone" column="MBL_TELNO" />
+		<result property="email" column="EML_ADDR" />
+		<result property="birth" column="BRDT" />
+		<result property="address" column="RLRSD_ADDR" />
+		<result property="item" column="ARSP_NM" />
+		<result property="type" column="COUNSELOR_TYPE" />
+		<result property="gender" column="GNDR_NM" />
+		<result property="userNum" column="USER_NO" />
+	</resultMap>
+	
+	<select id="counselorList" resultMap="counselorList">
+		SELECT * FROM COUNSELOR
+	</select>
+
+
+	<!--//////////////학생 상담 신청////////////////////// -->
 </mapper>

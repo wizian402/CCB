@@ -1,5 +1,5 @@
 import React from "react";
-import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CButton } from "@coreui/react"; // CoreUI의 컴포넌트를 import합니다.
+import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell } from "@coreui/react"; // CoreUI의 컴포넌트를 import합니다.
 import EditItemModal from "./EditItemModal";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
 
@@ -37,14 +37,14 @@ const ItemTable = ({ items, searchTerm, currentPage, itemsPerPage}) => {
                     {/* 현재 페이지에 표시할 아이템들을 매핑합니다. */}
                     {currentItems.map((item, index) => (
                         <CTableRow key={index}>
-                            <CTableHeaderCell>{item.itemID}</CTableHeaderCell>
-                            <CTableHeaderCell>{item.item}</CTableHeaderCell>
-                            <CTableHeaderCell>{item.use}</CTableHeaderCell>
-                            <CTableHeaderCell>{item.creationDate.slice(0, 10)}</CTableHeaderCell>
-                            <CTableHeaderCell>{item.modificationDate.slice(0, 10)}</CTableHeaderCell>
-                            <CTableHeaderCell>
+                            <CTableDataCell>{item.itemID}</CTableDataCell>
+                            <CTableDataCell>{item.item}</CTableDataCell>
+                            <CTableDataCell>{item.use}</CTableDataCell>
+                            <CTableDataCell>{item.creationDate.slice(0, 10)}</CTableDataCell>
+                            <CTableDataCell>{item.modificationDate.slice(0, 10)}</CTableDataCell>
+                            <CTableDataCell>
                                 <EditItemModal item = {item}></EditItemModal>
-                            </CTableHeaderCell>
+                            </CTableDataCell>
                         </CTableRow>
                     ))}
                 </CTableBody>

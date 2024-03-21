@@ -1,6 +1,5 @@
-
-
 import React from "react";
+import { CPagination, CPaginationItem } from "@coreui/react";
 import "../scss/Pagenation.scss"; 
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -26,17 +25,19 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   }
 
   return (
-    <div className="paginationButtons">
-      <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-        이전
-      </button>
+    <CPagination aria-label="Page navigation example">
+      <CPaginationItem onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </CPaginationItem>
       {pageNumbers.map((number) => (
-        <button key={number} onClick={() => handlePageClick(number)} className={currentPage === number ? "active" : ""}>{number}</button>
+        <CPaginationItem key={number} onClick={() => handlePageClick(number)} active={currentPage === number}>
+          {number}
+        </CPaginationItem>
       ))}
-      <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-        다음
-      </button>
-    </div>
+      <CPaginationItem onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </CPaginationItem>
+    </CPagination>
   );
 };
 
