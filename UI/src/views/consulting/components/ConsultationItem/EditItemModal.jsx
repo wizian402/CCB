@@ -28,7 +28,7 @@ const EditItemModal = (props) => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8181/cbb/consulting/items/update",
+        "/cbb/consulting/items/update",
         {
           method: "POST",
           headers: {

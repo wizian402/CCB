@@ -5,9 +5,23 @@ const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() => import("./views/theme/typography/Typography"));
 
 // consulting
-const ConsultationItem = React.lazy(() => import("./views/consulting/ConsultationItem"));
-const ConsultationSchedule = React.lazy(() => import("./views/consulting/ConsultationSchedule"));
-const Schedule = React.lazy(() => import("./views/consulting/TimetableRegistration"));
+
+const ConsultationItem = React.lazy(() =>
+  import("./views/consulting/ConsultationItem")
+);
+const ConsultationSchedule = React.lazy(() =>
+  import("./views/consulting/ConsultationSchedule")
+);
+const Result = React.lazy(() =>
+  import("./views/consulting/ConsultationResult")
+);
+const Schedule = React.lazy(() =>
+  import("./views/consulting/TimetableRegistration")
+);
+
+const Request = React.lazy(() =>
+  import("./views/consulting/ConsultationRequest")
+);
 
 
 // Base
@@ -82,8 +96,10 @@ const routes = [
     name: "Theme",
     element: ConsultationSchedule,
   },
+  { path: "/result", name: "Theme", element: Result },
   { path: "/schedule", name: "Theme", element: Schedule },
-  { path: "/history", name: "Theme", element: History },
+
+  { path: "/consultationRequest", name: "Theme", element: Request },
 
   // TNG
   { path: "/professorSelect", name: "ProfessorSelect", element: ProfessorSelect, },
