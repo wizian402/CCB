@@ -16,6 +16,7 @@ import com.wizian.cbb.consulting.model.ConItemVO;
 import com.wizian.cbb.consulting.model.ResultVO;
 import com.wizian.cbb.consulting.model.SchedulePrintVO;
 import com.wizian.cbb.consulting.model.ScheduleVO;
+import com.wizian.cbb.consulting.model.ConuselorVO;
 import com.wizian.cbb.consulting.service.IConsultingService;
 
 @Controller
@@ -29,14 +30,12 @@ public class ConsultingController {
 	@GetMapping(value = "/consulting/items")
 	public @ResponseBody List<ConItemVO> Consultationitems() {
 		List list = consultingService.Consultationitems();
-		System.out.println(list);
 		return list;
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/consulting/items/insert")
 	public @ResponseBody int ItemInsert(@RequestBody ConItemVO conItemsVO) {
-		System.out.println(conItemsVO);
 //		String checkId = consultingService.itemCheck(conItemsVO);
 //		System.out.println(checkId);
 		int num = 0;
@@ -74,23 +73,14 @@ public class ConsultingController {
 	@GetMapping(value = "/consulting/schedule")
 	public @ResponseBody List<SchedulePrintVO> adminSchedules() {
 		List list = consultingService.adminSchedulesList();
-		System.out.println(list);
 		return list;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/consulting/insertSchedule")
 	public @ResponseBody int insertSchedule(@RequestBody ScheduleVO scheduleVO) {
 		int num = 0;
-		System.out.println(scheduleVO);
 		num = consultingService.insertSchedule(scheduleVO);
 		return num;
 	}
@@ -104,9 +94,20 @@ public class ConsultingController {
 	@GetMapping(value = "/consulting/result")
 	public @ResponseBody List<ResultVO> resultsList() {
 		List list = consultingService.resultList();
-		System.out.println(list);
 		return list;
 	}
 //////////////학생 상담 종합 이력//////////////////////
 
+//////////////학생 상담 신청//////////////////////
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping(value = "/consulting/counselor")
+	public @ResponseBody List<ConuselorVO> counselorList() {
+		List list = consultingService.counselorList();
+		System.out.println(list);
+		return list;
+	}
+//////////////학생 상담 신청//////////////////////
+	
+	
+	
 }

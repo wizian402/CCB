@@ -13,11 +13,15 @@ const ConsultationItem = React.lazy(() =>
 const ConsultationSchedule = React.lazy(() =>
   import("./views/consulting/ConsultationSchedule")
 );
+const Result = React.lazy(() =>
+  import("./views/consulting/ConsultationResult")
+);
 const Schedule = React.lazy(() =>
   import("./views/consulting/TimetableRegistration")
 );
-const History = React.lazy(() =>
-  import("./views/consulting/ConsultationResult")
+
+const Request = React.lazy(() =>
+  import("./views/consulting/ConsultationRequest")
 );
 
 // Base
@@ -107,8 +111,10 @@ const routes = [
     name: "Theme",
     element: ConsultationSchedule,
   },
+  { path: "/result", name: "Theme", element: Result },
   { path: "/schedule", name: "Theme", element: Schedule },
-  { path: "/history", name: "Theme", element: History },
+
+  { path: "/consultationRequest", name: "Theme", element: Request },
 
   // TNG
   {

@@ -1,6 +1,6 @@
-import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
   CContainer,
   CHeader,
@@ -10,74 +10,70 @@ import {
   CHeaderToggler,
   CNavLink,
   CNavItem,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMenu } from '@coreui/icons'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { cilMenu } from "@coreui/icons";
 
-import { AppBreadcrumb } from './index'
-import { logo } from 'src/assets/brand/logo'
-import HeaderNavItem from './head/HeaderNavItem'
+import { AppBreadcrumb } from "./index";
+import { logo } from "src/assets/brand/logo";
+import HeaderNavItem from "./head/HeaderNavItem";
 
 const AppHeader = () => {
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
-  const navigate = useNavigate()
-  let menuItems
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const navigate = useNavigate();
+  let menuItems;
   const handleLogout = () => {
-    localStorage.clear()
+    localStorage.clear();
 
-    fetch('/cbb/user/logout', {
-      method: 'POST',
+    fetch("/cbb/user/logout", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    navigate('/login')
+        "Content-Type": "application/json",
+      },
+    });
+    navigate("/login");
   };
 
-  const userGroup = localStorage.getItem('userGroupCd');
+  const userGroup = localStorage.getItem("userGroupCd");
 
   let HeaderNavComponent;
-  if (userGroup === '10') {
+  if (userGroup === "10") {
     menuItems = [
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' },
-      { name: '담당자', link: '/' }
+      { name: "담당자", link: "/" },
+      { name: "담당자", link: "/" },
+      { name: "담당자", link: "/" },
+      { name: "상담 관리", link: "/consultationItem" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '20') {
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "20") {
     menuItems = [
-      { name: '현장 실습', link: '/' },
-      { name: '취업 활동', link: '/' },
-      { name: '상담 신청', link: '/' },
+      { name: "현장 실습", link: "/" },
+      { name: "취업 활동", link: "/" },
+      { name: "상담 신청", link: "/consultationRequest" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '30') {
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "30") {
+    menuItems = [{ name: "현장 실습 관리", link: "/" }];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "40") {
+    menuItems = [{ name: "지도 교수 배정", link: "/professorSelect" }];
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "50") {
     menuItems = [
-      { name: '현장 실습 관리', link: '/' }
+      { name: "현장 실습 관리", link: "/" },
+      { name: "채용 정보 관리", link: "/" },
+      { name: "기업 정보 관리", link: "/" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '40') {
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "60") {
     menuItems = [
-      { name: '지도 교수 배정', link: '/professorSelect' }
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '50') {
-    menuItems = [
-      { name: '현장 실습 관리', link: '/' },
-      { name: '채용 정보 관리', link: '/' },
-      { name: '기업 정보 관리', link: '/' }
-    ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '60') {
-    menuItems = [
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' }
-    ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   }
 
   return (
@@ -85,7 +81,7 @@ const AppHeader = () => {
       <CContainer fluid>
         <CHeaderToggler
           className="ps-1"
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+          onClick={() => dispatch({ type: "set", sidebarShow: !sidebarShow })}
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
@@ -95,9 +91,7 @@ const AppHeader = () => {
         {HeaderNavComponent}
         <CHeaderNav>
           <CNavItem>
-            <CNavLink onClick={handleLogout}>
-              Logout
-            </CNavLink>
+            <CNavLink onClick={handleLogout}>Logout</CNavLink>
           </CNavItem>
         </CHeaderNav>
       </CContainer>
@@ -106,7 +100,7 @@ const AppHeader = () => {
         <AppBreadcrumb />
       </CContainer>
     </CHeader>
-  )
-}
+  );
+};
 
-export default AppHeader
+export default AppHeader;

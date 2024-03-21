@@ -8,97 +8,101 @@ import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.consulting.dao.IConsultingRepository;
 import com.wizian.cbb.consulting.model.ConItemVO;
+import com.wizian.cbb.consulting.model.ConuselorVO;
 import com.wizian.cbb.consulting.model.ResultVO;
 import com.wizian.cbb.consulting.model.SchedulePrintVO;
 import com.wizian.cbb.consulting.model.ScheduleVO;
 
-
 @Service
 public class ConsultingService implements IConsultingService {
 
-    @Autowired
-    IConsultingRepository consultingRepository;
+	@Autowired
+	IConsultingRepository consultingRepository;
 
-    @Override
-    public List<ConItemVO> Consultationitems() {
-        return consultingRepository.Consultationitems();
-    }
-    @Override
-    public int itemInsert(ConItemVO conItemVO) {
-    	return consultingRepository.itemInsert(conItemVO);
-    }
-    
-    @Override
-    public int itemUpdate(ConItemVO conItemsVO) {
-    	return consultingRepository.itemUpdate(conItemsVO);
-    }
+//////////////상담 항목 관리//////////////////////
+	@Override
+	public List<ConItemVO> Consultationitems() {
+		return consultingRepository.Consultationitems();
+	}
 
-    @Override
-    public int itemDelete(String itemId) {
-    	return consultingRepository.itemDelete(itemId);
-    }
-    
-    @Override
-    public String itemCheck(ConItemVO conItemVO) {
-    	return consultingRepository.itemCheck(conItemVO);
-    }
-    
-    
-    
-    
-    
-    @Override
-    public List<SchedulePrintVO> adminSchedulesList() {
-    	return consultingRepository.adminScheduleList();
-    }
-   
-    
-    
-    @Override
-    public int insertSchedule(ScheduleVO scheduleVO) {
-        String id = consultingRepository.checkId(scheduleVO.getId());
-        if (id == null) {
-            return 0;
-        }
+	@Override
+	public int itemInsert(ConItemVO conItemVO) {
+		return consultingRepository.itemInsert(conItemVO);
+	}
 
-        int year = scheduleVO.getYear();
-        int month = scheduleVO.getMonth();
-        int day = scheduleVO.getDay();
-        boolean[] list = scheduleVO.getTimeSlots();
-        LocalDate date = LocalDate.of(year, month, day);
-        String strDate = date.toString();
-        int cdNum = 10;
-        int num = 0;
+	@Override
+	public int itemUpdate(ConItemVO conItemsVO) {
+		return consultingRepository.itemUpdate(conItemsVO);
+	}
 
-        try {
-            for (int i = 0; i < list.length; i++) {
-                if (list[i]) {
-                    // 해당 시간대에 이미 스케줄이 있는지 확인
-                    if (!consultingRepository.checkDuplicate(id, cdNum, strDate)) {
-                        // 중복되지 않으면 스케줄 추가
-                        num += consultingRepository.insertSchedule(id, cdNum, strDate);
-                    }
-                }
-                if (i != 4) {
-                    cdNum += 10;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-        if(num == 0) {
-        	num = -1;
-        }
-        return num;
-    }
+	@Override
+	public int itemDelete(String itemId) {
+		return consultingRepository.itemDelete(itemId);
+	}
 
-    
-    
-    
-    @Override
-    public List<ResultVO> resultList() {
-    	return consultingRepository.resultList();
-    }
+	@Override
+	public String itemCheck(ConItemVO conItemVO) {
+		return consultingRepository.itemCheck(conItemVO);
+	}
+//////////////상담 항목 관리//////////////////////    
+
+//////////////상담원 시간표 확인//////////////////////    
+	@Override
+	public List<SchedulePrintVO> adminSchedulesList() {
+		return consultingRepository.adminScheduleList();
+	}
+
+	@Override
+	public int insertSchedule(ScheduleVO scheduleVO) {
+		String id = consultingRepository.checkId(scheduleVO.getId());
+		if (id == null) {
+			return 0;
+		}
+
+		int year = scheduleVO.getYear();
+		int month = scheduleVO.getMonth();
+		int day = scheduleVO.getDay();
+		boolean[] list = scheduleVO.getTimeSlots();
+		LocalDate date = LocalDate.of(year, month, day);
+		String strDate = date.toString();
+		int cdNum = 10;
+		int num = 0;
+
+		try {
+			for (int i = 0; i < list.length; i++) {
+				if (list[i]) {
+					// 해당 시간대에 이미 스케줄이 있는지 확인
+					if (!consultingRepository.checkDuplicate(id, cdNum, strDate)) {
+						// 중복되지 않으면 스케줄 추가
+						num += consultingRepository.insertSchedule(id, cdNum, strDate);
+					}
+				}
+				if (i != 4) {
+					cdNum += 10;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		if (num == 0) {
+			num = -1;
+		}
+		return num;
+	}
+//////////////상담원 시간표 확인//////////////////////
+
+//////////////학생 상담 종합 이력//////////////////////   
+	@Override
+	public List<ResultVO> resultList() {
+		return consultingRepository.resultList();
+	}
+//////////////학생 상담 종합 이력//////////////////////
+
+//////////////학생 상담 신청//////////////////////
+	@Override
+	public List<ConuselorVO> counselorList() {
+		return consultingRepository.counselorList();
+	}
+//////////////학생 상담 신청//////////////////////
 }
-
