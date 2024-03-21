@@ -30,9 +30,6 @@ public class TngPerController {
 			});
 			String tngNo = tngMap.get("tngNo");
 			List<Map<String, Object>> stdntList = tngPerService.selectTngStdntList(tngNo);
-			for(Map<String, Object> temp: stdntList) {
-				System.out.println(temp);
-			}
 			return stdntList;
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -6,21 +6,63 @@
 
 	<select id="tngPerStdntList" resultType="hashmap">
 		SELECT
-		STDNT.STDNT_SN AS "stdntSn",
-		STDNT.STDNT_NM AS "stdntNm",
-		STDNT.STDNT_TELNO AS "stdntTelNo",
-		STDNT.STDNT_EML_ADDR AS "stdntEmlAddr",
-		STDNT.STDNT_BRDT AS "stdntBrdt",
-		STDNT.STDNT_ADDR AS "stdntAddr",
-		STDNT.STDNT_GRD AS "stdntGrd",
-		STDNT.SCSBJT_CD AS "scsbjtCd",
-		STDNT.USER_NO AS "userNo",
-		STDNT.ACAVSR_NO AS "acavsrNo",
-		TNG_STDNT.TTRHR AS "stdntHr",
-		TNG_STDNT.INDST_EVL_YN AS "idnstEvlYn"
-		FROM STDNT
-		LEFT JOIN TNG_STDNT ON STDNT.STDNT_SN =
-		TNG_STDNT.STDNT_SN
-		WHERE TNG_NO = #{tngNo} AND TNG_PRGRS_STTS = '30'
+    		STDNT.STDNT_SN AS "stdntSn",
+   			STDNT.STDNT_NM AS "stdntNm",
+    		STDNT.STDNT_TELNO AS "stdntTelNo",
+    		STDNT.STDNT_EML_ADDR AS "stdntEmlAddr",
+    		STDNT.STDNT_BRDT AS "stdntBrdt",
+    		STDNT.STDNT_ADDR AS "stdntAddr",
+    		STDNT.STDNT_GRD AS "stdntGrd",
+    		STDNT.SCSBJT_CD AS "scsbjtCd",
+    		STDNT.USER_NO AS "userNo",
+    		STDNT.ACAVSR_NO AS "acavsrNo",
+    	TNG_STDNT.TTRHR AS "stdntHr",
+	    	TNG_STDNT.INDST_EVL_YN AS "idnstEvlYn",
+    		TNG_GRD.GRD AS "grd"
+		FROM 
+    		STDNT
+		LEFT JOIN 
+    		TNG_STDNT ON STDNT.STDNT_SN = TNG_STDNT.STDNT_SN
+		LEFT JOIN 
+    		TNG_GRD ON TNG_STDNT.TNG_APLY_NO = TNG_GRD.TNG_APLY_NO AND TNG_GRD.WRT_CD = 20
+		WHERE 
+		    TNG_NO = #{tngNo} AND TNG_PRGRS_STTS = '30'
 	</select>
+
+	<select id="getTngStdnt" resultType="hashmap">
+		Select
+		TNG_APLY_NO AS
+		"tngAplyNo"
+		FROM TNG_STDNT
+		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn}
+	</select>
+
+	<select id="getBzentyUserNo" resultType="hashmap">
+		Select
+		BZENTY_USER_NO AS
+		"bzentyUserNo",
+		SEMESTER AS "semester"
+		FROM TNG
+		WHERE TNG_NO=#{tngNo}
+	</select>
+
+	<insert id="insertTngGrd"
+		parameterType="com.wizian.cbb.tng.bzenty.model.TngGrdVO">
+		INSERT INTO TNG_GRD (
+		WRT_CD, TNG_APLY_NO,
+		BZENTY_USER_NO, SEMESTER, SCR, GRD
+		)
+		VALUES (
+		'20', #{tngAplyNo},
+		#{bzentyUserNo}, #{semester}, #{score}, #{grd}
+		)
+	</insert>
+
+	<update id="updateIndstEvlYn">
+		UPDATE TNG_STDNT
+		SET INDST_EVL_YN = 'Y'
+		WHERE 
+		TNG_NO = #{tngNo} AND STDNT_SN =#{stdntSn}
+	</update>
+
 </mapper>
