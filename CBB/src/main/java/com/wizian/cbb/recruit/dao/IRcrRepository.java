@@ -12,5 +12,11 @@ public interface IRcrRepository {
 
 	public Map<String, Object> getComInfo(String regNum);
 	
-	public Map<String, Object> getSTDNTInfo(Object userNo);
+	public Map<String, Object> getSTDNTInfo(String userData);
+	
+	public void setJSData(Map<String, Object> data);
+
+	Map<String, Object> getCheckAply(Map<String, Object> data4get);
+
+	void setAplyCancle(Map<String, Object> data);
 }

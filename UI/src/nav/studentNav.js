@@ -63,11 +63,11 @@ export const _nav = [
       {
         component: CNavItem,
         name: '지원내역조회',
-        to: '#',
+        to: '/recruit/TablePbanc',
       }
     ]
   },
-  
+
 
 
   // 참고용 메뉴 추후 삭제 //

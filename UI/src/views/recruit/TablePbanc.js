@@ -170,7 +170,7 @@ const Tables = () => {
 
       <CModal visible={visible} onClose={handleCloseModal}>
         <CModalHeader closeButton>
-          <CModalTitle>Detail</CModalTitle>
+          <CModalTitle>요약정보</CModalTitle>
         </CModalHeader>
         <CModalBody>
           {selectedItem && (
@@ -189,11 +189,11 @@ const Tables = () => {
           )}
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={handleCloseModal}>
-            Close
+          <CButton color="primary" variant="outline" onClick={handleDetailButtonClick}>
+            상세보기
           </CButton>
-          <CButton color="primary" onClick={handleDetailButtonClick}>
-            View Details
+          <CButton color="secondary" variant="outline" onClick={handleCloseModal}>
+            닫기
           </CButton>
         </CModalFooter>
       </CModal>
