@@ -4,7 +4,7 @@
 <mapper namespace="com.wizian.cbb.user.dao.IUserRepository">
 	<resultMap id="selectUser"
 		type="com.wizian.cbb.user.model.UserVO">
-		<result property="userNO" column="USER_NO" />
+		<result property="userNo" column="USER_NO" />
 		<result property="userGroupCd" column="USER_GROUP_CD" />
 		<result property="loginId" column="LOGIN_ID" />
 		<result property="pswd" column="PSWD" />
@@ -17,7 +17,7 @@
 	<select id="selectUser" parameterType="string"
 		resultType="com.wizian.cbb.user.model.UserVO">
 		SELECT
-		USER_NO AS userNO,
+		USER_NO AS userNo,
 		USER_GROUP_CD AS userGroupCd,
 		LOGIN_ID AS loginId,
 		PSWD AS pswd,

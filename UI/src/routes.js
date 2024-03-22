@@ -5,9 +5,23 @@ const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
 const Typography = React.lazy(() => import("./views/theme/typography/Typography"));
 
 // consulting
-const ConsultationItem = React.lazy(() => import("./views/consulting/ConsultationItem"));
-const ConsultationSchedule = React.lazy(() => import("./views/consulting/ConsultationSchedule"));
-const Schedule = React.lazy(() => import("./views/consulting/TimetableRegistration"));
+
+const ConsultationItem = React.lazy(() =>
+  import("./views/consulting/ConsultationItem")
+);
+const ConsultationSchedule = React.lazy(() =>
+  import("./views/consulting/ConsultationSchedule")
+);
+const Result = React.lazy(() =>
+  import("./views/consulting/ConsultationResult")
+);
+const Schedule = React.lazy(() =>
+  import("./views/consulting/TimetableRegistration")
+);
+
+const Request = React.lazy(() =>
+  import("./views/consulting/ConsultationRequest")
+);
 
 
 // Base
@@ -67,6 +81,13 @@ const TngAplyStdntList = React.lazy(() => import("./views/TNG/BZENTY/TngAplyStdn
 const TngProgStdnt = React.lazy(() => import("./views/TNG/BZENTY/TngProgStdnt"));
 const TngAttend = React.lazy(() => import("./views/TNG/BZENTY/TngAttend"));
 
+
+//RECRUIT
+const TablePbanc = React.lazy(() => import('./views/recruit/TablePbanc'));
+const DetailPbanc = React.lazy(() => import('./views/recruit/DetailPbanc'));
+
+
+
 const routes = [
   // consulting
   { path: "/consultationItem", name: "Theme", element: ConsultationItem },
@@ -76,8 +97,10 @@ const routes = [
     name: "Theme",
     element: ConsultationSchedule,
   },
+  { path: "/result", name: "Theme", element: Result },
   { path: "/schedule", name: "Theme", element: Schedule },
-  { path: "/history", name: "Theme", element: History },
+
+  { path: "/consultationRequest", name: "Theme", element: Request },
 
   // TNG
   { path: "/professorSelect", name: "ProfessorSelect", element: ProfessorSelect, },
@@ -89,6 +112,13 @@ const routes = [
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt, },
   { path: "/tngAttend", name: "현장 실습 출석", element: TngAttend, },
 
+
+  // RECRUIT
+  { path: '/recruit/tablePbanc', name: 'TablePbanc', element: TablePbanc },
+  { path: '/recruit/detailPbanc/:pbancSn', name: 'detailPbanc', element: DetailPbanc },
+
+
+  //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
   { path: "/theme/colors", name: "Colors", element: Colors },

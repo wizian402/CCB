@@ -17,7 +17,7 @@
 
         console.log(data);
         // 서버 URL 설정
-        const url = `http://localhost:8181/cbb/consulting/insertSchedule`; // 실제 서버 URL로 변경해야 함
+        const url = `/cbb/consulting/insertSchedule`; // 실제 서버 URL로 변경해야 함
 
         // fetch API를 사용하여 POST 요청 보내기
         fetch(url, {
