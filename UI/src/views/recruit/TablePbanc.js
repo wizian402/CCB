@@ -20,7 +20,7 @@ import {
 } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './components/SerchBox';
-import Pagination from './components/Pagination';
+import Pagination from './components/Pagination'; 
 
 const Tables = () => {
   const [data, setData] = useState([]);
@@ -30,7 +30,7 @@ const Tables = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 2; // 페이지당 보여줄 아이템 수
+  const ITEMS_PER_PAGE = 5; // 페이지당 보여줄 아이템 수
 
   useEffect(() => {
     fetchDataFromDatabase();

@@ -14,7 +14,7 @@ public interface IRcrRepository {
 	
 	public Map<String, Object> getSTDNTInfo(String userData);
 	
-	public void setJSData(Map<String, Object> data);
+	public int setJSData(Map<String, Object> data);
 
 	Map<String, Object> getCheckAply(Map<String, Object> data4get);
 

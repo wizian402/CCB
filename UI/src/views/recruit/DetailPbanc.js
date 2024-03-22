@@ -47,9 +47,11 @@ const DetailPbanc = () => {
     }, [pbancData]);
 
     useEffect(() => {
+        console.log(aplyStts)
         if (aplyStts === 'y') {
+
             setChgButton(
-                <CButton color="danger" variant="outline" onClick={toggleModal}>취소하기</CButton>
+                <><p style={{ color: "red" }}> 현재 입사 지원 된 상태입니다.&nbsp;&nbsp;&nbsp; </p> <CButton color="danger" variant="outline" onClick={toggleModal}>취소하기</CButton></>
             );
 
             setModalContent(
@@ -117,6 +119,9 @@ const DetailPbanc = () => {
 
     const fetchUdtJobSearch = async () => {
         try {
+            // console.log("유저넘버 :", localStorage.getItem('userNo'));
+            console.log("공고번호 : ", pbancData.pbancSn)
+            console.log("사업자번호 : ", pbancData.bizRegNum)
 
             const response = await fetch('/cbb/rcr/udtJobSearch', {
                 method: 'POST',
@@ -135,6 +140,7 @@ const DetailPbanc = () => {
     }
 
     const fetchCheckAply = async () => {
+
         try {
             const response = await fetch('/cbb/rcr/checkAply', {
                 method: 'Post',
@@ -146,8 +152,17 @@ const DetailPbanc = () => {
                     pbancSn: pbancData.pbancSn,
                 })
             })
+            // console.log(response)
+
             const data = await response.json();
-            setAplyStts(data.JNCMP_APLY_YN);
+            if (data.JNCMP_APLY_YN === 'y') {
+                setAplyStts(data.JNCMP_APLY_YN);
+            } else {
+                console.log("?????", data)
+                setAplyStts("n");
+
+            }
+
         } catch (error) {
             console.log('Error fetching checkAply', error)
         }

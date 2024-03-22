@@ -82,7 +82,7 @@
 		</choose>
 	</insert>
 
-	<select id="getCheckAply" resultType="hashMap"
+	<select id="getCheckAply" resultType="hashmap"
 		parameterType="string">
 		SELECT JNCMP_APLY_YN from JOB_SEARCH WHERE STDNT_SN =
 		#{stdSn} AND PBANC_SN

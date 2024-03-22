@@ -60,12 +60,16 @@ public class RcrController {
 	@PostMapping("/rcr/udtJobSearch")
 	public void updateJobSearch(@RequestBody String userData)
 			throws JsonParseException, JsonMappingException, IOException {
+		System.out.println("업데이트잡서치 진입");
 		rcrService.updateJobSearchDB(userData);
 	}
 
 	@PostMapping("/rcr/checkAply")
 	public @ResponseBody Map<String, Object> checkAply(@RequestBody String data)
 			throws JsonParseException, JsonMappingException, IOException {
+		
+		System.out.println("체크어플라이진입?");
+		System.out.println(rcrService.checkAply(data));
 		return rcrService.checkAply(data);
 	}  
 

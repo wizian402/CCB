@@ -36,7 +36,6 @@ public class RcrService implements IRcrService{
 
 	@Override
 	public Map<String, Object> getComInfo(String regNum) {
-		
 		return rcrRepository.getComInfo(regNum);
 	}
 
@@ -73,7 +72,8 @@ public class RcrService implements IRcrService{
 	
 	@Override
 	public void setJSData(Map<String, Object> data) {
-		rcrRepository.setJSData(data);
+		int count = rcrRepository.setJSData(data);
+		System.out.println("setData결과 행 수:"+count);
 	}
 	
 	
@@ -84,10 +84,21 @@ public class RcrService implements IRcrService{
 		Map<String, String> dataMap = objectMapper.readValue(data, new TypeReference<Map<String, String>>() {
 		});
 		Map<String, Object> stdntSn = getSTDNTInfo(data);
+		
+		
+		
 		Map<String, Object> data4get = new HashMap<String, Object>();
 		data4get.put("stdSn", stdntSn.get("STDNTSN").toString());
 		data4get.put("pbancSn", dataMap.get("pbancSn"));
-		return rcrRepository.getCheckAply(data4get);
+		 Map<String, Object>result = rcrRepository.getCheckAply(data4get);
+		 System.out.println();
+		 
+		if(result!=null) return result;
+			
+		result = new HashMap<String, Object>();
+		result.put("JNCMP_APLY_YN", "N"); 
+		return result;
+		
 	}
 
 
