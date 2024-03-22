@@ -1,5 +1,6 @@
 package com.wizian.cbb.tng.bzenty.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,26 @@ public class TngAttendController {
 		return null;
 	}
 	
-	// 데이터가 1자리인 경우 앞에 0을 추가하여 2자리로 만들어주는 함수
+	@PostMapping("/tng/attentList")
+	public @ResponseBody List<Map<String, Object>> attentList(@RequestBody String tngData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> tngMap = objectMapper.readValue(tngData, new TypeReference<Map<String, String>>() {
+			});
+			String tngNo = tngMap.get("tngNo");
+			String stdntSn = tngMap.get("stdntSn");
+			Map<String, Object> tngAplyNoMap = tngAttendService.getTngStdnt(tngNo, stdntSn);
+			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
+			
+			List<Map<String, Object>> attendList =  tngAttendService.getAttendList(tngAplyNo);
+			
+			return attendList;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	
 	private String addLeadingZero(int number) {
 	    return String.format("%02d", number);
 	}

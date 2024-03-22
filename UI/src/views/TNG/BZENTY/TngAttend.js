@@ -18,7 +18,7 @@ import {
 } from '@coreui/react';
 import "./css/Calendar.css";
 
-const generateCalendar = (year, month, handleDateClick) => {
+const generateCalendar = (year, month, attendList, handleDateClick) => {
   const getDaysInMonth = (year, month) => {
     return new Date(year, month, 0).getDate();
   };
@@ -34,11 +34,47 @@ const generateCalendar = (year, month, handleDateClick) => {
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
 
-  let currentRow = [];
+let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {
+
     if (i > firstDayOfMonth && i <= daysInMonth + firstDayOfMonth) {
       const day = i - firstDayOfMonth;
-      currentRow.push(<td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>{day}</td>);
+      const date = new Date(year, month - 1, day);
+      const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+      let attendCode = "";
+
+      if (Array.isArray(attendList)) {
+        attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
+      }
+    
+      let displayText = '';
+      switch (attendCode) {
+        case '10':
+          displayText = '출석';
+          break;
+        case '20':
+          displayText = '지각';
+          break;
+        case '30':
+          displayText = '조퇴';
+          break;
+        case '40':
+          displayText = '격석';
+          break;
+        default:
+          displayText = '';
+      }
+    
+      currentRow.push(
+        <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
+          <div className="flex-container">
+            <div className="calendar-day">{day}</div>
+            {displayText && <div className="calendar-info centered-text bold-text large-text">{displayText}</div>}
+          </div>
+        </td>
+      );
+      
+      
     } else {
       currentRow.push(<td key={i} className="calendar-day-cell empty"></td>);
     }
@@ -60,6 +96,7 @@ const TngAttend = () => {
   const [selectedTngNo, setSelectedTngNo] = useState(null);
   const [stdntSn, setStdntSn] = useState(null);
   const [attendCd, setAttendCd] = useState("");
+  const [attendList, setAttendList] = useState("");
 
   useEffect(() => {
     setSelectedTngNo(sessionStorage.getItem("selectedTngNo"));
@@ -73,7 +110,11 @@ const TngAttend = () => {
     }
   }, []);
 
-
+  useEffect(() => {
+    if (selectedTngNo) {
+      fetchAttendList();
+    }
+  }, [selectedTngNo]);
   
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
@@ -86,9 +127,19 @@ const TngAttend = () => {
   };
 
   const handleDateClick = (day) => {
-    setSelectedDate(day);
-    setModalOpen(true);
+    const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+    let attendCode = "";
+  
+    if (Array.isArray(attendList)) {
+      attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
+    }
+  
+    if (!attendCode) {
+      setSelectedDate(day);
+      setModalOpen(true);
+    }
   };
+  
 
   const closeModal = () => {
     setModalOpen(false);
@@ -108,6 +159,21 @@ const TngAttend = () => {
       .catch(error => console.error('Error fetching attendCd list:', error));
   };
 
+  const fetchAttendList = () => {
+    fetch('/cbb/tng/attentList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo : selectedTngNo, stdntSn }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setAttendList(data)
+      })
+      .catch(error => console.error('Error fetching attendCd list:', error));
+  };
 
   return (
     <CRow>
@@ -125,7 +191,7 @@ const TngAttend = () => {
             </div>
             <table className="calendar">
               <tbody>
-                {generateCalendar(year, month, handleDateClick)}
+              {generateCalendar(year, month, attendList, handleDateClick)}
               </tbody>
             </table>
             <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} attendCd={attendCd} stdntSn={stdntSn} tngNo={selectedTngNo} />
@@ -140,7 +206,6 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionCd, setSelectedOptionCd] = useState(null);
   
-  // 드롭다운 메뉴 아이템 생성
   const dropdownItems = Object.keys(attendCd).map((key) => (
     <CDropdownItem key={attendCd[key].cd} onClick={() => {
       setSelectedOption(attendCd[key].nm);

@@ -11,4 +11,6 @@ public interface ITngAttendRepository {
 	void insertAtndc(@Param("attendanceDate") String attendanceDate, @Param("tngAplyNo") int tngAplyNo, @Param("tngAtndcCd") String tngAtndcCd);
 	
 	Map<String, Object> getTngStdnt(@Param("tngNo") String tngNo, @Param("stdntSn") String stdntSn);
+	
+	List<Map<String, Object>> getAttendList(@Param("tngAplyNo") int tngAplyNo);
 }

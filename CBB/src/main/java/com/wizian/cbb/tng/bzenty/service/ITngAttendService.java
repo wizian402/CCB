@@ -11,4 +11,6 @@ public interface ITngAttendService {
 	void insertAtndc(String attendanceDate, int tngAplyNo, String tngAtndcCd);
 	
 	Map<String, Object> getTngStdnt(String tngNo, String stdntSn);
+	
+	List<Map<String, Object>> getAttendList(int tngAplyNo);
 }

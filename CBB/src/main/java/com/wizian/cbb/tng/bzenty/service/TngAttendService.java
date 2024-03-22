@@ -28,4 +28,9 @@ public class TngAttendService implements ITngAttendService {
 	public Map<String, Object> getTngStdnt(String tngNo, String stdntSn) {
 		return tngAttendRepository.getTngStdnt(tngNo, stdntSn);
 	}
+
+	@Override
+	public List<Map<String, Object>> getAttendList(int tngAplyNo) {
+		return tngAttendRepository.getAttendList(tngAplyNo);
+	}
 }

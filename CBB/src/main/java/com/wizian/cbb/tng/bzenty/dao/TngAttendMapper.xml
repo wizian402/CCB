@@ -36,4 +36,13 @@
 		FROM TNG_STDNT
 		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn}
 	</select>
+	
+	<select id="getAttendList" resultType="hashmap">
+		Select
+		ATTENDANCE_DATE AS "attendanceDate",
+		TNG_APLY_NO AS "tngAplyNo",
+		TNG_ATNDC_CD AS "tngAtndcCd"
+		FROM TNG_ATNDC
+		WHERE TNG_APLY_NO=#{tngAplyNo}
+	</select>
 </mapper>
