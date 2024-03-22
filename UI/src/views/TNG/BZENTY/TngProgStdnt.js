@@ -72,21 +72,6 @@ const TngProgStdnt = () => {
     setIsGradeModalOpen(false);
   };
 
-  const fetchGrd = () => {
-      fetch('/cbb/tng/getGrade', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ tngNo, stdntSn: selectedStudent.stdntSn }),
-      })
-        .then(response => response.text())
-        .then(data => {
-        })
-        .catch(error => console.error('Error fetching student list:', error));
-
-  };
-
   return (
     <CRow>
       <CCol xs={12}>
@@ -117,7 +102,7 @@ const TngProgStdnt = () => {
                     {stdnt.idnstEvlYn === 'N' ? '미등록' : stdnt.idnstEvlYn === 'Y' && stdnt.grd}
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
-                    <StudentActionsDropdown student={stdnt} onGradeInput={handleGradeInput} />
+                    <StudentActionsDropdown student={stdnt} onGradeInput={handleGradeInput} navigate={navigate} tngNo={tngNo} />
                   </CTableDataCell>
                 </CTableRow>
               ))}
@@ -131,7 +116,13 @@ const TngProgStdnt = () => {
   );
 };
 
-const StudentActionsDropdown = ({ student, onGradeInput }) => {
+const StudentActionsDropdown = ({ student, onGradeInput, navigate, tngNo }) => {
+  const navigateToTngAttend = () => {
+    sessionStorage.setItem('selectedTngNo', tngNo);
+    sessionStorage.setItem('stdntSn', student.stdntSn);
+    navigate('/tngAttend'); 
+  };
+
   return (
     <CDropdown>
       <CDropdownToggle color="primary" size="sm">
@@ -141,7 +132,7 @@ const StudentActionsDropdown = ({ student, onGradeInput }) => {
         {student.idnstEvlYn !== 'Y' && (
           <CDropdownItem onClick={() => onGradeInput(student)}>성적입력</CDropdownItem>
         )}
-        <CDropdownItem>출석 입력</CDropdownItem>
+        <CDropdownItem onClick={navigateToTngAttend}>출석 입력</CDropdownItem>
         <CDropdownItem>지도일지 입력</CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

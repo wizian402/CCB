@@ -38,7 +38,7 @@ const AppSidebar = () => {
   let selectedNav;
   if (currentUri === '/professorSelect') {
     selectedNav = scsbjtNav
-  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList' || currentUri === '/tngProgStdnt') {
+  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList' || currentUri === '/tngProgStdnt' || currentUri === '/tngAttend') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngList') {
     selectedNav = bzentyTNGNav
@@ -46,7 +46,7 @@ const AppSidebar = () => {
     selectedNav = adminTNGNav
   } else if (currentUri === '/stdntAply') {
     selectedNav = stdntAplyNav
-  }
+  }  
 
   return (
     <CSidebar

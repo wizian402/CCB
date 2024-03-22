@@ -1,0 +1,53 @@
+/* TngAttend 컴포넌트의 Calendar.css */
+
+/* Add styles for the calendar */
+.calendar-container {
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+  }
+  
+  .calendar-header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .calendar-header th {
+    padding: 10px;
+  }
+  
+  .calendar-body td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .calendar-body td:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Additional styles for better calendar design */
+  .calendar {
+    margin-top: 50px;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .calendar th,
+  .calendar td {
+    border: 1px solid #ddd;
+  }
+  
+  .calendar th {
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+  
+  .calendar td {
+    padding: 10px;
+  }
+  
+  .calendar td.empty {
+    background-color: #fff; /* Background color for empty cells */
+  }
+  
+  

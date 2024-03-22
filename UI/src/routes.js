@@ -65,6 +65,7 @@ const TngApproval = React.lazy(() => import("./views/TNG/Admin/TngApproval"));
 const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
 const TngAplyStdntList = React.lazy(() => import("./views/TNG/BZENTY/TngAplyStdntList"));
 const TngProgStdnt = React.lazy(() => import("./views/TNG/BZENTY/TngProgStdnt"));
+const TngAttend = React.lazy(() => import("./views/TNG/BZENTY/TngAttend"));
 
 const routes = [
   // consulting
@@ -86,6 +87,7 @@ const routes = [
   { path: "/stdntAply", name: "현장실습 목록", element: StdntAply, },
   { path: "/tngAplyStdntList", name: "현장실습 신청 학생", element: TngAplyStdntList, },
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt, },
+  { path: "/tngAttend", name: "현장 실습 출석", element: TngAttend, },
 
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
   { path: "/theme", name: "Theme", element: Colors, exact: true },
