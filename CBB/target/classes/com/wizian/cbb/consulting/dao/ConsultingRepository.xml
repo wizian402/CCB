@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.wizian.cbb.consulting.dao.IConsultingRepository">
-	<!--//////////////상담 항목 관리////////////////////// -->
+		<!--//////////////상담 항목 관리////////////////////// -->
 	<resultMap id="selectConsulting"
 		type="com.wizian.cbb.consulting.model.ConItemVO">
 		<result property="itemID" column="DSCSN_TTL_SN" />
@@ -83,8 +83,12 @@
 		JOIN
 		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
 	</select>
+	<!--//////////////상담원 시간표 확인////////////////////// -->
 
 
+
+
+	<!--//////////////상담원 시간표 등록////////////////////// -->
 	<select id="checkId" resultType="string">
 		SELECT CNSL_SN FROM COUNSELOR
 		WHERE
@@ -108,7 +112,7 @@
 		VALUES (schedule_seq.NEXTVAL,
 		#{id}, #{cdNum}, #{strDate}, SYSDATE)
 	</insert>
-	<!--//////////////상담원 시간표 확인////////////////////// -->
+		<!--//////////////상담원 시간표 등록////////////////////// -->
 
 
 

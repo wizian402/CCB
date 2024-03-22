@@ -1,11 +1,11 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
-import SearchFilters from "./components/SearchFilters";
-import Pagination from "./components/Pagenation";
-import Table from "./components/ConsultationSchecule/ScheduleTable";
+import SearchFilters from "../components/SearchFilters";
+import Pagination from "../components/Pagenation";
+import Table from "./CounselorScheduleTable";
 
-const ConsultationSchedule = () => {
+const ScheduleCheck = () => {
   const [schedules, setschedules] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermItem, setSearchTermItem] = useState("");
@@ -19,8 +19,10 @@ const ConsultationSchedule = () => {
   }, [currentPage]);
 
   const fetchData = async () => {
+    const id = localStorage.getItem("loginId");
+    console.log(id);
     try {
-      const response = await fetch(`/cbb/consulting/schedule`);
+      const response = await fetch(`/cbb/consulting/counselorSchedule`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -83,11 +85,19 @@ const ConsultationSchedule = () => {
             </CCardHeader>
             <CCardBody>
               <Table currentItems={currentItems} />
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageClick}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageClick}
+                />
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
@@ -96,4 +106,4 @@ const ConsultationSchedule = () => {
   );
 };
 
-export default ConsultationSchedule;
+export default ScheduleCheck;
