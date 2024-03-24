@@ -13,4 +13,6 @@ public interface ITngAttendService {
 	Map<String, Object> getTngStdnt(String tngNo, String stdntSn);
 	
 	List<Map<String, Object>> getAttendList(int tngAplyNo);
+	
+	void updateTtrHr(String hour, int tngAplyNo);
 }

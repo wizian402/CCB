@@ -80,7 +80,7 @@ const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
 const TngAplyStdntList = React.lazy(() => import("./views/TNG/BZENTY/TngAplyStdntList"));
 const TngProgStdnt = React.lazy(() => import("./views/TNG/BZENTY/TngProgStdnt"));
 const TngAttend = React.lazy(() => import("./views/TNG/BZENTY/TngAttend"));
-
+const StdntProgAply = React.lazy(() => import("./views/TNG/Stdnt/StdntProgAply"));
 
 //RECRUIT
 const TablePbanc = React.lazy(() => import('./views/recruit/TablePbanc'));
@@ -111,7 +111,7 @@ const routes = [
   { path: "/tngAplyStdntList", name: "현장실습 신청 학생", element: TngAplyStdntList, },
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt, },
   { path: "/tngAttend", name: "현장 실습 출석", element: TngAttend, },
-
+  { path: "/stdntProgAply", name: "진행중인 현장 실습", element: StdntProgAply, },
 
   // RECRUIT
   { path: '/recruit/tablePbanc', name: 'TablePbanc', element: TablePbanc },

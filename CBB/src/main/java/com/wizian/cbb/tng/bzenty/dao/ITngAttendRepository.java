@@ -13,4 +13,6 @@ public interface ITngAttendRepository {
 	Map<String, Object> getTngStdnt(@Param("tngNo") String tngNo, @Param("stdntSn") String stdntSn);
 	
 	List<Map<String, Object>> getAttendList(@Param("tngAplyNo") int tngAplyNo);
+	
+	void updateTtrHr(@Param("hour") String hour, @Param("tngAplyNo") int tngAplyNo);
 }

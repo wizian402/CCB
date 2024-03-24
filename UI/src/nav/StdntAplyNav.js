@@ -25,5 +25,11 @@ export const _nav = [
     name: '현장실습 목록',
     to: '/stdntAply',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: '진행중인 현장실습',
+    to: '/stdntProgAply',
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   }
 ]

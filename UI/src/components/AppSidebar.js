@@ -53,7 +53,7 @@ const AppSidebar = () => {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngApproval') {
     selectedNav = adminTNGNav
-  } else if (currentUri === '/stdntAply') {
+  } else if (currentUri === '/stdntAply' || currentUri === '/stdntProgAply') {
     selectedNav = stdntAplyNav
   } else if (currentUri.includes('/recruit/')){
     selectedNav = studentNav

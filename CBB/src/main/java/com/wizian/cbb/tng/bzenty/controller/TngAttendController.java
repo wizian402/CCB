@@ -1,6 +1,5 @@
 package com.wizian.cbb.tng.bzenty.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +40,12 @@ public class TngAttendController {
 			String combinedDate = year + month + day;
 			Map<String, Object> tngAplyNoMap = tngAttendService.getTngStdnt(tngNo, stdntSn);
 			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
+			
+			if (cd.equals("10")) {
+				tngAttendService.updateTtrHr("8", tngAplyNo);
+			} else if (cd.equals("20") || cd.equals("30")) {
+				tngAttendService.updateTtrHr("4", tngAplyNo);
+			}
 			
 			tngAttendService.insertAtndc(combinedDate, tngAplyNo, cd);
 			return null;

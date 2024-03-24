@@ -33,4 +33,9 @@ public class TngAttendService implements ITngAttendService {
 	public List<Map<String, Object>> getAttendList(int tngAplyNo) {
 		return tngAttendRepository.getAttendList(tngAplyNo);
 	}
+
+	@Override
+	public void updateTtrHr(String hour, int tngAplyNo) {
+		tngAttendRepository.updateTtrHr(hour, tngAplyNo);
+	}
 }
