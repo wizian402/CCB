@@ -101,9 +101,9 @@ const TngAttend = () => {
   const [stdntSn, setStdntSn] = useState(null);
   const [attendCd, setAttendCd] = useState("");
   const [attendList, setAttendList] = useState("");
+  const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
 
   useEffect(() => {
-
     fetchAttendCd();
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '20') {
@@ -111,13 +111,8 @@ const TngAttend = () => {
       alert('로그인후 이용가능합니다.')
       navigate('/login');
     }
+    fetchAttendList();
   }, []);
-
-  useEffect(() => {
-    if (selectedTngNo) {
-      fetchAttendList();
-    }
-  }, [selectedTngNo]);
   
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
@@ -163,17 +158,16 @@ const TngAttend = () => {
   };
 
   const fetchAttendList = () => {
-    fetch('/cbb/tng/attentList', {
+    fetch('/cbb/tng/stdntProg', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tngNo : selectedTngNo, stdntSn }),
+      body: JSON.stringify({ loginId }),
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        setAttendList(data)
+
       })
       .catch(error => console.error('Error fetching attendCd list:', error));
   };

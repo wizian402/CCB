@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.stdnt.dao.IStdntProgRepository">
+
+	<select id="selectTngStdnt" resultType="hashmap">
+		SELECT 
+		STDNT_SN AS "stdntSn",
+		TNG_NO AS "tngNo"
+		FROM TNG_STDNT
+		WHERE 
+		STDNT_SN IN(
+		SELECT 
+		STDNT_SN
+		FROM
+		STDNT
+		WHERE USER_NO IN(
+		SELECT
+		USER_NO
+		FROM USER_INFO
+		WHERE 
+		LOGIN_ID = #{loginId}
+		)
+		)
+	</select>
+
+</mapper>
