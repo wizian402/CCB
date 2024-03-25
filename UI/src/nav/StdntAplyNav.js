@@ -17,10 +17,6 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 export const _nav = [
   {
-    component: CNavTitle,
-    name: '학생',
-  },
-  {
     component: CNavItem,
     name: '현장실습 목록',
     to: '/stdntAply',

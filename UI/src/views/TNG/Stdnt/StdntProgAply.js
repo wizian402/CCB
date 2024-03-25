@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CCard,
   CCardBody,
@@ -93,6 +94,7 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
 };
 
 const TngAttend = () => {
+  const navigate = useNavigate();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -167,9 +169,14 @@ const TngAttend = () => {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         setAttendList(data);
       })
-      .catch(error => console.error('Error fetching attendCd list:', error));
+      .catch(error => {
+        console.error('Error fetching attendCd list:', error)
+        alert("진행중인 현장실습이 없습니다.")
+        navigate('/stdntAply');
+      });
   };
 
   return (

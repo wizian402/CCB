@@ -17,10 +17,6 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 export const _nav = [
   {
-    component: CNavTitle,
-    name: '교수',
-  },
-  {
     component: CNavGroup,
     name: '이력서관리',
     to: '#',

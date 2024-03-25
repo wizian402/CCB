@@ -17,10 +17,6 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 export const _nav = [
   {
-    component: CNavTitle,
-    name: '산업체',
-  },
-  {
     component: CNavItem,
     name: '현장 실습 참여 신청',
     to: '/tngApplication',

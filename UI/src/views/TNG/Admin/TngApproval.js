@@ -21,6 +21,8 @@ import {
   CModalTitle
 } from '@coreui/react';
 
+import "./css/tngApproval.css";
+
 const TngList = () => {
   const navigate = useNavigate();
   const [tngList, setTngList] = useState([]);
@@ -137,7 +139,11 @@ const TngList = () => {
               </CTableHead>
               <CTableBody>
                 {currentTngList.map((item, index) => (
-                  <CTableRow key={index} onClick={() => handleModalOpen(item)}>
+                  <CTableRow
+                    key={index}
+                    onClick={() => handleModalOpen(item)}
+                    className="table-hover" // 마우스를 올렸을 때 배경색이 변화하도록 설정한 CSS 클래스
+                  >
                     <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{getBzentyNm(item.bzentyUserNo)}</CTableDataCell>
                     <CTableDataCell className="text-center">{item.tkcgTaskNm}</CTableDataCell>
