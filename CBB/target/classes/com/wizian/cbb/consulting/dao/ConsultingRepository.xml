@@ -116,7 +116,8 @@
 		s.CNSL_SN =
 		c.CNSL_SN
 		JOIN
-		DSCSN_TTL d ON d.DSCSN_TTL = c.ARSP_NM
+		DSCSN_TTL d
+		ON d.DSCSN_TTL = c.ARSP_NM
 		JOIN
 		TIMETBL t ON
 		s.TIMETBL_CD =
@@ -230,8 +231,10 @@
 		SELECT * FROM COUNSELOR
 	</select>
 
-	<!-- <insert id="request" resultType=int>
-	 	
-	</insert> -->
+		<!--<insert id="request" resultType=int>
+		INSERT INTO
+		DSCSN_RSVT(DSCSN_RSVT_SN,CNSL_SCHEDULE_SN,DSCSN_TTL_SN,CNSL_SN,STDNT_SN,DSCSN_RSVT_YMD)
+		VALUES(DSCSN_RSVT_SEQ.NEXTVAL,#{});
+	</insert>-->
 	<!--//////////////학생 상담 신청////////////////////// -->
 </mapper>

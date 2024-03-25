@@ -124,6 +124,13 @@ public class ConsultingController {
 		System.out.println(list);
 		return list;
 	}
+	@PostMapping(value = "/consulting/request")
+	public @ResponseBody int request(@RequestBody SchedulePrintVO schedulePrintVO) {
+		int num = 0;
+		System.out.println(schedulePrintVO);
+//		num = consultingService.request(schedulePrintVO);
+		return num;
+	}
 //////////////학생 상담 신청//////////////////////
 	
 	

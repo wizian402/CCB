@@ -11,9 +11,9 @@ const VerticallyCentered = ({ item }) => {
   const [visible, setVisible] = useState(false);
   const [formData, setFormData] = useState({
     scheduleId: item.scheduleId,
-    item: item.itemId,
-    id: localStorage.getItem("loginId"),
-    scheduleId: item.scheduleId,
+    itemId: item.itemId,
+    studentId: localStorage.getItem("loginId"),
+    counselorId: item.counselorId,
   });
   const handleSubmit = async () => {
     try {
