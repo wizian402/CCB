@@ -22,7 +22,7 @@
 		RECRUIT_NOTICE
 	</select>
 
-	<select id="getPbancfromDB" parameterType="int"
+	<select id="getPbancfromDB" parameterType="string"
 		resultMap="pbancMap">
 		SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
 	</select>
@@ -96,6 +96,14 @@
 		WHERE STDNT_SN = #{stdSn} AND PBANC_SN = #{pbancSn}
 	</update>
 
+
+	<select id="getAplyPbancListDB" resultType="hashMap" parameterType="string">
+		select pbanc_sn from job_search where STDNT_SN = #{userSTDNTSN} and JNCMP_APLY_YN = 'y' 
+	</select>
+	
+	<select id="getAllStdntInfo" resultType="hashMap" parameterType="string">
+	select * from STDNT where STDNT_SN = #{userSTDNTSN}
+	</select>
 
 
 </mapper>

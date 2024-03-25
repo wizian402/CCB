@@ -29,7 +29,7 @@ export const _nav = [
       {
         component: CNavItem,
         name: '신규이력서작성',
-        to: '/base/TablesResume',
+        to: '/recruit/WriteResume',
       }
     ]
   }, {
@@ -68,7 +68,7 @@ export const _nav = [
       {
         component: CNavItem,
         name: '지원내역조회',
-        to: '/recruit/TablePbanc',
+        to: '/recruit/TableAplyPbanc',
       }
     ]
   },

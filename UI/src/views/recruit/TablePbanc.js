@@ -101,7 +101,7 @@ const Tables = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>채용공고조회</strong> <small></small>
+            <strong><h2>채용공고조회</h2></strong> <small></small>
           </CCardHeader>
           <CCardBody>
 

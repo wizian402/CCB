@@ -1,6 +1,8 @@
 package com.wizian.cbb.recruit.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public class RcrService implements IRcrService{
 	
 	
 	@Override
-	public RcrPbancVO getPbanc(int pbancSn) {
+	public RcrPbancVO getPbanc(String pbancSn) {
 		return rcrRepository.getPbancfromDB(pbancSn);
 	}
 
@@ -91,7 +93,6 @@ public class RcrService implements IRcrService{
 		data4get.put("stdSn", stdntSn.get("STDNTSN").toString());
 		data4get.put("pbancSn", dataMap.get("pbancSn"));
 		 Map<String, Object>result = rcrRepository.getCheckAply(data4get);
-		 System.out.println();
 		 
 		if(result!=null) return result;
 			
@@ -120,6 +121,37 @@ public class RcrService implements IRcrService{
 	public void setCancleData (Map<String, Object> data) {
 		rcrRepository.setAplyCancle(data);
 	}
+	
+	
+	@Override
+	public List<RcrPbancVO> getAplyPbancList(String userData) throws JsonParseException, JsonMappingException, IOException{
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(userData, new TypeReference<Map<String, String>>() {
+		});
+		String userNo = dataMap.get("userNo");
+		String userSTDNTSN = ((BigDecimal) rcrRepository.getSTDNTInfo(userNo).get("STDNTSN")).toString();
+		List<RcrPbancVO> result = new ArrayList<RcrPbancVO>();
+		List<Map<String,Object>> aplyPbancSNs = rcrRepository.getAplyPbancListDB(userSTDNTSN);
+		
+		for(Map<String,Object> aplyPbancSN : aplyPbancSNs ) {
+			result.add(rcrRepository.getPbancfromDB(((BigDecimal) aplyPbancSN.get("PBANC_SN")).toString()));
+			System.out.println(result);
+		}
+		return result;
+	}
+	
+	
+	@Override
+	public Map<String, Object> getAllStdntInfo(String userData) throws JsonParseException, JsonMappingException, IOException{
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(userData, new TypeReference<Map<String, String>>() {
+		});
+		String userNo = dataMap.get("userNo");
+		String userSTDNTSN = ((BigDecimal) rcrRepository.getSTDNTInfo(userNo).get("STDNTSN")).toString();
+		return rcrRepository.getAllStdntInfo(userSTDNTSN);
+		
+	}
+;
 	
 	
 }

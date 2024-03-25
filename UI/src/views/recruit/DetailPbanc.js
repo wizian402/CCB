@@ -170,7 +170,7 @@ const DetailPbanc = () => {
 
     const fetchCancleAply = async () => {
         try {
-            const reponse = await fetch('/cbb/rcr/cancleAply', {
+            const response = await fetch('/cbb/rcr/cancleAply', {
                 method: 'Post',
                 headers: {
                     'Content-Type': 'application/json',
