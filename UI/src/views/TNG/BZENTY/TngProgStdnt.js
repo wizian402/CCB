@@ -123,6 +123,12 @@ const StudentActionsDropdown = ({ student, onGradeInput, navigate, tngNo }) => {
     navigate('/tngAttend');
   };
 
+  const navigateToTngRcd = () => {
+    sessionStorage.setItem('selectedTngNo', tngNo);
+    sessionStorage.setItem('stdntSn', student.stdntSn);
+    navigate('/tngRcd');
+  };
+
   return (
     <CDropdown>
       <CDropdownToggle color="primary" size="sm">
@@ -133,7 +139,7 @@ const StudentActionsDropdown = ({ student, onGradeInput, navigate, tngNo }) => {
           <CDropdownItem onClick={() => onGradeInput(student)}>성적입력</CDropdownItem>
         )}
         <CDropdownItem onClick={navigateToTngAttend}>출석 입력</CDropdownItem>
-        <CDropdownItem>지도일지 입력</CDropdownItem>
+        <CDropdownItem onClick={navigateToTngRcd}>지도일지 입력</CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   );
