@@ -26,51 +26,70 @@ public class RcrController {
 	@Autowired
 	@Qualifier("rcrService")
 	IRcrService rcrService;
-	
+
 	@GetMapping("/rcr/list")
-	public @ResponseBody List<RcrPbancVO> getAllPbancs(){
+	public @ResponseBody List<RcrPbancVO> getAllPbancs() {
 		List list = rcrService.getAllPbancs();
 		return list;
 	}
-	
-//	@GetMapping("/rcr/detail/{pbancSn}")
-//	public @ResponseBody RcrPbancVO getPbanc(@PathVariable int pbancSn) {
-//		RcrPbancVO pbanc = rcrService.getPbanc(pbancSn);
-//		return pbanc;
-//	}
+
 	@GetMapping("/rcr/detail/{pbancSn}")
 	public @ResponseBody ResponseEntity<?> getPbanc(@PathVariable String pbancSn) {
-	    try {
-	        int pbancSnInt = Integer.parseInt(pbancSn);
-	        RcrPbancVO pbanc = rcrService.getPbanc(pbancSnInt);
-	        return ResponseEntity.ok(pbanc);
-	    } catch (NumberFormatException e) {
-	        return ResponseEntity.badRequest().body("Invalid pbancSn: " + pbancSn);
-	    }
-	}	
-	
-	
+		try {
+			
+			RcrPbancVO pbanc = rcrService.getPbanc(pbancSn);
+			return ResponseEntity.ok(pbanc);
+		} catch (NumberFormatException e) {
+			return ResponseEntity.badRequest().body("Invalid pbancSn: " + pbancSn);
+		}
+	}
+
 	@PostMapping("/rcr/detailCom")
-	public @ResponseBody Map<String, Object> getComInfo(@RequestBody String bizRegData) throws JsonParseException, JsonMappingException, IOException{
+	public @ResponseBody Map<String, Object> getComInfo(@RequestBody String bizRegData)
+			throws JsonParseException, JsonMappingException, IOException {
 
-			ObjectMapper objectMapper = new ObjectMapper();
-			Map<String, String> comMap = objectMapper.readValue(bizRegData, new TypeReference<Map<String, Object>>(){
-			});
-			String bizRegNum = comMap.get("bizRegNum");
-			Map<String, Object> comInfoData = rcrService.getComInfo(bizRegNum);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> comMap = objectMapper.readValue(bizRegData, new TypeReference<Map<String, Object>>() {
+		});
+		String bizRegNum = comMap.get("bizRegNum");
+		Map<String, Object> comInfoData = rcrService.getComInfo(bizRegNum);
 
-		return comInfoData;		
+		return comInfoData;
 	}
-	
-	
+
 	@PostMapping("/rcr/udtJobSearch")
-	public void updateJobSearch (@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException {
-
+	public void updateJobSearch(@RequestBody String userData)
+			throws JsonParseException, JsonMappingException, IOException {
+		System.out.println("업데이트잡서치 진입");
 		rcrService.updateJobSearchDB(userData);
+	}
+
+	@PostMapping("/rcr/checkAply")
+	public @ResponseBody Map<String, Object> checkAply(@RequestBody String data)
+			throws JsonParseException, JsonMappingException, IOException {
 		
+		System.out.println("체크어플라이진입?");
+		System.out.println(rcrService.checkAply(data));
+		return rcrService.checkAply(data);
+	}  
+
+	@PostMapping("/rcr/cancleAply")
+	public void updateAplyCancle(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException {
+		rcrService.updateAplyCancleDB(userData);
 	}
 	
 	
+	@PostMapping("/rcr/aplylist")
+	public @ResponseBody List<RcrPbancVO> aplyPbancList(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
+		
+		return rcrService.getAplyPbancList(userData);
+	}
+	
+	
+	@PostMapping("/rcr/fetchStdntInfo")
+	public @ResponseBody Map<String, Object> getAllStdntInfo(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
+		return rcrService.getAllStdntInfo(userData);
+	}
 	
 	
 }

@@ -30,7 +30,6 @@ public class TngListController {
 			Map<String, Object> userNo = tngListService.selectBzentyUserNo(loginId);
 			String bzentyUserNo = (String) userNo.get("bzentyUserNo");
 			List<TngVO> tngVoList = tngListService.selectTngList(bzentyUserNo);
-			List<Map<String, Object>> list = tngListService.selectPrgrsStts();
 			return tngVoList;
 		} catch (Exception e) {
 			// 예외 처리

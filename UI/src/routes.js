@@ -110,22 +110,29 @@ const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 const ProfessorSelect = React.lazy(() =>
   import("./views/TNG/SCSBJT/ProfessorSelect")
 );
+const TngApproval = React.lazy(() => import("./views/TNG/Admin/TngApproval"));
+const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
+const StdntProgAply = React.lazy(() =>
+  import("./views/TNG/Stdnt/StdntProgAply")
+);
 const TNGApplication = React.lazy(() =>
   import("./views/TNG/BZENTY/TNGApplication")
 );
 const TNGList = React.lazy(() => import("./views/TNG/BZENTY/TngList"));
-const TngApproval = React.lazy(() => import("./views/TNG/Admin/TngApproval"));
-const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
 const TngAplyStdntList = React.lazy(() =>
   import("./views/TNG/BZENTY/TngAplyStdntList")
 );
 const TngProgStdnt = React.lazy(() =>
   import("./views/TNG/BZENTY/TngProgStdnt")
 );
+const TngAttend = React.lazy(() => import("./views/TNG/BZENTY/TngAttend"));
+const TngRcd = React.lazy(() => import("./views/TNG/BZENTY/TngRcd"));
 
 //RECRUIT
 const TablePbanc = React.lazy(() => import("./views/recruit/TablePbanc"));
 const DetailPbanc = React.lazy(() => import("./views/recruit/DetailPbanc"));
+const TableAplyPbanc = React.lazy(() => import("./views/recruit/ApplyList"));
+const WriteResume = React.lazy(() => import("./views/recruit/WriteResume"));
 
 const routes = [
   // consulting
@@ -162,6 +169,13 @@ const routes = [
     element: TngAplyStdntList,
   },
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt },
+  { path: "/tngAttend", name: "현장 실습 출석", element: TngAttend },
+  {
+    path: "/stdntProgAply",
+    name: "진행중인 현장 실습",
+    element: StdntProgAply,
+  },
+  { path: "/tngRcd", name: "지도일지 작성", element: TngRcd },
 
   // RECRUIT
   { path: "/recruit/tablePbanc", name: "TablePbanc", element: TablePbanc },
@@ -170,6 +184,12 @@ const routes = [
     name: "detailPbanc",
     element: DetailPbanc,
   },
+  {
+    path: "/recruit/TableAplyPbanc",
+    name: "TableAplyPbanc",
+    element: TableAplyPbanc,
+  },
+  { path: "/recruit/WriteResume", name: "WriteResume", element: WriteResume },
 
   //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

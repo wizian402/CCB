@@ -20,7 +20,7 @@ import {
 } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './components/SerchBox';
-import Pagination from './components/Pagination';
+import Pagination from './components/Pagination'; 
 
 const Tables = () => {
   const [data, setData] = useState([]);
@@ -30,7 +30,7 @@ const Tables = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 2; // 페이지당 보여줄 아이템 수
+  const ITEMS_PER_PAGE = 5; // 페이지당 보여줄 아이템 수
 
   useEffect(() => {
     fetchDataFromDatabase();
@@ -101,7 +101,7 @@ const Tables = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>채용공고조회</strong> <small></small>
+            <strong><h2>채용공고조회</h2></strong> <small></small>
           </CCardHeader>
           <CCardBody>
 
@@ -170,7 +170,7 @@ const Tables = () => {
 
       <CModal visible={visible} onClose={handleCloseModal}>
         <CModalHeader closeButton>
-          <CModalTitle>Detail</CModalTitle>
+          <CModalTitle>요약정보</CModalTitle>
         </CModalHeader>
         <CModalBody>
           {selectedItem && (
@@ -189,11 +189,11 @@ const Tables = () => {
           )}
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={handleCloseModal}>
-            Close
+          <CButton color="primary" variant="outline" onClick={handleDetailButtonClick}>
+            상세보기
           </CButton>
-          <CButton color="primary" onClick={handleDetailButtonClick}>
-            View Details
+          <CButton color="secondary" variant="outline" onClick={handleCloseModal}>
+            닫기
           </CButton>
         </CModalFooter>
       </CModal>

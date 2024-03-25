@@ -23,7 +23,6 @@ import {
 const TngAplyStdntList = () => {
   const [tngNo, setTngNo] = useState(null);
   const [stdntList, setStdntList] = useState([]);
-  const [scsbjtList, setScsbjtList] = useState([]);
   const [selectedTng, setSelectedTng] = useState(null);
 
   useEffect(() => {
@@ -40,7 +39,6 @@ const TngAplyStdntList = () => {
   useEffect(() => {
     if (tngNo) {
       fetchStdntList();
-      fetchScsbjt();
     }
   }, [tngNo]);
 
@@ -59,22 +57,8 @@ const TngAplyStdntList = () => {
       .catch(error => console.error('Error fetching student list:', error));
   };
 
-  const fetchScsbjt = () => {
-    fetch('/cbb/tng/getScsbjt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setScsbjtList(data)
-      })
-      .catch(error => console.error('Error fetching scsbjt list:', error));
-  };
-
   const handleModalOpen = (selectedTng) => {
-    if (selectedTng.tngPrgrsStts == '실습신청') {
+    if (selectedTng.nm == '실습신청') {
       setSelectedTng(selectedTng);
     }
   };
@@ -111,14 +95,14 @@ const TngAplyStdntList = () => {
                       <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
                       <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
                       <CTableDataCell className="text-center">
-                        {scsbjtList.find(item => item.scsbjtCd === stdnt.scsbjtCd)?.scsbjtNm}
+                        {stdnt.scsbjtNm}
                       </CTableDataCell>
                       <CTableDataCell className="text-center">{stdnt.stdntGrd}학년</CTableDataCell>
                       <CTableDataCell className="text-center">
                         {stdnt.stdntBrdt && stdnt.stdntBrdt.replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')}
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        {stdnt.tngPrgrsStts}
+                        {stdnt.nm}
                       </CTableDataCell>
                     </CTableRow>
                   ))}
@@ -128,12 +112,12 @@ const TngAplyStdntList = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} scsbjtList={scsbjtList} tngNo={tngNo} fetchStdntList={fetchStdntList} />
+      <TNGDetailModal selectedTng={selectedTng} onClose={handleModalClose} tngNo={tngNo} fetchStdntList={fetchStdntList} />
     </CRow>
   );
 };
 
-const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntList }) => {
+const TNGDetailModal = ({ selectedTng, onClose, tngNo, fetchStdntList }) => {
   const navigate = useNavigate();
   const handleApproval = () => {
     fetch('/cbb/tng/selecStdnt', {
@@ -184,7 +168,7 @@ const TNGDetailModal = ({ selectedTng, onClose, scsbjtList, tngNo, fetchStdntLis
             </CTableRow>
             <CTableRow>
               <CTableHeaderCell>학과:</CTableHeaderCell>
-              <CTableDataCell>{selectedTng && scsbjtList.find(item => item.scsbjtCd === selectedTng.scsbjtCd)?.scsbjtNm}</CTableDataCell>
+              <CTableDataCell>{selectedTng && selectedTng.scsbjtNm}</CTableDataCell>
             </CTableRow>
             <CTableRow>
               <CTableHeaderCell>학년:</CTableHeaderCell>

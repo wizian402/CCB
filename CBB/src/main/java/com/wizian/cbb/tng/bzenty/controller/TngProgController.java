@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,17 +27,59 @@ public class TngProgController {
 			Map<String, String> tngMap = objectMapper.readValue(tngData, new TypeReference<Map<String, String>>() {
 			});
 			String tngNo = tngMap.get("tngNo");
-			System.out.println(tngNo);
 			List<Map<String, Object>> stdntList = tngProgService.tngPerStdntList(tngNo);
-
-			System.out.println(stdntList);
-			for(Map<String, Object> temp: stdntList) {
-				System.out.println(temp);
-			}
 			return stdntList;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;
+	}
+
+	@PostMapping("/tng/regGrade")
+	public ResponseEntity<String> regGrade(@RequestBody String tngStdntData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> tngMap = objectMapper.readValue(tngStdntData, new TypeReference<Map<String, String>>() {
+			});
+			String tngNo = tngMap.get("tngNo");
+			String stdntSn = tngMap.get("stdntSn");
+			int score = Integer.parseInt(tngMap.get("score"));
+			Map<String, Object> tngAplyNoMap = tngProgService.getTngStdnt(tngNo, stdntSn);
+			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
+			int ttrHr = Integer.parseInt(tngAplyNoMap.get("ttrHr").toString());
+			Map<String, Object> tngData = tngProgService.getBzentyUserNo(tngNo);
+
+			String bzentyUserNo = tngData.get("bzentyUserNo").toString();
+			String semester = tngData.get("semester").toString();
+			int cmcrsHr = Integer.parseInt(tngData.get("cmcrsHr").toString());
+			String grd = convertToGrade(score);
+			if(cmcrsHr <= ttrHr) {
+				tngProgService.insertTngGrd(tngAplyNo, bzentyUserNo, semester, score, grd);
+				tngProgService.updateIndstEvlYn(tngNo, stdntSn);
+				return ResponseEntity.ok("success");
+			} else {
+				return ResponseEntity.ok("fail2");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return ResponseEntity.ok("fail");
+	}
+
+	public String convertToGrade(int score) {
+		if (score >= 90 && score <= 100) {
+			return "A";
+		} else if (score >= 80 && score < 90) {
+			return "B";
+		} else if (score >= 70 && score < 80) {
+			return "C";
+		} else if (score >= 60 && score < 70) {
+			return "D";
+		} else if (score >= 0 && score < 60) {
+			return "F";
+		} else {
+			return "Invalid score";
+		}
 	}
 }

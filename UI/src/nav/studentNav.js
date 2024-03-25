@@ -29,7 +29,7 @@ export const _nav = [
       {
         component: CNavItem,
         name: '신규이력서작성',
-        to: '/base/TablesResume',
+        to: '/recruit/WriteResume',
       }
     ]
   }, {
@@ -56,18 +56,23 @@ export const _nav = [
     ]
   }, {
     component: CNavGroup,
-    name: '채용공고조회',
+    name: '채용공고',
     to: '#',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
+        name: '채용공고조회',
+        to: '/recruit/TablePbanc',
+      },
+      {
+        component: CNavItem,
         name: '지원내역조회',
-        to: '#',
+        to: '/recruit/TableAplyPbanc',
       }
     ]
   },
-  
+
 
 
   // 참고용 메뉴 추후 삭제 //

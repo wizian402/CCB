@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -22,6 +22,8 @@ const AppHeader = () => {
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.sidebarShow);
   const navigate = useNavigate();
+  const [tkcgTaskCd, setTkcgTaskCd] = useState("");
+
   let menuItems;
   const handleLogout = () => {
     localStorage.clear();
@@ -35,17 +37,41 @@ const AppHeader = () => {
     navigate("/login");
   };
 
+  const fetchTkcgTaskCd = () => {
+    const loginId = localStorage.getItem("loginId");
+    fetch("/cbb/tng/tkcgTaskCd", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ loginId: loginId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setTkcgTaskCd(data);
+      })
+      .catch((error) =>
+        console.error("Error fetching fetchTkggTaskCd:", error)
+      );
+  };
+
   const userGroup = localStorage.getItem("userGroupCd");
 
   let HeaderNavComponent;
   if (userGroup === "10") {
-    menuItems = [
-      { name: "담당자", link: "/" },
-      { name: "담당자", link: "/" },
-      { name: "담당자", link: "/" },
-      { name: "상담 관리", link: "/consultationItem" },
-      { name: "현장 실습 참여 관리", link: "/tngApproval" },
-    ];
+    fetchTkcgTaskCd();
+    if (tkcgTaskCd.tkcgTaskCd === "10") {
+      menuItems = [{ name: "현장 실습 참여 관리", link: "/tngApproval" }];
+    } else {
+      menuItems = [
+        { name: "담당자", link: "/" },
+        { name: "담당자", link: "/" },
+        { name: "담당자", link: "/" },
+        { name: "상담 관리", link: "/consultationItem" },
+        { name: "현장 실습 참여 관리", link: "/tngApproval" },
+      ];
+    }
+
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   } else if (userGroup === "20") {
     menuItems = [

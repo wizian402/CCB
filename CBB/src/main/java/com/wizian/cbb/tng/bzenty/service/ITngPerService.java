@@ -9,7 +9,7 @@ import com.wizian.cbb.tng.bzenty.model.TngVO;
 import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
 public interface ITngPerService {
-	List<StdntVO> selectTngStdntList(String tngNo);
+	List<Map<String, Object>> selectTngStdntList(String tngNo);
 
 	List<Map<String, String>> selectScsbjt();
 	

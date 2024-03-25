@@ -13,41 +13,17 @@ import {
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './scss/detailPbanc.css';
-import { useNavigate } from 'react-router-dom';
 
 const DetailPbanc = () => {
     const { pbancSn } = useParams();
     const [pbancData, setPbancData] = useState(null);
     const [comInfoData, setComInfoData] = useState(null);
-
     const [modalOpen, setModalOpen] = useState(false);
-    const toggleModal = () => {
-        setModalOpen(!modalOpen);
-    };
-
-
-
-    const handleYes = async () => {
-        // "예" 버튼 클릭 시 실행되는 작업을 여기에 추가하세요.
-        console.log("예 버튼이 클릭되었습니다.");
-        fetchUdtJobSearch();
-
-        setModalOpen(false);
-    };
-
-    const handleNo = () => {
-        // "아니요" 버튼 클릭 시 실행되는 작업을 여기에 추가하세요.
-        console.log("아니요 버튼이 클릭되었습니다.");
-        console.log("modalOpen값", modalOpen)
-        // 모달을 닫습니다.
-        setModalOpen(false);
-    };
-
-
-
-
-
+    const [aplyStts, setAplyStts] = useState(null);
     const [tngNo, setTngNo] = useState(null);
+    const [chgButton, setChgButton] = useState(null);
+    const [modalContent, setModalContent] = useState(null);
+
     useEffect(() => {
         const selectedTngNo = sessionStorage.getItem("selectedTngNo");
         const userGroupCd = localStorage.getItem('userGroupCd');
@@ -66,8 +42,53 @@ const DetailPbanc = () => {
     useEffect(() => {
         if (pbancData && pbancData.bizRegNum) {
             fetchComInfo();
+            fetchCheckAply();
         }
     }, [pbancData]);
+
+    useEffect(() => {
+        console.log(aplyStts)
+        if (aplyStts === 'y') {
+
+            setChgButton(
+                <><p style={{ color: "red" }}> 현재 입사 지원 된 상태입니다.&nbsp;&nbsp;&nbsp; </p> <CButton color="danger" variant="outline" onClick={toggleModal}>취소하기</CButton></>
+            );
+
+            setModalContent(
+                <>
+                    <CModalHeader>취소하시겠습니까?</CModalHeader>
+                    <CModalBody>
+                        입사 지원을 취소합니다.
+                    </CModalBody>
+                    <CModalFooter>
+                        <CButton color="primary" variant="outline" onClick={handleCancel}>예</CButton>
+                        <CButton color="secondary" variant="outline" onClick={handleNo}>아니요</CButton>
+                    </CModalFooter>
+                </>
+            );
+
+
+        } else {
+            setChgButton(
+                <CButton color="success" variant="outline" onClick={toggleModal}>지원하기</CButton>
+            );
+
+            setModalContent(
+                <>
+                    <CModalHeader>지원하시겠습니까?</CModalHeader>
+                    <CModalBody>
+                        지원 후, 취소 가능합니다.
+                    </CModalBody>
+                    <CModalFooter>
+                        <CButton color="primary" variant="outline" onClick={handleYes}>예</CButton>
+                        <CButton color="secondary" variant="outline" onClick={handleNo}>아니요</CButton>
+                    </CModalFooter>
+                </>
+            );
+
+        }
+    }, [aplyStts]);
+
 
     const fetchDataFromDatabase = async () => {
         try {
@@ -98,27 +119,71 @@ const DetailPbanc = () => {
 
     const fetchUdtJobSearch = async () => {
         try {
+            // console.log("유저넘버 :", localStorage.getItem('userNo'));
+            console.log("공고번호 : ", pbancData.pbancSn)
+            console.log("사업자번호 : ", pbancData.bizRegNum)
 
             const response = await fetch('/cbb/rcr/udtJobSearch', {
-
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     userNo: localStorage.getItem('userNo'),
-
+                    pbancSn: pbancData.pbancSn,
+                    bizRegNum: pbancData.bizRegNum,
                 })
             })
-
-
-
         } catch (error) {
             console.log('Error fetching UdtJobSearch', error)
         }
-
     }
 
+    const fetchCheckAply = async () => {
+
+        try {
+            const response = await fetch('/cbb/rcr/checkAply', {
+                method: 'Post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userNo: localStorage.getItem('userNo'),
+                    pbancSn: pbancData.pbancSn,
+                })
+            })
+            // console.log(response)
+
+            const data = await response.json();
+            if (data.JNCMP_APLY_YN === 'y') {
+                setAplyStts(data.JNCMP_APLY_YN);
+            } else {
+                console.log("?????", data)
+                setAplyStts("n");
+
+            }
+
+        } catch (error) {
+            console.log('Error fetching checkAply', error)
+        }
+    }
+
+    const fetchCancleAply = async () => {
+        try {
+            const response = await fetch('/cbb/rcr/cancleAply', {
+                method: 'Post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userNo: localStorage.getItem('userNo'),
+                    pbancSn: pbancData.pbancSn,
+                })
+            })
+        } catch (error) {
+            console.log('Error fetching checkAply', error)
+        }
+    }
 
     const formatDate = (dateNumber) => {
         const dateString = dateNumber.toString();
@@ -128,19 +193,33 @@ const DetailPbanc = () => {
         return `${year}. ${month}. ${day}.`;
     };
 
+    const toggleModal = () => {
+        setModalOpen(!modalOpen);
+    };
 
+    const handleYes = async () => {
+        await fetchUdtJobSearch();
+        await fetchCheckAply();
+        setModalOpen(false);
+    };
+
+    const handleNo = () => {
+        setModalOpen(false);
+    };
+
+    const handleCancel = async () => {
+        await fetchCancleAply();
+        await fetchCheckAply();
+        setModalOpen(false);
+    }
 
     if (!pbancData || !comInfoData) {
         return <div>Loading...</div>;
     }
 
-
-
-
     return (
 
         <CContainer className="container">
-
             <CRow md={{ cols: 2, gutter: 1 }}>
                 <CCol md={3}>
                     <div className="p-3 itmL">공고번호 :</div>
@@ -273,11 +352,15 @@ const DetailPbanc = () => {
                 <div className="p-3 itmC">{pbancData.pbancContent}</div>
             </CCol>
 
-            <div style={{ justifyContent: "flex-end", border: "1px solid black", display: "flex" }}>
-                <CButton color="success" variant="outline" onClick={toggleModal}>지원하기</CButton>
+
+
+            <div style={{ justifyContent: "flex-end", display: "flex" }}>
+                {chgButton}
             </div>
 
-            <CModal alignment="center" visible={modalOpen} onClose={() => setModalOpen(false)}>
+
+
+            {/* <CModal alignment="center" visible={modalOpen} onClose={() => setModalOpen(false)}>
                 <CModalHeader>지원하시겠습니까?</CModalHeader>
                 <CModalBody>
                     지원 후, 취소 가능합니다.
@@ -286,9 +369,12 @@ const DetailPbanc = () => {
                     <CButton color="primary" onClick={handleYes}>예</CButton>
                     <CButton color="secondary" onClick={handleNo}>아니요</CButton>
                 </CModalFooter>
+            </CModal> */}
+
+
+            <CModal alignment="center" visible={modalOpen} onClose={() => setModalOpen(false)}>
+                {modalContent}
             </CModal>
-
-
 
 
 

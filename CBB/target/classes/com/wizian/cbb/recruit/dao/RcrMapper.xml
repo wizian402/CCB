@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wizian.cbb.recruit.dao.IRcrRepository">
-	<resultMap id="pbancMap" type="com.wizian.cbb.recruit.model.RcrPbancVO">
+	<resultMap id="pbancMap"
+		type="com.wizian.cbb.recruit.model.RcrPbancVO">
 		<result property="pbancSn" column="pbanc_sn" />
 		<result property="pbancName" column="pbanc_nm" />
 		<result property="numRcr" column="rcrut_nope" />
@@ -16,38 +17,93 @@
 		<result property="bizRegNum" column="brno" />
 	</resultMap>
 
-<select id="getAllPbancsfromDB" resultMap="pbancMap">
-SELECT * FROM RECRUIT_NOTICE
-</select>
+	<select id="getAllPbancsfromDB" resultMap="pbancMap">
+		SELECT * FROM
+		RECRUIT_NOTICE
+	</select>
 
-<select id="getPbancfromDB" parameterType="int" resultMap="pbancMap">
-SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
-</select>
+	<select id="getPbancfromDB" parameterType="string"
+		resultMap="pbancMap">
+		SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
+	</select>
 
-<select id="getComInfo" resultType="hashMap" parameterType="string">
-    SELECT 
-        "BRNO" AS brno,
-        "LCNT_ADDR" AS lcntAddr,
-        "ENT_KND" AS entKnd,
-        "TPBIZ_NM" AS tpBizNm,
-        "BZENTY_NM" AS bzentyNm,
-        "BZENTY_RPRSV_NM" AS bzentyRprsvNm,
-        "ANL_SLS_AMT" AS anlSlsAmt,
-        "ANLSL_AMT" AS anlslAmt,
-        "FNDN_YR" AS fndnYr,
-        "CPTL" AS cptl,
-        "TNOWK" AS tnowk,
-        "LAST_REG_DT" AS lastRegDt
-    FROM "SCOTT"."COMPANY_INFO" WHERE "BRNO" = #{bizRegNum}
-</select>
+	<select id="getComInfo" resultType="hashMap"
+		parameterType="string">
+		SELECT
+		"BRNO" AS brno,
+		"LCNT_ADDR" AS lcntAddr,
+		"ENT_KND"
+		AS entKnd,
+		"TPBIZ_NM" AS tpBizNm,
+		"BZENTY_NM" AS bzentyNm,
+		"BZENTY_RPRSV_NM" AS bzentyRprsvNm,
+		"ANL_SLS_AMT" AS anlSlsAmt,
+		"ANLSL_AMT" AS anlslAmt,
+		"FNDN_YR" AS fndnYr,
+		"CPTL" AS cptl,
+		"TNOWK" AS
+		tnowk,
+		"LAST_REG_DT" AS lastRegDt
+		FROM "SCOTT"."COMPANY_INFO" WHERE
+		"BRNO" = #{bizRegNum}
+	</select>
 
-<select id="getSTDNTInfo" resultType="hashMap" parameterType="string">
-        SELECT STDNT_SN FROM STDNT
-        WHERE USER_NO = #{userNo}
-</select>
+	<select id="getSTDNTInfo" resultType="hashMap"
+		parameterType="string">
+		SELECT "STDNT_SN" AS stdntSn FROM "SCOTT"."STDNT"
+		WHERE
+		"USER_NO" = #{userNo}
+	</select>
 
 
 
+	<insert id="setJSData" parameterType="hashMap">
+		<selectKey keyProperty="count" resultType="int"
+			order="BEFORE">
+			SELECT COUNT(*) AS count FROM JOB_SEARCH WHERE STDNT_SN =
+			#{stdSn} AND
+			PBANC_SN = #{pbancSn}
+		</selectKey>
+		<choose>
+			<when test="count > 0">
+				UPDATE JOB_SEARCH
+				SET APLY_DT = #{nowDate},
+				JNCMP_APLY_YN = #{applyYn}, BRNO =
+				#{bizRegNum}
+				WHERE STDNT_SN =
+				#{stdSn} AND PBANC_SN = #{pbancSn}
+			</when>
+			<otherwise>
+				INSERT INTO JOB_SEARCH (STDNT_SN, APLY_DT, JNCMP_APLY_YN,
+				PBANC_SN, BRNO)
+				VALUES (#{stdSn}, #{nowDate}, #{applyYn}, #{pbancSn},
+				#{bizRegNum})
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="getCheckAply" resultType="hashmap"
+		parameterType="string">
+		SELECT JNCMP_APLY_YN from JOB_SEARCH WHERE STDNT_SN =
+		#{stdSn} AND PBANC_SN
+		= #{pbancSn}
+	</select>
+
+
+	<update id="setAplyCancle" parameterType="hashMap">
+		UPDATE JOB_SEARCH
+		SET JNCMP_APLY_YN = 'N'
+		WHERE STDNT_SN = #{stdSn} AND PBANC_SN = #{pbancSn}
+	</update>
+
+
+	<select id="getAplyPbancListDB" resultType="hashMap" parameterType="string">
+		select pbanc_sn from job_search where STDNT_SN = #{userSTDNTSN} and JNCMP_APLY_YN = 'y' 
+	</select>
+	
+	<select id="getAllStdntInfo" resultType="hashMap" parameterType="string">
+	select * from STDNT where STDNT_SN = #{userSTDNTSN}
+	</select>
 
 
 </mapper>

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.wizian.cbb.tng.bzenty.model.TngVO;
-import com.wizian.cbb.tng.stdnt.model.TngStdntVO;
 
 public interface IStdntAplyRepository {
 	List<TngVO> selectProcTng();
@@ -16,4 +15,6 @@ public interface IStdntAplyRepository {
 	Map<String, Object> selectStndtSn(@Param("loginId") String loginId);
 
 	int countTngStdnt(@Param("tngNo") int tngNo, @Param("stdntSn") int stdntSn);
+	
+	List<Map<String, Object>> getTngStdnt(@Param("stdntSn") int stdntSn);
 }
