@@ -39,18 +39,20 @@ const AppHeader = () => {
 
   const fetchTkcgTaskCd = () => {
     const loginId = localStorage.getItem("loginId");
-    fetch('/cbb/tng/tkcgTaskCd', {
-      method: 'POST',
+    fetch("/cbb/tng/tkcgTaskCd", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ loginId: loginId }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setTkcgTaskCd(data);
       })
-      .catch(error => console.error('Error fetching fetchTkggTaskCd:', error));
+      .catch((error) =>
+        console.error("Error fetching fetchTkggTaskCd:", error)
+      );
   };
 
   const userGroup = localStorage.getItem("userGroupCd");
@@ -58,24 +60,23 @@ const AppHeader = () => {
   let HeaderNavComponent;
   if (userGroup === "10") {
     fetchTkcgTaskCd();
-    if (tkcgTaskCd.tkcgTaskCd === '10') {
-      menuItems = [
-        { name: '현장 실습 참여 관리', link: '/tngApproval' }
-      ];
+    if (tkcgTaskCd.tkcgTaskCd === "10") {
+      menuItems = [{ name: "현장 실습 참여 관리", link: "/tngApproval" }];
     } else {
       menuItems = [
         { name: "담당자", link: "/" },
         { name: "담당자", link: "/" },
         { name: "담당자", link: "/" },
         { name: "상담 관리", link: "/consultationItem" },
-        { name: '현장 실습 참여 관리', link: '/tngApproval' }
+        { name: "현장 실습 참여 관리", link: "/tngApproval" },
       ];
     }
+
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   } else if (userGroup === "20") {
     menuItems = [
-      { name: '현장 실습', link: '/stdntAply' },
-      { name: '취업 활동', link: '/recruit/tablePbanc' },
+      { name: "현장 실습", link: "/stdntAply" },
+      { name: "취업 활동", link: "/recruit/tablePbanc" },
       { name: "상담 신청", link: "/consultationRequest" },
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
@@ -93,30 +94,24 @@ const AppHeader = () => {
     ];
     HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   } else if (userGroup === "60") {
-    menuItems = [
-      { name: "상담", link: "/" },
-      { name: "상담", link: "/" },
-      { name: "상담", link: "/" },
-      { name: "상담", link: "/" },
-    ];
+    menuItems = [{ name: "상담 관리", link: "/schedule" }];
 
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '50') {
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "50") {
     menuItems = [
-      { name: '현장 실습 관리', link: '/tngApplication' },
-      { name: '채용 정보 관리', link: '/' },
-      { name: '기업 정보 관리', link: '/' }
+      { name: "현장 실습 관리", link: "/tngApplication" },
+      { name: "채용 정보 관리", link: "/" },
+      { name: "기업 정보 관리", link: "/" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-  } else if (userGroup === '60') {
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
+  } else if (userGroup === "60") {
     menuItems = [
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' },
-      { name: '상담', link: '/' }
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
+      { name: "상담", link: "/" },
     ];
-    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />
-
+    HeaderNavComponent = <HeaderNavItem navItem={menuItems} />;
   }
 
   return (
