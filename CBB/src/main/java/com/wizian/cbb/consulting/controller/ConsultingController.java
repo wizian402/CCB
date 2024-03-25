@@ -69,9 +69,6 @@ public class ConsultingController {
 		List list = consultingService.adminSchedulesList();
 		return list;
 	}
-	
-	
-
 
 	//////////////상담원 시간표 확인//////////////////////
 	
@@ -91,13 +88,17 @@ public class ConsultingController {
 //////////////상담원 시간표 확인//////////////////////
 
 	@GetMapping(value = "/consulting/counselorSchedule")
-	public @ResponseBody List<SchedulePrintVO> counselorSchedule() {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
-//		System.out.println(id);
-//		List list = consultingService.counselorSchedulesList(id);
-		return null;
+	public @ResponseBody List<SchedulePrintVO> counselorSchedule(String id) {
+		System.out.println(id);
+		List list = consultingService.counselorSchedulesList(id);
+		System.out.println(list);
+		return list;
 	}
 	
+	@PostMapping(value = "/consulting/counselorSchedule/cancel")
+	public @ResponseBody int counselorScheduleCancel(@RequestBody int id) {
+		return consultingService.scheduleCansel(id);
+	}
 	
 	
 //////////////상담원 시간표 확인//////////////////////

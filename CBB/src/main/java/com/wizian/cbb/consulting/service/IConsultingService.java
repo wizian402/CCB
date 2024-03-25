@@ -30,6 +30,7 @@ public List<SchedulePrintVO> adminSchedulesList();
 
 //////////////상담원 시간표 확인//////////////////////
 public List<SchedulePrintVO> counselorSchedulesList(String id);
+public int scheduleCansel(int id);
 //////////////상담원 시간표 확인//////////////////////
 
 
@@ -46,5 +47,7 @@ public List<ResultVO> resultList();
 
 //////////////학생 상담 신청//////////////////////
 public List<ConuselorVO> counselorList();
+
+public int request(SchedulePrintVO schedulePrintVO);
 //////////////학생 상담 신청//////////////////////
 }

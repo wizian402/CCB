@@ -43,7 +43,7 @@ const AppSidebar = () => {
   const location = useLocation();
 
   const currentUri = location.pathname;
-
+  console.log(currentUri);
   let selectedNav;
   if (currentUri === "/professorSelect") {
     selectedNav = scsbjtNav;
@@ -68,12 +68,11 @@ const AppSidebar = () => {
     currentUri === "/result"
   ) {
     selectedNav = CAdmin;
-  } else if (currentUri === "/schedule" || "timeTable") {
-    selectedNav = CCounselor;
   } else if (currentUri === "/consultationRequest") {
     selectedNav = CStudent;
+  } else if (currentUri === "/timeTable" || currentUri === "/schedule") {
+    selectedNav = CCounselor;
   }
-
   return (
     <CSidebar
       position="fixed"

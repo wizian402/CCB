@@ -26,7 +26,11 @@ const Timetable = React.lazy(() =>
 );
 
 const Request = React.lazy(() =>
-  import("./views/consulting/ConsultationRequest")
+  import("./views/consulting/RequestConsultation")
+);
+
+const Requestschedule = React.lazy(() =>
+  import("./views/consulting/Requestschedule")
 );
 
 // Base
@@ -136,6 +140,11 @@ const routes = [
   { path: "/schedule", name: "Theme", element: ScheduleCheck },
   { path: "/timeTable", name: "Theme", element: Timetable },
   { path: "/consultationRequest", name: "Theme", element: Request },
+  {
+    path: "/requestschedule/:sonuselorId",
+    name: "Theme",
+    element: Requestschedule,
+  },
 
   // TNG
   {

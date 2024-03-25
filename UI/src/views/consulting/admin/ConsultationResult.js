@@ -137,7 +137,7 @@ const StudentResult = () => {
                         {item.creationDate.slice(0, 10)}
                       </CTableDataCell>
                       <CTableDataCell>
-                        <Modal item={item} />
+                        <Modal item={item}/>
                       </CTableDataCell>
                     </CTableRow>
                   ))}

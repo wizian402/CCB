@@ -2,13 +2,21 @@ package com.wizian.cbb.consulting.model;
 
 
 public class SchedulePrintVO {
+	private String scheduleId;
 	private String type;
 	private String counselor;
+	private String counselorId;
 	private String item;
+	private String itemId;
 	private String consultationDate;
 	private String consultationTime;
-	private String creationDate;	
-	
+	private String creationDate;
+	public String getScheduleId() {
+		return scheduleId;
+	}
+	public void setScheduleId(String scheduleId) {
+		this.scheduleId = scheduleId;
+	}
 	public String getType() {
 		return type;
 	}
@@ -21,11 +29,23 @@ public class SchedulePrintVO {
 	public void setCounselor(String counselor) {
 		this.counselor = counselor;
 	}
+	public String getCounselorId() {
+		return counselorId;
+	}
+	public void setCounselorId(String counselorId) {
+		this.counselorId = counselorId;
+	}
 	public String getItem() {
 		return item;
 	}
 	public void setItem(String item) {
 		this.item = item;
+	}
+	public String getItemId() {
+		return itemId;
+	}
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	public String getConsultationDate() {
 		return consultationDate;
@@ -45,15 +65,15 @@ public class SchedulePrintVO {
 	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
-
+	
 	
 	@Override
 	public String toString() {
-		return "SchedulePrintVO [type=" + type + ", counselor=" + counselor + ", item=" + item + ", consultationDate="
-				+ consultationDate + ", consultationTime=" + consultationTime + ", creationDate=" + creationDate
-				+ "]";
-	}
-
+		return "SchedulePrintVO [scheduleId=" + scheduleId + ", type=" + type + ", counselor=" + counselor
+				+ ", counselorId=" + counselorId + ", item=" + item + ", itemId=" + itemId + ", consultationDate="
+				+ consultationDate + ", consultationTime=" + consultationTime + ", creationDate=" + creationDate + "]";
+	}	
+	
 	
 
 }
