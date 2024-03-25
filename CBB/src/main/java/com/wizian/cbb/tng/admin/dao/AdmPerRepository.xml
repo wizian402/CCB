@@ -25,17 +25,28 @@
 	</select>
 
 	<select id="selectBzentyNm" resultType="hashmap">
-		SELECT BZU.BZENTY_USER_NO AS "bzentyUserNo",
+		SELECT BZU.BZENTY_USER_NO
+		AS "bzentyUserNo",
 		CI.BZENTY_NM AS "bzentyNm"
-		FROM 
+		FROM
 		BZENTY_USER BZU
-		JOIN 
+		JOIN
 		COMPANY_INFO CI ON BZU.BRNO = CI.BRNO
 	</select>
-	
+
 	<update id="approvalTng">
-    	UPDATE TNG
-    	SET PRGRS_STTS = '20'
-    	WHERE TNG_NO = #{tngNo}
+		UPDATE TNG
+		SET PRGRS_STTS = '20'
+		WHERE TNG_NO = #{tngNo}
 	</update>
+
+	<select id="selectTkcgTaskCd" resultType="hashmap">
+		SELECT TKCG_TASK_CD AS "tkcgTaskCd"
+		FROM ADMINISTRATOR
+		WHERE USER_NO IN(
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE LOGIN_ID = #{loginId}
+		)
+	</select>
 </mapper>

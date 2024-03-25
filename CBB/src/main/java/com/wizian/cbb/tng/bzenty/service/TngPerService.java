@@ -17,7 +17,7 @@ public class TngPerService implements ITngPerService {
 	ITngPerRepository tngPerRepository;
 	
 	@Override
-	public List<StdntVO> selectTngStdntList(String tngNo) {
+	public List<Map<String, Object>> selectTngStdntList(String tngNo) {
 		return tngPerRepository.selectTngStdntList(tngNo);
 	}
 

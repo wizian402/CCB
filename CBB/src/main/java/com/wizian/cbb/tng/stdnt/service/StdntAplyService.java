@@ -15,7 +15,7 @@ public class StdntAplyService implements IStdntAplyService {
 
 	@Autowired
 	IStdntAplyRepository stdntAplyRepository;
-	
+
 	@Override
 	public List<TngVO> selectProcTng() {
 		return stdntAplyRepository.selectProcTng();
@@ -34,6 +34,11 @@ public class StdntAplyService implements IStdntAplyService {
 	@Override
 	public int countTngStdnt(int tngNo, int stdntSn) {
 		return stdntAplyRepository.countTngStdnt(tngNo, stdntSn);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTngStdnt(int stdntSn) {
+		return stdntAplyRepository.getTngStdnt(stdntSn);
 	}
 
 }

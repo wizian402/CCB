@@ -73,13 +73,15 @@ const Widgets = React.lazy(() => import("./views/widgets/Widgets"));
 
 // TNG
 const ProfessorSelect = React.lazy(() => import("./views/TNG/SCSBJT/ProfessorSelect"));
-const TNGApplication = React.lazy(() => import("./views/TNG/BZENTY/TNGApplication"));
-const TNGList = React.lazy(() => import("./views/TNG/BZENTY/TngList"));
 const TngApproval = React.lazy(() => import("./views/TNG/Admin/TngApproval"));
 const StdntAply = React.lazy(() => import("./views/TNG/Stdnt/StdntAply"));
+const StdntProgAply = React.lazy(() => import("./views/TNG/Stdnt/StdntProgAply"));
+const TNGApplication = React.lazy(() => import("./views/TNG/BZENTY/TNGApplication"));
+const TNGList = React.lazy(() => import("./views/TNG/BZENTY/TngList"));
 const TngAplyStdntList = React.lazy(() => import("./views/TNG/BZENTY/TngAplyStdntList"));
 const TngProgStdnt = React.lazy(() => import("./views/TNG/BZENTY/TngProgStdnt"));
-
+const TngAttend = React.lazy(() => import("./views/TNG/BZENTY/TngAttend"));
+const TngRcd = React.lazy(() => import("./views/TNG/BZENTY/TngRcd"));
 
 //RECRUIT
 const TablePbanc = React.lazy(() => import('./views/recruit/TablePbanc'));
@@ -109,7 +111,9 @@ const routes = [
   { path: "/stdntAply", name: "현장실습 목록", element: StdntAply, },
   { path: "/tngAplyStdntList", name: "현장실습 신청 학생", element: TngAplyStdntList, },
   { path: "/tngProgStdnt", name: "현장실습 진행 학생", element: TngProgStdnt, },
-
+  { path: "/tngAttend", name: "현장 실습 출석", element: TngAttend, },
+  { path: "/stdntProgAply", name: "진행중인 현장 실습", element: StdntProgAply, },
+  { path: "/tngRcd", name: "지도일지 작성", element: TngRcd, },
 
   // RECRUIT
   { path: '/recruit/tablePbanc', name: 'TablePbanc', element: TablePbanc },

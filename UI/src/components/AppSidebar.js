@@ -47,17 +47,17 @@ const AppSidebar = () => {
   let selectedNav;
   if (currentUri === '/professorSelect') {
     selectedNav = scsbjtNav
-  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList' || currentUri === '/tngProgStdnt') {
+  } else if (currentUri === '/tngApplication' || currentUri === '/tngAplyStdntList' || currentUri === '/tngProgStdnt' || currentUri === '/tngAttend' || currentUri === '/tngRcd') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngList') {
     selectedNav = bzentyTNGNav
   } else if (currentUri === '/tngApproval') {
     selectedNav = adminTNGNav
-  } else if (currentUri === '/stdntAply') {
+  } else if (currentUri === '/stdntAply' || currentUri === '/stdntProgAply') {
     selectedNav = stdntAplyNav
-  } else if (currentUri.includes('/recruit/')){
+  } else if (currentUri.includes('/recruit/')) {
     selectedNav = studentNav
-  }else if (
+  } else if (
     currentUri === "/consultationItem" ||
     currentUri === "/consultationSchedule" ||
     currentUri === "/11111111" ||
@@ -67,6 +67,7 @@ const AppSidebar = () => {
   } else if (currentUri === "/consultationRequest") {
     selectedNav = CStudent;
   }
+
 
   return (
     <CSidebar
@@ -78,8 +79,8 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
-        <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-        <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
+        <CIcon className="sidebar-brand-full" height={35} /> {/* 아이콘 */}
+        <CIcon className="sidebar-brand-narrow" height={35} /> {/* 아이콘 */}
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>

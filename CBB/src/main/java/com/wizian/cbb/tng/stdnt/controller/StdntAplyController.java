@@ -37,7 +37,15 @@ public class StdntAplyController {
 			String loginId = alpyMap.get("loginId");
 			int tngNo = Integer.parseInt(alpyMap.get("tngNo"));
 			Map<String, Object> tempMap = stdntAplyService.selectStndtSn(loginId);
+
 			int stdntSn = Integer.parseInt(String.valueOf(tempMap.get("stdntSn")));
+			List<Map<String, Object>> sttsList = stdntAplyService.getTngStdnt(stdntSn);
+			for (Map<String, Object> stts : sttsList) {
+				String tngProgStts = String.valueOf(stts.get("tngPrgrsStts"));
+				if (tngProgStts.equals("30") || tngProgStts.equals("20")) {
+					return ResponseEntity.ok("exist");
+				}
+			}
 			if (stdntAplyService.countTngStdnt(tngNo, stdntSn) != 0) {
 				return ResponseEntity.ok("fail");
 			} else {
@@ -48,6 +56,28 @@ public class StdntAplyController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
 		}
 
+	}
+
+	@PostMapping("/tng/checkTngStdnt")
+	public ResponseEntity<String> checkTngStdnt(@RequestBody String loginData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
+			});
+			String loginId = loginMap.get("loginId");
+			Map<String, Object> tempMap = stdntAplyService.selectStndtSn(loginId);
+			int stdntSn = Integer.parseInt(String.valueOf(tempMap.get("stdntSn")));
+
+			List<Map<String, Object>> sttsList = stdntAplyService.getTngStdnt(stdntSn);
+			for (Map<String, Object> stts : sttsList) {
+				String tngProgStts = String.valueOf(stts.get("tngPrgrsStts"));
+				if (tngProgStts.equals("30")) {
+					return ResponseEntity.ok("exist");
+				}
+			}
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 }
