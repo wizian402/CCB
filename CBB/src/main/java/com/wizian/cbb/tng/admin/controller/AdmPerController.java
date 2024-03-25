@@ -44,4 +44,19 @@ public class AdmPerController {
 			// TODO: handle exception
 		}
 	}
+
+	@PostMapping("/tng/tkcgTaskCd")
+	public @ResponseBody Map<String, Object> tkggTaskCd(@RequestBody String loginData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
+			});
+			String loginId = loginMap.get("loginId");
+			Map<String, Object> tkcgTaskCd =  admPerService.selectTkcgTaskCd(loginId);
+			return tkcgTaskCd;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }

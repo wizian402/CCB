@@ -108,7 +108,6 @@ const TngAttend = () => {
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
-
     const stdntSn = sessionStorage.getItem("stdntSn");
     if (!selectedTngNo || !stdntSn) {
       alert("학생을 다시 선택해주세요.");
@@ -127,13 +126,6 @@ const TngAttend = () => {
       navigate('/login');
     }
   }, []);
-
-
-  useEffect(() => {
-    if (selectedTngNo) {
-      fetchAttendList();
-    }
-  }, [selectedTngNo]);
 
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
@@ -178,22 +170,6 @@ const TngAttend = () => {
       .catch(error => console.error('Error fetching attendCd list:', error));
   };
 
-  const fetchAttendList = () => {
-    fetch('/cbb/tng/attentList', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ tngNo: selectedTngNo, stdntSn }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        setAttendList(data)
-      })
-      .catch(error => console.error('Error fetching attendCd list:', error));
-  };
-
   useEffect(() => {
     return () => {
       sessionStorage.clear();
@@ -229,7 +205,7 @@ const TngAttend = () => {
                 {generateCalendar(year, month, attendList, handleDateClick)}
               </tbody>
             </table>
-            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} attendCd={attendCd} stdntSn={stdntSn} tngNo={selectedTngNo} fetchAttendList={fetchAttendList} />
+            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} attendCd={attendCd} stdntSn={stdntSn} tngNo={selectedTngNo} />
           </CCardBody>
         </CCard>
       </CCol>
@@ -237,7 +213,7 @@ const TngAttend = () => {
   );
 };
 
-const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd, stdntSn, tngNo, fetchAttendList }) => {
+const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd, stdntSn, tngNo }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionCd, setSelectedOptionCd] = useState(null);
 
@@ -264,7 +240,6 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd
       })
       .catch(error => console.error('Error fetching attentReg :', error));
     selectClose();
-    fetchAttendList();
   };
 
   const selectClose = () => {

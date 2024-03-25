@@ -118,7 +118,7 @@ const StdntAply = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>학생</strong>
+            <strong>현장실습 목록</strong>
           </CCardHeader>
           <CCardBody>
             <CTable>
