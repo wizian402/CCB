@@ -56,9 +56,12 @@
 	<!--//////////////상담원 시간표 확인////////////////////// -->
 	<resultMap id="scheduleList"
 		type="com.wizian.cbb.consulting.model.SchedulePrintVO">
+		<result property="scheduleId" column="scheduleId" />
 		<result property="type" column="type" />
 		<result property="counselor" column="counselor" />
+		<result property="counselorId" column="counselorId" />
 		<result property="item" column="item" />
+		<result property="itemId" column="itemId" />
 		<result property="consultationDate" column="consultationDate" />
 		<result property="consultationTime" column="consultationTime" />
 		<result property="creationDate" column="creationDate" />
@@ -69,26 +72,78 @@
 		AS
 		TYPE,
 		c.CNSLR_NM AS counselor,
-		c.ARSP_NM AS ITEM,
+		c.CNSL_SN AS counselorId,
+		c.ARSP_NM AS
+		ITEM,
 		t.TIMETBL AS
 		consultationTime,
 		s.DSCSN_DT_YMD AS consultationDate,
 		s.DSCSN_REG_YMD AS
-		creationDate
+		creationDate,
+		s.cnsl_schedule_sn as scheduleId
 		FROM
 		CNSL_SCHEDULE s
 		JOIN
 		COUNSELOR c ON s.CNSL_SN =
 		c.CNSL_SN
 		JOIN
-		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
+		TIMETBL t ON
+		s.TIMETBL_CD = t.TIMETBL_CD
+	</select>
+	<!--//////////////상담원 시간표 확인////////////////////// -->
+
+	<!--//////////////상담원 시간표 확인////////////////////// -->
+	<select id="counselorScheduleList" resultMap="scheduleList">
+		SELECT
+		c.COUNSELOR_TYPE
+		AS
+		TYPE,
+		c.CNSLR_NM AS counselor,
+		c.CNSL_SN AS
+		counselorId,
+		c.ARSP_NM AS ITEM,
+		t.TIMETBL AS
+		consultationTime,
+		s.DSCSN_DT_YMD AS consultationDate,
+		s.DSCSN_REG_YMD AS
+		creationDate,
+		d.DSCSN_TTL_SN as itemId,
+		s.cnsl_schedule_sn as scheduleId
+		FROM
+		CNSL_SCHEDULE s
+		JOIN
+		COUNSELOR c ON
+		s.CNSL_SN =
+		c.CNSL_SN
+		JOIN
+		DSCSN_TTL d
+		ON d.DSCSN_TTL = c.ARSP_NM
+		JOIN
+		TIMETBL t ON
+		s.TIMETBL_CD =
+		t.TIMETBL_CD
+		WHERE s.cnsl_sn =
+		#{checkId}
 	</select>
 
+	<delete id="scheduleCansel">
+		DELETE FROM CNSL_SCHEDULE WHERE CNSL_SCHEDULE_SN =
+		#{id}
+	</delete>
 
+
+
+
+
+	<!--//////////////상담원 시간표 확인////////////////////// -->
+
+
+	<!--//////////////상담원 시간표 등록////////////////////// -->
 	<select id="checkId" resultType="string">
-		SELECT CNSL_SN FROM COUNSELOR
-		WHERE
-		USER_ID = #{id}
+		SELECT c.CNSL_SN
+		FROM COUNSELOR c
+		JOIN USER_INFO u ON c.USER_NO = u.USER_NO
+		WHERE u.LOGIN_ID= #{id}
 	</select>
 
 	<select id="checkDuplicate" resultType="boolean">
@@ -108,7 +163,7 @@
 		VALUES (schedule_seq.NEXTVAL,
 		#{id}, #{cdNum}, #{strDate}, SYSDATE)
 	</insert>
-	<!--//////////////상담원 시간표 확인////////////////////// -->
+	<!--//////////////상담원 시간표 등록////////////////////// -->
 
 
 
@@ -171,11 +226,15 @@
 		<result property="gender" column="GNDR_NM" />
 		<result property="userNum" column="USER_NO" />
 	</resultMap>
-	
+
 	<select id="counselorList" resultMap="counselorList">
 		SELECT * FROM COUNSELOR
 	</select>
 
-
+		<!--<insert id="request" resultType=int>
+		INSERT INTO
+		DSCSN_RSVT(DSCSN_RSVT_SN,CNSL_SCHEDULE_SN,DSCSN_TTL_SN,CNSL_SN,STDNT_SN,DSCSN_RSVT_YMD)
+		VALUES(DSCSN_RSVT_SEQ.NEXTVAL,#{});
+	</insert>-->
 	<!--//////////////학생 상담 신청////////////////////// -->
 </mapper>

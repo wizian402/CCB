@@ -1,5 +1,6 @@
-// Table.js
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 import {
   CTable,
   CTableHead,
@@ -7,9 +8,15 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
+  CButton,
 } from "@coreui/react";
 
 const Table = ({ currentItems }) => {
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수를 얻습니다.
+
+  const handleCheckSchedule = (sonuselorId) => {
+    navigate(`/Requestschedule/${sonuselorId}`); // 상태를 유지하면서 '/schedule' 페이지로 이동합니다.
+  };
   return (
     <CTable>
       <CTableHead>
@@ -28,7 +35,12 @@ const Table = ({ currentItems }) => {
             <CTableDataCell>{item.name}</CTableDataCell>
             <CTableDataCell>{item.item}</CTableDataCell>
             <CTableDataCell>{item.gender}</CTableDataCell>
-            <CTableDataCell>{item.consultationDate}</CTableDataCell>
+            <CTableDataCell>
+              {/* '신청' 버튼 */}
+              <CButton color="primary" onClick={() => handleCheckSchedule(item.sonuselorId)}>
+                시간표 확인
+              </CButton>
+            </CTableDataCell>
           </CTableRow>
         ))}
       </CTableBody>

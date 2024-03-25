@@ -51,7 +51,25 @@ public class ConsultingService implements IConsultingService {
 	public List<SchedulePrintVO> adminSchedulesList() {
 		return consultingRepository.adminScheduleList();
 	}
+//////////////상담원 시간표 확인//////////////////////
 
+//////////////상담원 시간표 확인//////////////////////
+
+	@Override
+	public List<SchedulePrintVO> counselorSchedulesList(String id) {
+		String checkId = consultingRepository.checkId(id);
+
+		return consultingRepository.counselorScheduleList(checkId);
+	}
+
+	@Override
+	public int scheduleCansel(int id) {
+		return consultingRepository.scheduleCansel(id);
+	}
+
+//////////////상담원 시간표 확인//////////////////////
+
+//////////////상담원 시간표 등록//////////////////////
 	@Override
 	public int insertSchedule(ScheduleVO scheduleVO) {
 		String id = consultingRepository.checkId(scheduleVO.getId());
@@ -90,7 +108,7 @@ public class ConsultingService implements IConsultingService {
 		}
 		return num;
 	}
-//////////////상담원 시간표 확인//////////////////////
+//////////////상담원 시간표 등록//////////////////////
 
 //////////////학생 상담 종합 이력//////////////////////   
 	@Override
@@ -103,6 +121,11 @@ public class ConsultingService implements IConsultingService {
 	@Override
 	public List<ConuselorVO> counselorList() {
 		return consultingRepository.counselorList();
+	}
+
+	@Override
+	public int request(SchedulePrintVO schedulePrintVO) {
+		return consultingRepository.request(schedulePrintVO);
 	}
 //////////////학생 상담 신청//////////////////////
 }

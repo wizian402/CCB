@@ -25,15 +25,12 @@ public class ConsultingController {
 	@Autowired
 	IConsultingService consultingService;
 	
-	//////////////상담 항목 관리//////////////////////
-	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/consulting/items")
 	public @ResponseBody List<ConItemVO> Consultationitems() {
 		List list = consultingService.Consultationitems();
 		return list;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/consulting/items/insert")
 	public @ResponseBody int ItemInsert(@RequestBody ConItemVO conItemsVO) {
 //		String checkId = consultingService.itemCheck(conItemsVO);
@@ -49,7 +46,6 @@ public class ConsultingController {
 		return num;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/consulting/items/update")
 	public @ResponseBody int ItemUpdate(@RequestBody ConItemVO conItemsVO) {	
 		int num = 0;
@@ -57,7 +53,6 @@ public class ConsultingController {
 		return num;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/consulting/items/delete")
 	public @ResponseBody int ItemDelete(@RequestBody ConItemVO conItemsVO) {
 		int num = 0;
@@ -69,28 +64,17 @@ public class ConsultingController {
 	
 	
 	//////////////상담원 시간표 확인//////////////////////
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(value = "/consulting/schedule")
+	@GetMapping(value = "/consulting/adminSchedule")
 	public @ResponseBody List<SchedulePrintVO> adminSchedules() {
 		List list = consultingService.adminSchedulesList();
 		return list;
 	}
-	
-	
-	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping(value = "/consulting/insertSchedule")
-	public @ResponseBody int insertSchedule(@RequestBody ScheduleVO scheduleVO) {
-		int num = 0;
-		num = consultingService.insertSchedule(scheduleVO);
-		return num;
-	}
+
 	//////////////상담원 시간표 확인//////////////////////
 	
 	
-	
-	
+
 //////////////학생 상담 종합 이력//////////////////////
-	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/consulting/result")
 	public @ResponseBody List<ResultVO> resultsList() {
 		List list = consultingService.resultList();
@@ -98,13 +82,54 @@ public class ConsultingController {
 	}
 //////////////학생 상담 종합 이력//////////////////////
 
+
+	
+	
+//////////////상담원 시간표 확인//////////////////////
+
+	@GetMapping(value = "/consulting/counselorSchedule")
+	public @ResponseBody List<SchedulePrintVO> counselorSchedule(String id) {
+		System.out.println(id);
+		List list = consultingService.counselorSchedulesList(id);
+		System.out.println(list);
+		return list;
+	}
+	
+	@PostMapping(value = "/consulting/counselorSchedule/cancel")
+	public @ResponseBody int counselorScheduleCancel(@RequestBody int id) {
+		return consultingService.scheduleCansel(id);
+	}
+	
+	
+//////////////상담원 시간표 확인//////////////////////
+
+//////////////상담원 시간표 등록//////////////////////
+	@PostMapping(value = "/consulting/insertSchedule")
+	public @ResponseBody int insertSchedule(@RequestBody ScheduleVO scheduleVO) {
+		int num = 0;
+		num = consultingService.insertSchedule(scheduleVO);
+		return num;
+	}
+
+//////////////상담원 시간표 등록//////////////////////
+	
+	
+	
+	
+	
 //////////////학생 상담 신청//////////////////////
-	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/consulting/counselor")
 	public @ResponseBody List<ConuselorVO> counselorList() {
 		List list = consultingService.counselorList();
 		System.out.println(list);
 		return list;
+	}
+	@PostMapping(value = "/consulting/request")
+	public @ResponseBody int request(@RequestBody SchedulePrintVO schedulePrintVO) {
+		int num = 0;
+		System.out.println(schedulePrintVO);
+//		num = consultingService.request(schedulePrintVO);
+		return num;
 	}
 //////////////학생 상담 신청//////////////////////
 	

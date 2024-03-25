@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "./components/ConsultationResult/ResultModal";
+import Modal from "../components/ConsultationResult/ResultModal";
 import {
   CTable,
   CTableHead,
@@ -13,8 +13,8 @@ import {
   CCardHeader,
   CCardBody,
 } from "@coreui/react"; // CoreUI 컴포넌트를 import합니다.
-import SearchFilters from "./components/SearchFilters";
-import Pagination from "./components/Pagenation";
+import SearchFilters from "../components/SearchFilters";
+import Pagination from "../components/Pagenation";
 
 const StudentResult = () => {
   const [result, setResult] = useState([]);
@@ -137,7 +137,7 @@ const StudentResult = () => {
                         {item.creationDate.slice(0, 10)}
                       </CTableDataCell>
                       <CTableDataCell>
-                        <Modal item={item} />
+                        <Modal item={item}/>
                       </CTableDataCell>
                     </CTableRow>
                   ))}

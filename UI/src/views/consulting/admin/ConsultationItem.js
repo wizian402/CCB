@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./scss/ConsultationItem.scss";
-import Pagination from "./components/Pagenation";
-import SearchInput from "./components/SearchInput";
-import AddItemModal from "./components/ConsultationItem/AddItemModal";
-import ItemTable from "./components/ConsultationItem/ItemTable";
+import "../scss/ConsultationItem.scss";
+import SearchInput from "../components/SearchInput";
+import AddItemModal from "../components/ConsultationItem/AddItemModal";
+import ItemTable from "../components/ConsultationItem/ItemTable";
+
 const ConsultationItem = () => {
   const [counselingItems, setCounselingItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,10 +31,6 @@ const ConsultationItem = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <div>
       <h1 className="title">상담 항목</h1>
@@ -44,9 +40,7 @@ const ConsultationItem = () => {
         searchTerm={searchTerm}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
-      />
-      <Pagination
-        currentPage={currentPage}
+        onPageChange={setCurrentPage} // 페이지 변경 핸들러 전달
         totalPages={Math.ceil(
           (counselingItems || []).filter((item) =>
             searchTerm && item && item.conItems
@@ -54,7 +48,6 @@ const ConsultationItem = () => {
               : true
           ).length / itemsPerPage
         )}
-        onPageChange={handlePageClick}
       />
 
       <div className="modal-container">

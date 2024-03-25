@@ -1,11 +1,13 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
+import { useParams } from "react-router-dom";
 
 import Pagination from "./components/Pagenation";
-import Table from "./components/ConsultationRequest/counselorTable";
+import Table from "./components/ConsultationRequest/scheduleTable";
 
 const ConsultationSchedule = () => {
+  const { sonuselorId } = useParams();
   const [counselor, setCounselor] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermItem, setSearchTermItem] = useState("");
@@ -14,16 +16,20 @@ const ConsultationSchedule = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
+  console.log(sonuselorId);
   useEffect(() => {
     fetchData();
   }, [currentPage]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/cbb/consulting/counselor  `);
+      const response = await fetch(
+        `/cbb/consulting/counselorSchedule?id=` + sonuselorId
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
+
       const data = await response.json();
       setCounselor(data);
     } catch (error) {
@@ -37,7 +43,7 @@ const ConsultationSchedule = () => {
 
   const filteredItems = counselor.filter((item) => {
     return (
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      item.counselor.toLowerCase().includes(searchTerm.toLowerCase()) &&
       item.item.toLowerCase().includes(searchTermItem.toLowerCase())
     );
   });
@@ -49,7 +55,7 @@ const ConsultationSchedule = () => {
 
   return (
     <div>
-      <h1 className="title">상담 신청</h1>
+      <h1 className="title">상담 시간표 조회</h1>
 
       <CRow>
         <CCol xs={12}>
@@ -59,11 +65,19 @@ const ConsultationSchedule = () => {
             </CCardHeader>
             <CCardBody>
               <Table currentItems={currentItems} />
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageClick}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageClick}
+                />
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
