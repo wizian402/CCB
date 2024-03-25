@@ -25,7 +25,7 @@ public class TngProgService implements ITngProgService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getBzentyUserNo(String tngNo) {
+	public Map<String, Object> getBzentyUserNo(String tngNo) {
 		return tngProgRepository.getBzentyUserNo(tngNo);
 	}
 

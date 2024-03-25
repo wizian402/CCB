@@ -28,7 +28,7 @@ const TngProgStdnt = () => {
   const [tngNo, setTngNo] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [stdntList, setStdntList] = useState([]);
-  const [isGradeModalOpen, setIsGradeModalOpen] = useState(false); 
+  const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const TngProgStdnt = () => {
       body: JSON.stringify({ tngNo }),
     })
       .then(response => response.json())
-      .then(data => { 
+      .then(data => {
         setStdntList(data)
       })
       .catch(error => console.error('Error fetching student list:', error));
@@ -92,20 +92,20 @@ const TngProgStdnt = () => {
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-              {stdntList.map((stdnt, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
-                  <CTableDataCell className="text-center">{stdnt.stdntSn}</CTableDataCell>
-                  <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
-                  <CTableDataCell className="text-center">{stdnt.stdntHr}시간</CTableDataCell>
-                  <CTableDataCell className="text-center">
-                    {stdnt.idnstEvlYn === 'N' ? '미등록' : stdnt.idnstEvlYn === 'Y' && stdnt.grd}
-                  </CTableDataCell>
-                  <CTableDataCell className="text-center">
-                    <StudentActionsDropdown student={stdnt} onGradeInput={handleGradeInput} navigate={navigate} tngNo={tngNo} />
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
+                {stdntList.map((stdnt, index) => (
+                  <CTableRow key={index}>
+                    <CTableDataCell className="text-center">{index + 1}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntSn}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntNm}</CTableDataCell>
+                    <CTableDataCell className="text-center">{stdnt.stdntHr}시간</CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      {stdnt.idnstEvlYn === 'N' ? '미등록' : stdnt.idnstEvlYn === 'Y' && stdnt.grd}
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      <StudentActionsDropdown student={stdnt} onGradeInput={handleGradeInput} navigate={navigate} tngNo={tngNo} />
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
               </CTableBody>
             </CTable>
           </CCardBody>
@@ -120,7 +120,7 @@ const StudentActionsDropdown = ({ student, onGradeInput, navigate, tngNo }) => {
   const navigateToTngAttend = () => {
     sessionStorage.setItem('selectedTngNo', tngNo);
     sessionStorage.setItem('stdntSn', student.stdntSn);
-    navigate('/tngAttend'); 
+    navigate('/tngAttend');
   };
 
   return (
@@ -165,6 +165,10 @@ const GradeInputModal = ({ isOpen, onClose, student, tngNo, refreshStudentList }
             alert('성적 입력에 성공했습니다.');
             onClose();
             refreshStudentList();
+          } else if (data === 'fail2') {
+            alert('이수 시간이 부족합니다.');
+            onClose();
+            refreshStudentList();
           }
         })
         .catch(error => console.error('Error fetching student list:', error));
@@ -173,7 +177,7 @@ const GradeInputModal = ({ isOpen, onClose, student, tngNo, refreshStudentList }
       setScore('');
     }
   };
-  
+
 
   return (
     <CModal alignment="center" visible={isOpen} onClose={onClose}>

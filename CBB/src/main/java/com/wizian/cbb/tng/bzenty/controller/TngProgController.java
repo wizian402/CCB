@@ -46,18 +46,21 @@ public class TngProgController {
 			int score = Integer.parseInt(tngMap.get("score"));
 			Map<String, Object> tngAplyNoMap = tngProgService.getTngStdnt(tngNo, stdntSn);
 			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
-			List<Map<String, Object>> tngList = tngProgService.getBzentyUserNo(tngNo);
-			String bzentyUserNo = null;
-			String semester = null;
-			for (Map<String, Object> map : tngList) {
-				bzentyUserNo = map.get("bzentyUserNo").toString();
-				semester = map.get("semester").toString();
-			}
-			String grd = convertToGrade(score);
+			int ttrHr = Integer.parseInt(tngAplyNoMap.get("ttrHr").toString());
+			Map<String, Object> tngData = tngProgService.getBzentyUserNo(tngNo);
 
-			tngProgService.insertTngGrd(tngAplyNo, bzentyUserNo, semester, score, grd);
-			tngProgService.updateIndstEvlYn(tngNo, stdntSn);
-			return ResponseEntity.ok("success");
+			String bzentyUserNo = tngData.get("bzentyUserNo").toString();
+			String semester = tngData.get("semester").toString();
+			int cmcrsHr = Integer.parseInt(tngData.get("cmcrsHr").toString());
+			String grd = convertToGrade(score);
+			if(cmcrsHr <= ttrHr) {
+				tngProgService.insertTngGrd(tngAplyNo, bzentyUserNo, semester, score, grd);
+				tngProgService.updateIndstEvlYn(tngNo, stdntSn);
+				return ResponseEntity.ok("success");
+			} else {
+				return ResponseEntity.ok("fail2");
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

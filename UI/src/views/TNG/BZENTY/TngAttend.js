@@ -30,9 +30,14 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
 
   let headerRow = [];
   for (let i = 0; i < 7; i++) {
-    headerRow.push(<th key={i} className="calendar-header-cell">{['일', '월', '화', '수', '목', '금', '토'][i]}</th>);
+    headerRow.push(
+      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center' }}>
+        {['일', '월', '화', '수', '목', '금', '토'][i]}
+      </th>
+    );
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
+
 
   let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {

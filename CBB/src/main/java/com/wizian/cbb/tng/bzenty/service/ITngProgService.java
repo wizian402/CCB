@@ -8,7 +8,7 @@ public interface ITngProgService {
 
 	Map<String, Object> getTngStdnt(String tngNo, String stdntSn);
 
-	List<Map<String, Object>> getBzentyUserNo(String tngNo);
+	Map<String, Object> getBzentyUserNo(String tngNo);
 
 	void insertTngGrd(int tngAplyNo, String bzentyUserNo, String semester, int score, String grd);
 
