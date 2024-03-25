@@ -6,11 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wizian.cbb.tng.stdnt.dao.IStdntAplyRepository;
 import com.wizian.cbb.tng.stdnt.dao.IStdntProgRepository;
 
 @Service
-public class StdntProgService implements IStdntProgService{
+public class StdntProgService implements IStdntProgService {
 
 	@Autowired
 	IStdntProgRepository stdntProgRepository;
@@ -29,5 +28,5 @@ public class StdntProgService implements IStdntProgService{
 	public List<Map<String, Object>> getAttendList(int tngAplyNo) {
 		return stdntProgRepository.getAttendList(tngAplyNo);
 	}
-	
+
 }

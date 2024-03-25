@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.wizian.cbb.tng.bzenty.dao.ITngPerRepository;
 import com.wizian.cbb.tng.bzenty.model.TngVO;
-import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
 @Service
 public class TngPerService implements ITngPerService {
 
 	@Autowired
 	ITngPerRepository tngPerRepository;
-	
+
 	@Override
 	public List<Map<String, Object>> selectTngStdntList(String tngNo) {
 		return tngPerRepository.selectTngStdntList(tngNo);
