@@ -55,9 +55,9 @@ const AppSidebar = () => {
     selectedNav = adminTNGNav
   } else if (currentUri === '/stdntAply' || currentUri === '/stdntProgAply') {
     selectedNav = stdntAplyNav
-  } else if (currentUri.includes('/recruit/')){
+  } else if (currentUri.includes('/recruit/')) {
     selectedNav = studentNav
-  }else if (
+  } else if (
     currentUri === "/consultationItem" ||
     currentUri === "/consultationSchedule" ||
     currentUri === "/11111111" ||

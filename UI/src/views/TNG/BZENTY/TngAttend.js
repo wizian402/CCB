@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CCard,
   CCardBody,
@@ -103,18 +104,30 @@ const TngAttend = () => {
   const [attendCd, setAttendCd] = useState("");
   const [attendList, setAttendList] = useState("");
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setSelectedTngNo(sessionStorage.getItem("selectedTngNo"));
-    setStdntSn(sessionStorage.getItem("stdntSn"));
+    const selectedTngNo = sessionStorage.getItem("selectedTngNo");
+
+    const stdntSn = sessionStorage.getItem("stdntSn");
+    if (!selectedTngNo || !stdntSn) {
+      alert("학생을 다시 선택해주세요.");
+      navigate('/tngList');
+      return;
+    }
+
+    setSelectedTngNo(selectedTngNo);
+    setStdntSn(stdntSn);
     fetchAttendCd();
+
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '50') {
-      localStorage.clear()
-      alert('로그인후 이용가능합니다.')
+      localStorage.clear();
+      alert('로그인 후 이용 가능합니다.');
       navigate('/login');
     }
   }, []);
+
 
   useEffect(() => {
     if (selectedTngNo) {
@@ -180,6 +193,12 @@ const TngAttend = () => {
       })
       .catch(error => console.error('Error fetching attendCd list:', error));
   };
+
+  useEffect(() => {
+    return () => {
+      sessionStorage.clear();
+    };
+  }, []);
 
   return (
     <CRow>

@@ -69,5 +69,11 @@
 		WHERE TNG_NO = #{tngNo} AND STDNT_SN = #{stdntSn}
 	</select>
 
+	<select id="getTngStdnt" resultType="hashmap">
+		SELECT 
+		TNG_PRGRS_STTS AS "tngPrgrsStts"
+		FROM TNG_STDNT
+		WHERE STDNT_SN = #{stdntSn}
+	</select>
 
 </mapper>

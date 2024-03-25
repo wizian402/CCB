@@ -28,9 +28,10 @@ const StdntAply = () => {
   const [selectedTng, setSelectedTng] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [loginId, setLoginId] = useState(localStorage.getItem('loginId'))
+  const [loginId, setLoginId] = useState("");
 
   useEffect(() => {
+    setLoginId(localStorage.getItem('loginId'));
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '20') {
       localStorage.clear();
@@ -156,12 +157,12 @@ const StdntAply = () => {
           </CCardBody>
         </CCard>
       </CCol>
-      <TNGDetailModal selectedTng={selectedTng} bzentyNmList={bzentyNmList} onClose={handleModalClose} loginId={loginId} />
+      <TNGDetailModal selectedTng={selectedTng} bzentyNmList={bzentyNmList} onClose={handleModalClose} loginId={loginId} navigate={navigate} />
     </CRow>
   );
 };
 
-const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
+const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId, navigate }) => {
   const getBzentyNm = (bzentyUserNo) => {
     const bzentyNmData = bzentyNmList.find(item => item.bzentyUserNo === bzentyUserNo);
     return bzentyNmData ? bzentyNmData.bzentyNm : '';
@@ -194,7 +195,11 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId }) => {
           alert("등록에 성공했습니다.")
         } else if (data == 'fail') {
           alert("이미 신청한 실습입니다.")
-        } else {
+        } else if (data === "exist") {
+          alert("진행중인 현장실습이 존재합니다.")
+          navigate('/stdntProgAply');
+        }
+        else {
           console.log('Unexpected response received from server:', data);
         }
       })
