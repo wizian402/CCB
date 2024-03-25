@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CCard,
   CCardBody,
@@ -38,7 +38,7 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
 
-let currentRow = [];
+  let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {
 
     if (i > firstDayOfMonth && i <= daysInMonth + firstDayOfMonth) {
@@ -50,7 +50,7 @@ let currentRow = [];
       if (Array.isArray(attendList)) {
         attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
       }
-    
+
       let displayText = '';
       switch (attendCode) {
         case '10':
@@ -68,7 +68,7 @@ let currentRow = [];
         default:
           displayText = '';
       }
-    
+
       currentRow.push(
         <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
           <div className="flex-container">
@@ -77,8 +77,8 @@ let currentRow = [];
           </div>
         </td>
       );
-      
-      
+
+
     } else {
       currentRow.push(<td key={i} className="calendar-day-cell empty"></td>);
     }
@@ -113,7 +113,7 @@ const TngAttend = () => {
     }
     fetchAttendList();
   }, []);
-  
+
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
     setYear(newYear);
@@ -127,17 +127,17 @@ const TngAttend = () => {
   const handleDateClick = (day) => {
     const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
     let attendCode = "";
-  
+
     if (Array.isArray(attendList)) {
       attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
     }
-  
+
     if (!attendCode) {
       setSelectedDate(day);
       setModalOpen(true);
     }
   };
-  
+
 
   const closeModal = () => {
     setModalOpen(false);
@@ -167,7 +167,7 @@ const TngAttend = () => {
     })
       .then(response => response.json())
       .then(data => {
-
+        setAttendList(data);
       })
       .catch(error => console.error('Error fetching attendCd list:', error));
   };
@@ -177,7 +177,7 @@ const TngAttend = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>현장 실습 목록</strong>
+            <strong>진행중인 현장 실습</strong>
           </CCardHeader>
           <CCardBody>
             <div className="calendar-container">
@@ -188,7 +188,7 @@ const TngAttend = () => {
             </div>
             <table className="calendar">
               <tbody>
-              {generateCalendar(year, month, attendList, handleDateClick)}
+                {generateCalendar(year, month, attendList, handleDateClick)}
               </tbody>
             </table>
           </CCardBody>

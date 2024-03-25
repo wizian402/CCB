@@ -16,8 +16,18 @@ public class StdntProgService implements IStdntProgService{
 	IStdntProgRepository stdntProgRepository;
 
 	@Override
-	public List<Map<String, Object>> selectTngStdnt(String loginId) {
+	public Map<String, Object> selectTngStdnt(String loginId) {
 		return stdntProgRepository.selectTngStdnt(loginId);
+	}
+
+	@Override
+	public Map<String, Object> getTngStdnt(String tngNo, String stdntSn) {
+		return stdntProgRepository.getTngStdnt(tngNo, stdntSn);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAttendList(int tngAplyNo) {
+		return stdntProgRepository.getAttendList(tngAplyNo);
 	}
 	
 }

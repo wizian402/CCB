@@ -4,5 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface IStdntProgService {
-	List<Map<String, Object>> selectTngStdnt(String loginId);
+	Map<String, Object> selectTngStdnt(String loginId);
+
+	Map<String, Object> getTngStdnt(String tngNo, String stdntSn);
+
+	List<Map<String, Object>> getAttendList(int tngAplyNo);
 }
