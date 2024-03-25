@@ -8,7 +8,7 @@ import com.wizian.cbb.recruit.model.RcrPbancVO;
 public interface IRcrRepository {
 	List<RcrPbancVO> getAllPbancsfromDB();
 
-	RcrPbancVO getPbancfromDB(int pbancSn);
+	RcrPbancVO getPbancfromDB(String pbancSn);
 
 	public Map<String, Object> getComInfo(String regNum);
 	
@@ -19,4 +19,9 @@ public interface IRcrRepository {
 	Map<String, Object> getCheckAply(Map<String, Object> data4get);
 
 	void setAplyCancle(Map<String, Object> data);
+
+	List<Map<String, Object>> getAplyPbancListDB(String userSTDNTSN);
+
+	Map<String, Object> getAllStdntInfo(String userSTDNTSN);
+
 }
