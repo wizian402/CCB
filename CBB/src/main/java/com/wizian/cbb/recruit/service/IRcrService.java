@@ -11,7 +11,7 @@ import com.wizian.cbb.recruit.model.RcrPbancVO;
 public interface IRcrService {
 	
 	List<RcrPbancVO> getAllPbancs();		
-	public RcrPbancVO getPbanc(int pbancSn);
+	public RcrPbancVO getPbanc(String pbancSn);
 	public Map<String,Object> getComInfo(String regNum);
 	public void updateJobSearchDB(String userNo) throws JsonParseException, JsonMappingException, IOException;
 	public Map<String, Object> getSTDNTInfo(String userNo) throws JsonParseException, JsonMappingException, IOException;
@@ -19,4 +19,6 @@ public interface IRcrService {
 	Map<String, Object> checkAply(String Data) throws JsonParseException, JsonMappingException, IOException;
 	void updateAplyCancleDB(String userData) throws JsonParseException, JsonMappingException, IOException;
 	void setCancleData(Map<String, Object> data);
+	List<RcrPbancVO> getAplyPbancList(String userData) throws JsonParseException, JsonMappingException, IOException;
+	Map<String, Object> getAllStdntInfo(String userData) throws JsonParseException, JsonMappingException, IOException;
 }

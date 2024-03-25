@@ -86,8 +86,8 @@ const TngRcd = React.lazy(() => import("./views/TNG/BZENTY/TngRcd"));
 //RECRUIT
 const TablePbanc = React.lazy(() => import('./views/recruit/TablePbanc'));
 const DetailPbanc = React.lazy(() => import('./views/recruit/DetailPbanc'));
-
-
+const TableAplyPbanc = React.lazy(() => import('./views/recruit/ApplyList'));
+const WriteResume = React.lazy(() => import('./views/recruit/WriteResume'));
 
 const routes = [
   // consulting
@@ -118,6 +118,8 @@ const routes = [
   // RECRUIT
   { path: '/recruit/tablePbanc', name: 'TablePbanc', element: TablePbanc },
   { path: '/recruit/detailPbanc/:pbancSn', name: 'detailPbanc', element: DetailPbanc },
+  { path: '/recruit/TableAplyPbanc', name: 'TableAplyPbanc', element: TableAplyPbanc },
+  { path: '/recruit/WriteResume', name: 'WriteResume', element: WriteResume },
 
 
   //

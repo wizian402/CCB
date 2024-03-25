@@ -36,8 +36,8 @@ public class RcrController {
 	@GetMapping("/rcr/detail/{pbancSn}")
 	public @ResponseBody ResponseEntity<?> getPbanc(@PathVariable String pbancSn) {
 		try {
-			int pbancSnInt = Integer.parseInt(pbancSn);
-			RcrPbancVO pbanc = rcrService.getPbanc(pbancSnInt);
+			
+			RcrPbancVO pbanc = rcrService.getPbanc(pbancSn);
 			return ResponseEntity.ok(pbanc);
 		} catch (NumberFormatException e) {
 			return ResponseEntity.badRequest().body("Invalid pbancSn: " + pbancSn);
@@ -77,5 +77,19 @@ public class RcrController {
 	public void updateAplyCancle(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException {
 		rcrService.updateAplyCancleDB(userData);
 	}
+	
+	
+	@PostMapping("/rcr/aplylist")
+	public @ResponseBody List<RcrPbancVO> aplyPbancList(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
+		
+		return rcrService.getAplyPbancList(userData);
+	}
+	
+	
+	@PostMapping("/rcr/fetchStdntInfo")
+	public @ResponseBody Map<String, Object> getAllStdntInfo(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
+		return rcrService.getAllStdntInfo(userData);
+	}
+	
 	
 }
