@@ -102,6 +102,7 @@ const TngAttend = () => {
   const [stdntSn, setStdntSn] = useState(null);
   const [attendCd, setAttendCd] = useState("");
   const [attendList, setAttendList] = useState("");
+  const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     setSelectedTngNo(sessionStorage.getItem("selectedTngNo"));
@@ -188,11 +189,21 @@ const TngAttend = () => {
             <strong>현장 실습 목록</strong>
           </CCardHeader>
           <CCardBody>
-            <div className="calendar-container">
-              <label htmlFor="year">연도:</label>
-              <input type="number" id="year" value={year} onChange={handleYearChange} />
-              <label htmlFor="month">월:</label>
-              <input type="number" id="month" value={month} onChange={handleMonthChange} />
+            <div className="calendar-controls">
+              <select value={year} onChange={handleYearChange}>
+                {[...Array(2)].map((_, index) => (
+                  <option key={currentYear + index} value={currentYear + index}>
+                    {currentYear + index}년
+                  </option>
+                ))}
+              </select>
+              <select value={month} onChange={handleMonthChange}>
+                {[...Array(12)].map((_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {index + 1}월
+                  </option>
+                ))}
+              </select>
             </div>
             <table className="calendar">
               <tbody>

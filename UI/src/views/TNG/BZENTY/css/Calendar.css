@@ -14,8 +14,10 @@
 
 .calendar-header th {
   padding: 10px;
-  text-align: center; /* 요일 텍스트를 가운데 정렬합니다. */
-  font-size: 1.2em; /* 요일 텍스트의 크기를 키웁니다. */
+  text-align: center;
+  /* 요일 텍스트를 가운데 정렬합니다. */
+  font-size: 1.2em;
+  /* 요일 텍스트의 크기를 키웁니다. */
 }
 
 .calendar-body td {
@@ -32,21 +34,26 @@
   margin-top: 50px;
   border-collapse: collapse;
   width: 100%;
-  height: 800px; /* 예시로 500px로 설정합니다. 필요에 따라 조절하세요. */
+  height: 800px;
+  /* 예시로 500px로 설정합니다. 필요에 따라 조절하세요. */
 }
 
 .calendar th,
 .calendar td {
   border: 1px solid #ddd;
-  width: 14.28%; /* 7개의 셀이 있으므로 100%를 7로 나눈 값 */
-  height: 60px; /* 너비와 동일한 높이를 설정하여 정사각형으로 만듭니다. */
-  position: relative; /* 부모 요소로부터 상대적인 위치 지정 */
+  width: 14.28%;
+  /* 7개의 셀이 있으므로 100%를 7로 나눈 값 */
+  height: 60px;
+  /* 너비와 동일한 높이를 설정하여 정사각형으로 만듭니다. */
+  position: relative;
+  /* 부모 요소로부터 상대적인 위치 지정 */
 }
 
 .calendar th {
   background-color: #f0f0f0;
   padding: 10px;
-  font-size: 1.2em; /* 요일 텍스트의 크기를 키웁니다. */
+  font-size: 1.2em;
+  /* 요일 텍스트의 크기를 키웁니다. */
 }
 
 .calendar td {
@@ -54,7 +61,8 @@
 }
 
 .calendar td.empty {
-  background-color: #fff; /* Background color for empty cells */
+  background-color: #fff;
+  /* Background color for empty cells */
 }
 
 .centered-text {
@@ -66,31 +74,52 @@
 }
 
 .large-text {
-  font-size: 1.1em; /* 현재 글꼴 크기보다 조금 큰 크기로 조정 */
+  font-size: 1.1em;
+  /* 현재 글꼴 크기보다 조금 큰 크기로 조정 */
 }
 
 /* 추가된 스타일: 날짜가 왼쪽 상단에 위치하도록 조정 */
 .calendar-day-cell {
-  position: relative; /* 부모 요소로부터 상대적인 위치 지정 */
+  position: relative;
+  /* 부모 요소로부터 상대적인 위치 지정 */
 }
 
 .calendar-info {
-  position: absolute; /* 절대적인 위치 지정 */
-  top: 50%; /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
-  left: 50%; /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
-  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변형 */
+  position: absolute;
+  /* 절대적인 위치 지정 */
+  top: 50%;
+  /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
+  left: 50%;
+  /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
+  transform: translate(-50%, -50%);
+  /* 가운데 정렬을 위한 변형 */
 }
 
 .calendar-day {
-  position: absolute; /* 절대적인 위치 지정 */
-  top: 10%; /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
-  left: 5%; /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
-  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변형 */
+  position: absolute;
+  /* 절대적인 위치 지정 */
+  top: 10%;
+  /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
+  left: 5%;
+  /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
+  transform: translate(-50%, -50%);
+  /* 가운데 정렬을 위한 변형 */
 }
 
-.table-header{
-  position: absolute; /* 절대적인 위치 지정 */
-  top: 50%; /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
-  left: 50%; /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
-  transform: translate(-50%, -50%); /* 가운데 정렬을 위한 변형 */
+.table-header {
+  position: absolute;
+  /* 절대적인 위치 지정 */
+  top: 50%;
+  /* 부모 요소의 상단에서 50% 떨어진 위치에 배치 */
+  left: 50%;
+  /* 부모 요소의 왼쪽에서 50% 떨어진 위치에 배치 */
+  transform: translate(-50%, -50%);
+  /* 가운데 정렬을 위한 변형 */
+}
+
+.calendar-controls select {
+  padding: 8px;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
