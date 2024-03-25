@@ -14,4 +14,6 @@ public interface IStdntAplyService {
 	Map<String, Object> selectStndtSn(String loginId);
 	
 	int countTngStdnt(int tngNo, int stdntSn);
+	
+	List<Map<String, Object>> getTngStdnt(int stdntSn);
 }

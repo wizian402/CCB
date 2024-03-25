@@ -6,10 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.wizian.cbb.tng.bzenty.model.TngVO;
-import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
 public interface ITngPerRepository {
-	List<StdntVO> selectTngStdntList(@Param("tngNo") String tngNo);
+	List<Map<String, Object>> selectTngStdntList(@Param("tngNo") String tngNo);
 
 	List<Map<String, String>> selectScsbjt();
 

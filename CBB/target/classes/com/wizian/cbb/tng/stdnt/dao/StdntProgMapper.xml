@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.stdnt.dao.IStdntProgRepository">
+
+	<select id="selectTngStdnt" resultType="hashmap">
+		SELECT 
+		STDNT_SN AS "stdntSn",
+		TNG_NO AS "tngNo"
+		FROM TNG_STDNT
+		WHERE 
+		STDNT_SN IN(
+		SELECT 
+		STDNT_SN
+		FROM
+		STDNT
+		WHERE USER_NO IN(
+		SELECT
+		USER_NO
+		FROM USER_INFO
+		WHERE 
+		LOGIN_ID = #{loginId}
+		)
+		)
+	</select>
+
+	<select id="getTngStdnt" resultType="hashmap">
+		Select
+		TNG_APLY_NO AS
+		"tngAplyNo"
+		FROM TNG_STDNT
+		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn}
+	</select>
+
+	<select id="getAttendList" resultType="hashmap">
+		Select
+		ATTENDANCE_DATE AS
+		"attendanceDate",
+		TNG_APLY_NO AS "tngAplyNo",
+		TNG_ATNDC_CD AS
+		"tngAtndcCd"
+		FROM TNG_ATNDC
+		WHERE TNG_APLY_NO=#{tngAplyNo}
+	</select>
+</mapper>

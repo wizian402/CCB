@@ -30,4 +30,9 @@ public class AdmPerService implements IAdmPerService {
 		admPerRepository.approvalTng(tngNo);
 	}
 
+	@Override
+	public Map<String, Object> selectTkcgTaskCd(String loginId) {
+		return admPerRepository.selectTkcgTaskCd(loginId);
+	}
+
 }

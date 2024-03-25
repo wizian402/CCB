@@ -23,13 +23,13 @@ public class TngPerController {
 	ITngPerService tngPerService;
 
 	@PostMapping("/tng/perStdnt")
-	public @ResponseBody List<StdntVO> perStdnt(@RequestBody String tngData) {
+	public @ResponseBody List<Map<String, Object>> perStdnt(@RequestBody String tngData) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> tngMap = objectMapper.readValue(tngData, new TypeReference<Map<String, String>>() {
 			});
 			String tngNo = tngMap.get("tngNo");
-			List<StdntVO> stdntList = tngPerService.selectTngStdntList(tngNo);
+			List<Map<String, Object>> stdntList = tngPerService.selectTngStdntList(tngNo);
 			return stdntList;
 		} catch (Exception e) {
 			// TODO: handle exception

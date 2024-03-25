@@ -13,4 +13,6 @@ public interface IAdmPerRepository {
 	List<Map<String, Object>> selectBzentyNm();
 	
 	void approvalTng(@Param("tngNo") String tngNo);
+	
+	Map<String, Object> selectTkcgTaskCd(@Param("loginId") String loginId);
 }
