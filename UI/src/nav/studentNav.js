@@ -28,6 +28,11 @@ export const _nav = [
     items: [
       {
         component: CNavItem,
+        name: '내 이력서 관리',
+        to: '/recruit/HandleResume',
+      },
+      {
+        component: CNavItem,
         name: '신규이력서작성',
         to: '/recruit/WriteResume',
       }
