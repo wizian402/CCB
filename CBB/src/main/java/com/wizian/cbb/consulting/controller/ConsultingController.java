@@ -113,6 +113,15 @@ public class ConsultingController {
 
 //////////////상담원 시간표 등록//////////////////////
 	
+//////////////상담원 상담원 신청 처리//////////////////////
+	@PostMapping(value = "/consulting/processing")
+	public @ResponseBody List<SchedulePrintVO> processing(@RequestBody int scheduleId) {
+		System.out.println(scheduleId);
+		List list = consultingService.scheduleIdList(scheduleId);
+		return list;
+	}
+//////////////상담원 상담원 신청 처리//////////////////////
+	
 	
 	
 	
@@ -121,14 +130,12 @@ public class ConsultingController {
 	@GetMapping(value = "/consulting/counselor")
 	public @ResponseBody List<ConuselorVO> counselorList() {
 		List list = consultingService.counselorList();
-		System.out.println(list);
 		return list;
 	}
 	@PostMapping(value = "/consulting/request")
 	public @ResponseBody int request(@RequestBody SchedulePrintVO schedulePrintVO) {
 		int num = 0;
-		System.out.println(schedulePrintVO);
-//		num = consultingService.request(schedulePrintVO);
+		num = consultingService.request(schedulePrintVO);
 		return num;
 	}
 //////////////학생 상담 신청//////////////////////

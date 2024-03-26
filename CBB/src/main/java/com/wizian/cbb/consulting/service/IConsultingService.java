@@ -39,6 +39,10 @@ public int insertSchedule(ScheduleVO scheduleVO);
 //////////////상담원 시간표 등록//////////////////////
 
 
+//////////////상담원 상담 신청 처리//////////////////////
+public List<SchedulePrintVO> scheduleIdList(int scheduleId);
+//////////////상담원 상담 신청 처리//////////////////////
+
 //////////////학생 상담 종합 이력//////////////////////
 public List<ResultVO> resultList();
 //////////////학생 상담 종합 이력//////////////////////
@@ -47,6 +51,8 @@ public List<ResultVO> resultList();
 
 //////////////학생 상담 신청//////////////////////
 public List<ConuselorVO> counselorList();
+
+
 
 public int request(SchedulePrintVO schedulePrintVO);
 //////////////학생 상담 신청//////////////////////

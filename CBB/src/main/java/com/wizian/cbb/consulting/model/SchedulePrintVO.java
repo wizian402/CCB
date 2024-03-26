@@ -1,6 +1,5 @@
 package com.wizian.cbb.consulting.model;
 
-
 public class SchedulePrintVO {
 	private String scheduleId;
 	private String type;
@@ -11,7 +10,10 @@ public class SchedulePrintVO {
 	private String consultationDate;
 	private String consultationTime;
 	private String creationDate;
+	private String student;
 	private String studentId;
+	private String count;
+	
 	public String getScheduleId() {
 		return scheduleId;
 	}
@@ -66,20 +68,32 @@ public class SchedulePrintVO {
 	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
+	public String getStudent() {
+		return student;
+	}
+	public void setStudent(String student) {
+		this.student = student;
+	}
 	public String getStudentId() {
 		return studentId;
 	}
 	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
+	public String getCount() {
+		return count;
+	}
+	public void setCount(String count) {
+		this.count = count;
+	}
+	
 	
 	@Override
 	public String toString() {
 		return "SchedulePrintVO [scheduleId=" + scheduleId + ", type=" + type + ", counselor=" + counselor
 				+ ", counselorId=" + counselorId + ", item=" + item + ", itemId=" + itemId + ", consultationDate="
 				+ consultationDate + ", consultationTime=" + consultationTime + ", creationDate=" + creationDate
-				+ ", studentId=" + studentId + "]";
+				+ ", student=" + student + ", studentId=" + studentId + ", count=" + count + "]";
 	}
-	
-
+		
 }

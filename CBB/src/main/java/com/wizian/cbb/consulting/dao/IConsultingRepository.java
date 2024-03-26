@@ -37,6 +37,11 @@ public boolean checkDuplicate(@Param("id") String id, @Param("cdNum") int cdNum,
 public int insertSchedule(@Param("id") String id, @Param("cdNum") int cdNum, @Param("strDate") String strDate);
 //////////////상담원 시간표 등록//////////////////////
 
+//////////////상담원 상담 신청 처리//////////////////////
+public List<SchedulePrintVO> scheduleIdList(int scheduleId);
+public String getCount(String scheduleId);
+//////////////상담원 상담 신청 처리//////////////////////
+
 
 //////////////학생 상담 종합 이력//////////////////////
 public List<ResultVO> resultList();
@@ -44,6 +49,20 @@ public List<ResultVO> resultList();
 
 //////////////학생 상담 신청//////////////////////
 public List<ConuselorVO> counselorList();
+public String studentIdCheck(String studentId);
 public int request(SchedulePrintVO schedulePrintVO);
 //////////////학생 상담 신청//////////////////////
+
+
+
+
+
+
+
+
+
+
+///////////////////get//////////////////////
+public String getStudentName(String studentId);
+
 }

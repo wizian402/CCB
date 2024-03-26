@@ -32,7 +32,7 @@ const VerticallyCentered = ({ item }) => {
 
       const responseData = await response.json();
       if (responseData === 1) {
-        alert("수정되었습니다.");
+        alert("신청되었습니다.");
         window.location.reload();
       } else {
         alert("다시 시도해주세요.");
@@ -64,7 +64,7 @@ const VerticallyCentered = ({ item }) => {
         </CModalBody>
         <CModalFooter>
           <CButton color="primary" onClick={handleSubmit}>
-            저장
+            신청
           </CButton>
           <CButton color="secondary" onClick={() => setVisible(false)}>
             닫기

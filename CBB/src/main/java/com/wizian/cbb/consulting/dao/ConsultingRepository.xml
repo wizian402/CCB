@@ -65,6 +65,7 @@
 		<result property="consultationDate" column="consultationDate" />
 		<result property="consultationTime" column="consultationTime" />
 		<result property="creationDate" column="creationDate" />
+		<result property="count" column="count" />
 	</resultMap>
 	<select id="adminScheduleList" resultMap="scheduleList">
 		SELECT
@@ -95,35 +96,31 @@
 	<!--//////////////상담원 시간표 확인////////////////////// -->
 	<select id="counselorScheduleList" resultMap="scheduleList">
 		SELECT
-		c.COUNSELOR_TYPE
-		AS
-		TYPE,
+		c.COUNSELOR_TYPE AS TYPE,
 		c.CNSLR_NM AS counselor,
 		c.CNSL_SN AS
 		counselorId,
 		c.ARSP_NM AS ITEM,
-		t.TIMETBL AS
-		consultationTime,
+		t.TIMETBL AS consultationTime,
 		s.DSCSN_DT_YMD AS consultationDate,
-		s.DSCSN_REG_YMD AS
-		creationDate,
+		s.DSCSN_REG_YMD AS creationDate,
 		d.DSCSN_TTL_SN as itemId,
-		s.cnsl_schedule_sn as scheduleId
+		s.cnsl_schedule_sn as scheduleId,
+		(SELECT
+		COUNT(dr.cnsl_schedule_sn)
+		FROM dscsn_rsvt dr
+		WHERE dr.cnsl_schedule_sn
+		= s.cnsl_schedule_sn) AS count
 		FROM
 		CNSL_SCHEDULE s
 		JOIN
 		COUNSELOR c ON
-		s.CNSL_SN =
-		c.CNSL_SN
+		s.CNSL_SN = c.CNSL_SN
 		JOIN
-		DSCSN_TTL d
-		ON d.DSCSN_TTL = c.ARSP_NM
+		DSCSN_TTL d ON d.DSCSN_TTL = c.ARSP_NM
 		JOIN
-		TIMETBL t ON
-		s.TIMETBL_CD =
-		t.TIMETBL_CD
-		WHERE s.cnsl_sn =
-		#{checkId}
+		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
+		WHERE s.cnsl_sn = #{checkId}
 	</select>
 
 	<delete id="scheduleCansel">
@@ -165,7 +162,42 @@
 	</insert>
 	<!--//////////////상담원 시간표 등록////////////////////// -->
 
+	<!--//////////////상담원 상담 신청 처리////////////////////// -->
+	<resultMap id="processing"
+		type="com.wizian.cbb.consulting.model.ProcessingVO">
+		<result property="reservationId" column="dscsn_rsvt_sn" />
+		<result property="studentId" column="stdnt_sn" />
+		<result property="student" column="stdnt_nm" />
+		<result property="creationDate" column="dscsn_rsvt_ymd" />
+		<result property="consultationDate" column="dscsn_dt_ymd" />
+		<result property="consultationTime" column="timetbl" />
+	</resultMap>
+	
+	<select id="scheduleIdList" resultMap="processing">
+		SELECT
+		a.dscsn_rsvt_sn,
+		B.stdnt_sn,
+		B.stdnt_nm,
+		a.dscsn_rsvt_ymd,
+		c.dscsn_dt_ymd,
+		d.timetbl
+		FROM DSCSN_RSVT A
+		JOIN STDNT B ON a.stdnt_sn = B.stdnt_sn
+		JOIN CNSL_SCHEDULE C ON a.cnsl_schedule_sn = c.cnsl_schedule_sn
+		JOIN TIMETBL D ON c.timetbl_cd = d.timetbl_cd
+		WHERE a.cnsl_schedule_sn = #{scheduleId}
+	</select>
 
+
+
+	<select id="getCount" resultType="int">
+		select count(cnsl_schedule_sn)
+		from dscsn_rsvt
+		where cnsl_schedule_sn = #{scheduleId}
+	</select>
+
+
+	<!--//////////////상담원 상담 신청 처리////////////////////// -->
 
 
 
@@ -231,10 +263,56 @@
 		SELECT * FROM COUNSELOR
 	</select>
 
-		<!--<insert id="request" resultType=int>
-		INSERT INTO
-		DSCSN_RSVT(DSCSN_RSVT_SN,CNSL_SCHEDULE_SN,DSCSN_TTL_SN,CNSL_SN,STDNT_SN,DSCSN_RSVT_YMD)
-		VALUES(DSCSN_RSVT_SEQ.NEXTVAL,#{});
-	</insert>-->
+	<select id="studentIdCheck" resultType="string">
+		SELECT STDNT_SN FROM
+		STDNT A
+		JOIN USER_INFO B ON A.USER_NO = B.USER_NO
+		WHERE b.login_id =
+		#{studentId}
+	</select>
+
+
+	<insert id="request"> INSERT INTO
+		DSCSN_RSVT(DSCSN_RSVT_SN,CNSL_SCHEDULE_SN,DSCSN_TTL_SN,CNSL_SN,STDNT_SN,DSCSN_RSVT_YMD,DSCSN_YN)
+		VALUES(DSCSN_RSVT_SEQ.NEXTVAL,#{scheduleId},#{itemId},#{counselorId},#{studentId},SYSDATE,'N
+		')
+	</insert>
 	<!--//////////////학생 상담 신청////////////////////// -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- /////////////////////// get //////////////////////////// -->
+	<select id="getStudentName" resultType="string">
+		SELECT STDNT_NM FROM
+		STDNT WHERE STDNT_SN #{studentId}
+	</select>
 </mapper>

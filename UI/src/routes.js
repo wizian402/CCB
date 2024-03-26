@@ -24,6 +24,10 @@ const ScheduleCheck = React.lazy(() =>
 const Timetable = React.lazy(() =>
   import("./views/consulting/counselor/TimetableRegistration")
 );
+const Processing = React.lazy(() =>
+  import("./views/consulting/counselor/RequestProcessing")
+);
+
 
 const Request = React.lazy(() =>
   import("./views/consulting/RequestConsultation")
@@ -146,6 +150,7 @@ const routes = [
   { path: "/result", name: "Theme", element: Result },
   { path: "/schedule", name: "Theme", element: ScheduleCheck },
   { path: "/timeTable", name: "Theme", element: Timetable },
+  { path: "/processing", name: "Theme", element: Processing },
   { path: "/consultationRequest", name: "Theme", element: Request },
   {
     path: "/requestschedule/:sonuselorId",
