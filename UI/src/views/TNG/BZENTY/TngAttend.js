@@ -194,12 +194,6 @@ const TngAttend = () => {
       .catch(error => console.error('Error fetching attendCd list:', error));
   };
 
-  useEffect(() => {
-    return () => {
-      sessionStorage.clear();
-    };
-  }, []);
-
   return (
     <CRow>
       <CCol xs={12}>

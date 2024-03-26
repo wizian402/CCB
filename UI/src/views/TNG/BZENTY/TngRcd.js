@@ -15,7 +15,8 @@ import {
   CDropdown,
   CDropdownToggle,
   CDropdownItem,
-  CDropdownMenu
+  CDropdownMenu,
+  CFormTextarea
 } from '@coreui/react';
 import "./css/Calendar.css";
 
@@ -26,7 +27,7 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
 
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-  const lastDayOfMonth = new Date(year, month, 0).getDay(); // 마지막 날의 요일
+  const lastDayOfMonth = new Date(year, month, 0).getDay();
   const calendar = [];
 
   let headerRow = [];
@@ -53,29 +54,11 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
         attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
       }
 
-      let displayText = '';
-      switch (attendCode) {
-        case '10':
-          displayText = '출석';
-          break;
-        case '20':
-          displayText = '지각';
-          break;
-        case '30':
-          displayText = '조퇴';
-          break;
-        case '40':
-          displayText = '격석';
-          break;
-        default:
-          displayText = '';
-      }
-
       currentRow.push(
         <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
           <div className="flex-container">
             <div className="calendar-day">{day}</div>
-            {displayText && <div className="calendar-info centered-text bold-text large-text">{displayText}</div>}
+            <div className="calendar-info centered-text bold-text large-text">{attendCode}</div>
           </div>
         </td>
       );
@@ -105,6 +88,7 @@ const TngAttend = () => {
   const [attendList, setAttendList] = useState("");
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
+  const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
@@ -117,7 +101,6 @@ const TngAttend = () => {
 
     setSelectedTngNo(selectedTngNo);
     setStdntSn(stdntSn);
-    fetchAttendCd();
 
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '50') {
@@ -156,26 +139,6 @@ const TngAttend = () => {
     setModalOpen(false);
   };
 
-  const fetchAttendCd = () => {
-    fetch('/cbb/tng/attentCd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        setAttendCd(data);
-      })
-      .catch(error => console.error('Error fetching attendCd list:', error));
-  };
-
-  useEffect(() => {
-    return () => {
-      sessionStorage.clear();
-    };
-  }, []);
-
   return (
     <CRow>
       <CCol xs={12}>
@@ -205,7 +168,7 @@ const TngAttend = () => {
                 {generateCalendar(year, month, attendList, handleDateClick)}
               </tbody>
             </table>
-            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} attendCd={attendCd} stdntSn={stdntSn} tngNo={selectedTngNo} />
+            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} stdntSn={stdntSn} tngNo={selectedTngNo} loginId={loginId} />
           </CCardBody>
         </CCard>
       </CCol>
@@ -213,64 +176,55 @@ const TngAttend = () => {
   );
 };
 
-const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd, stdntSn, tngNo }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedOptionCd, setSelectedOptionCd] = useState(null);
+const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn, tngNo, loginId }) => {
+  const [evlCn, setEvlCn] = useState("");
 
-  const dropdownItems = Object.keys(attendCd).map((key) => (
-    <CDropdownItem key={attendCd[key].cd} onClick={() => {
-      setSelectedOption(attendCd[key].nm);
-      setSelectedOptionCd(attendCd[key].cd);
-    }}>
-      {attendCd[key].nm}
-    </CDropdownItem>
-  ));
+  const handleTextareaChange = (e) => {
+    setEvlCn(e.target.value);
+  };
 
-
-  const fetchAttendReg = () => {
-    fetch('/cbb/tng/attentReg', {
+  const fetchRcdReg = () => {
+    fetch('/cbb/tng/rcdReg', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, cd: selectedOptionCd }),
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
     })
       .then(response => response.json())
       .then(data => {
       })
-      .catch(error => console.error('Error fetching attentReg :', error));
+      .catch(error => console.error('Error fetching rcdReg :', error));
     selectClose();
   };
 
   const selectClose = () => {
-    setSelectedOption(null);
-    setSelectedOptionCd(null);
     onClose();
   };
 
   return (
     <CModal alignment="center" visible={isOpen} onClose={onClose}>
       <CModalHeader closeButton>
-        <CModalTitle>출석 입력</CModalTitle>
+        <CModalTitle>지도 일지 작성</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <p>학번 : {stdntSn}</p>
-        <p>날짜 : {year}년 {month}월 {selectedDate}일</p>
-        <CDropdown>
-          <CDropdownToggle color="secondary" size="sm">
-            {selectedOption || "출석 입력"}
-          </CDropdownToggle>
-          <CDropdownMenu>
-            {dropdownItems}
-          </CDropdownMenu>
-        </CDropdown>
+        <h5>학번 : {stdntSn}</h5>
+        <h5>날짜 : {year}년 {month}월 {selectedDate}일</h5>
+        <CFormTextarea
+          id="floatingTextarea"
+          floatingLabel="지도일지"
+          placeholder="Leave a comment here"
+          value={evlCn}
+          onChange={handleTextareaChange}
+        ></CFormTextarea>
       </CModalBody>
       <CModalFooter>
-        <CButton color="primary" onClick={fetchAttendReg}>출석 입력</CButton>
+        <CButton color="primary" onClick={fetchRcdReg}>작성완료</CButton>
         <CButton color="secondary" onClick={selectClose}>닫기</CButton>
       </CModalFooter>
     </CModal>
   );
 };
+
 
 export default TngAttend;
