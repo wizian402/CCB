@@ -17,7 +17,7 @@ import {
   CDropdownItem,
   CDropdownMenu
 } from '@coreui/react';
-import "./css/Calendar.css";
+import "./css/StdntProgAply.css";
 
 const generateCalendar = (year, month, attendList, handleDateClick) => {
   const getDaysInMonth = (year, month) => {
@@ -99,11 +99,11 @@ const TngAttend = () => {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [selectedDate, setSelectedDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [stdntSn, setStdntSn] = useState(null);
   const [attendCd, setAttendCd] = useState("");
   const [attendList, setAttendList] = useState("");
   const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
   const currentYear = new Date().getFullYear();
+  const [tngData, setTngData] = useState("");
 
   useEffect(() => {
     fetchAttendCd();
@@ -114,6 +114,7 @@ const TngAttend = () => {
       navigate('/login');
     }
     fetchAttendList();
+    fetchStndtTng();
   }, []);
 
   const handleYearChange = (event) => {
@@ -169,13 +170,29 @@ const TngAttend = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setAttendList(data);
       })
       .catch(error => {
         console.error('Error fetching attendCd list:', error)
         alert("진행중인 현장실습이 없습니다.")
         navigate('/stdntAply');
+      });
+  };
+
+  const fetchStndtTng = () => {
+    fetch('/cbb/tng/stndtTng', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ loginId }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTngData(data)
+      })
+      .catch(error => {
+        console.error('Error fetching attendCd list:', error)
       });
   };
 
@@ -187,6 +204,27 @@ const TngAttend = () => {
             <strong>진행중인 현장 실습</strong>
           </CCardHeader>
           <CCardBody>
+            <div className="container">
+              <div className="row">
+                <h2 className="column">산업체 명 : {tngData.bzentyNm}</h2>
+                <h2 className="column">업무 : {tngData.tkcgTaskNm}</h2>
+              </div>
+              <div className="row">
+                <h2 className="column">현장 실습 시작일 : {tngData.tngStYmd}</h2>
+                <h2 className="column">현장 실습 종료일 : {tngData.tngEndYmd}</h2>
+              </div>
+              <div className="row">
+                <h2 className="column">이수 기준 시간 : {tngData.cmcrsHr}시간</h2>
+                <h2 className="column">실습 시간 : {tngData.ttrHr}시간</h2>
+              </div>
+              <div className="row">
+                {tngData.grd ? (
+                  <h2 className="column">성적: {tngData.grd}</h2>
+                ) : (
+                  <h2 className="column">성적: 미입력</h2>
+                )}
+              </div>
+            </div>
             <div className="calendar-controls">
               <select value={year} onChange={handleYearChange}>
                 {[...Array(2)].map((_, index) => (

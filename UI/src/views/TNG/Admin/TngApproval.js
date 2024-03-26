@@ -127,7 +127,7 @@ const TngList = () => {
   const indexOfLastItem = currentPage * 10;
   const indexOfFirstItem = indexOfLastItem - 10;
   let filteredTngList = tngList;
-  if (filterStatus !== "") { 
+  if (filterStatus !== "") {
     filteredTngList = filteredTngList.filter(item => item.prgrsStts === filterStatus);
   }
   const currentTngList = filteredTngList.slice(indexOfFirstItem, indexOfLastItem);

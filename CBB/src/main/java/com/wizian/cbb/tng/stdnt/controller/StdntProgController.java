@@ -39,4 +39,23 @@ public class StdntProgController {
 		}
 		return null;
 	}
+
+	@PostMapping("/tng/stndtTng")
+	public @ResponseBody Map<String, Object> stndtTng(@RequestBody String loginData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> loginMap = objectMapper.readValue(loginData, new TypeReference<Map<String, String>>() {
+			});
+			String loginId = loginMap.get("loginId");
+			Map<String, Object> stdntTngNo = stdntProgService.selectTngStdnt(loginId);
+			String tngNo = stdntTngNo.get("tngNo").toString();
+			
+			Map<String, Object> tngData = stdntProgService.getTngData(tngNo);
+			
+			return tngData;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }
