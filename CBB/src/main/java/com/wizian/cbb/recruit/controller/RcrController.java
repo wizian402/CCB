@@ -92,4 +92,21 @@ public class RcrController {
 	}
 	
 	
+	@PostMapping("/rcr/writeResume")
+	public void writeResume(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
+		rcrService.insertResume(data);
+	}
+	
+	
+	@PostMapping("/rcr/resumeList")
+	public List<Map<String, Object>> getAllResumeList(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException{
+		return rcrService.getAllResume(data);
+	}
+	
+	@PostMapping("/rcr/resumeDelete")
+	public void deleteResume(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
+		rcrService.deleteResume(data);
+	}
+	
+	
 }

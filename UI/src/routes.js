@@ -133,6 +133,7 @@ const TablePbanc = React.lazy(() => import("./views/recruit/TablePbanc"));
 const DetailPbanc = React.lazy(() => import("./views/recruit/DetailPbanc"));
 const TableAplyPbanc = React.lazy(() => import("./views/recruit/ApplyList"));
 const WriteResume = React.lazy(() => import("./views/recruit/WriteResume"));
+const HandleResume = React.lazy(() => import("./views/recruit/HandleResume"));
 
 const routes = [
   // consulting
@@ -190,6 +191,7 @@ const routes = [
     element: TableAplyPbanc,
   },
   { path: "/recruit/WriteResume", name: "WriteResume", element: WriteResume },
+  { path: "/recruit/HandleResume", name: "HandleResume", element: HandleResume },
 
   //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

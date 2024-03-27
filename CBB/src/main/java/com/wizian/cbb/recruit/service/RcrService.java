@@ -135,7 +135,6 @@ public class RcrService implements IRcrService{
 		
 		for(Map<String,Object> aplyPbancSN : aplyPbancSNs ) {
 			result.add(rcrRepository.getPbancfromDB(((BigDecimal) aplyPbancSN.get("PBANC_SN")).toString()));
-			System.out.println(result);
 		}
 		return result;
 	}
@@ -149,6 +148,45 @@ public class RcrService implements IRcrService{
 		String userNo = dataMap.get("userNo");
 		String userSTDNTSN = ((BigDecimal) rcrRepository.getSTDNTInfo(userNo).get("STDNTSN")).toString();
 		return rcrRepository.getAllStdntInfo(userSTDNTSN);
+		
+	}
+
+
+	@Override
+	public void insertResume(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		HashMap<String, Object> dataMap = objectMapper.readValue(data, HashMap.class);
+		
+		rcrRepository.resumeInsert(dataMap);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getAllResume(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String userNo = dataMap.get("userNo");
+		String userSTDNTSN = ((BigDecimal) rcrRepository.getSTDNTInfo(userNo).get("STDNTSN")).toString();
+		System.out.println(userSTDNTSN);
+		return rcrRepository.getAllResumeList(userSTDNTSN);
+		
+		
+	}
+
+
+	@Override
+	public void deleteResume(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> dataMap = objectMapper.readValue(data, new TypeReference<Map<String, String>>() {
+		});
+		System.out.println(dataMap.get("number"));
+		rcrRepository.deleteResume(dataMap.get("number"));
+		rcrRepository.deleteLng(dataMap.get("number"));
+		rcrRepository.deleteCrtfct(dataMap.get("number"));
+		rcrRepository.deleteActv(dataMap.get("number"));
+		rcrRepository.deleteAcbg(dataMap.get("number"));
+		
+		
 		
 	}
 ;

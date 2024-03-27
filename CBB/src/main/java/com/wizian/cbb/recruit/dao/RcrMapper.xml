@@ -92,18 +92,74 @@
 
 	<update id="setAplyCancle" parameterType="hashMap">
 		UPDATE JOB_SEARCH
-		SET JNCMP_APLY_YN = 'N'
+		SET
+		JNCMP_APLY_YN = 'N'
 		WHERE STDNT_SN = #{stdSn} AND PBANC_SN = #{pbancSn}
 	</update>
 
 
-	<select id="getAplyPbancListDB" resultType="hashMap" parameterType="string">
-		select pbanc_sn from job_search where STDNT_SN = #{userSTDNTSN} and JNCMP_APLY_YN = 'y' 
-	</select>
-	
-	<select id="getAllStdntInfo" resultType="hashMap" parameterType="string">
-	select * from STDNT where STDNT_SN = #{userSTDNTSN}
+	<select id="getAplyPbancListDB" resultType="hashMap"
+		parameterType="string">
+		select pbanc_sn from job_search where STDNT_SN =
+		#{userSTDNTSN} and JNCMP_APLY_YN = 'y'
 	</select>
 
+	<select id="getAllStdntInfo" resultType="hashMap"
+		parameterType="string">
+		select * from STDNT where STDNT_SN = #{userSTDNTSN}
+	</select>
+
+	<insert id="resumeInsert" parameterType="hashMap">
+		insert all
+		into lng(RSM_SN, STDNT_SN, LNG_NM, LNG_GRD) values
+		(RSM_SEQ.nextVal,#{stdntsn},#{languageType},#{languageGrade})
+		into crtfct(RSM_SN, STDNT_SN, CRTFCT_NM, ISSU_INST_NM, CRTFCT_ACQS_YMD)
+		values
+		(RSM_SEQ.nextVal,#{stdntsn},#{certificate},#{issuer},#{certificationDate})
+		into actv(RSM_SN, STDNT_SN, ACTV_NM, ACTV_CN, ACTV_CN2) values
+		(RSM_SEQ.nextVal, #{stdntsn}, #{experience}, #{socialNote1},
+		#{socialNote2})
+		into acbg(RSM_SN, STDNT_SN, GRDTN_YM, GRDTN_STTS, SCH_NM) values
+		(RSM_SEQ.nextVal, #{stdntsn}, #{graduationDate}, #{graduationStatus},
+		#{schoolName})
+		into resume(RSM_SN, STDNT_SN, APLY_CN, HSTRY_FAIL, PLAN, RSM_NM, MK_DATE)
+		values (RSM_SEQ.nextVal, #{stdntsn}, #{motivation},
+		#{failureExperience},#{futurePlan},#{title},TO_CHAR(sysdate,'yyyy.mm.dd
+		hh24:mi'))
+		select * from dual
+	</insert>
+
+	<select id="getAllResumeList" parameterType="string"
+		resultType="hashMap">
+
+		SELECT *
+		FROM resume r
+		INNER JOIN lng l ON r.STDNT_SN = l.STDNT_SN and r.rsm_sn = l.rsm_sn
+		INNER JOIN crtfct c ON r.STDNT_SN = c.STDNT_SN and r.rsm_sn = c.rsm_sn
+		INNER JOIN actv a ON r.STDNT_SN = a.STDNT_SN and r.rsm_sn = a.rsm_sn
+		INNER JOIN acbg ab ON r.STDNT_SN = ab.STDNT_SN and r.rsm_sn =
+		ab.rsm_sn
+		WHERE r.STDNT_SN = #{stdntsn}
+	</select>
+
+<delete id="deleteLng" parameterType="string">
+    DELETE FROM lng WHERE RSM_SN = #{value}
+</delete>
+
+<delete id="deleteCrtfct" parameterType="string">
+    DELETE FROM crtfct WHERE RSM_SN = #{value}
+</delete>
+
+<delete id="deleteActv" parameterType="string">
+    DELETE FROM actv WHERE RSM_SN = #{value}
+</delete>
+
+<delete id="deleteAcbg" parameterType="string">
+    DELETE FROM acbg WHERE RSM_SN = #{value}
+</delete>
+
+<delete id="deleteResume" parameterType="string">
+    DELETE FROM resume WHERE RSM_SN = #{value}
+</delete>
 
 </mapper>
