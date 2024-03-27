@@ -43,7 +43,6 @@ const AppSidebar = () => {
   const location = useLocation();
 
   const currentUri = location.pathname;
-  console.log(currentUri);
   let selectedNav;
 
   if (currentUri === "/professorSelect") {

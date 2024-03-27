@@ -157,7 +157,7 @@ const routes = [
   // TNG
   {
     path: "/professorSelect",
-    name: "ProfessorSelect",
+    name: "지도교수 배정",
     element: ProfessorSelect,
   },
   { path: "/tngApplication", name: "현장실습 신청", element: TNGApplication },

@@ -11,4 +11,7 @@ public interface IStdntProgRepository {
 	Map<String, Object> getTngStdnt(@Param("tngNo") String tngNo, @Param("stdntSn") String stdntSn);
 	
 	List<Map<String, Object>> getAttendList(@Param("tngAplyNo") int tngAplyNo);
+	
+	Map<String, Object> getTngData(@Param("tngNo") String tngNo);
+	
 }

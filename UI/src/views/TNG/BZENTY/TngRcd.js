@@ -15,84 +15,62 @@ import {
   CDropdown,
   CDropdownToggle,
   CDropdownItem,
-  CDropdownMenu
+  CDropdownMenu,
+  CFormTextarea
 } from '@coreui/react';
 import "./css/Calendar.css";
 
-const generateCalendar = (year, month, attendList, handleDateClick) => {
+const generateCalendar = (year, month, rcdList, handleDateClick) => {
   const getDaysInMonth = (year, month) => {
     return new Date(year, month, 0).getDate();
   };
 
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-  const lastDayOfMonth = new Date(year, month, 0).getDay(); // 마지막 날의 요일
+  const lastDayOfMonth = new Date(year, month, 0).getDay();
   const calendar = [];
 
   let headerRow = [];
   for (let i = 0; i < 7; i++) {
     headerRow.push(
-      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center' }}>
+      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center', fontSize: '30px', backgroundColor: '#4f5d73', color: 'white' }}>
         {['일', '월', '화', '수', '목', '금', '토'][i]}
       </th>
     );
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
 
-
   let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {
-
     if (i > firstDayOfMonth && i <= daysInMonth + firstDayOfMonth) {
       const day = i - firstDayOfMonth;
       const date = new Date(year, month - 1, day);
       const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
-      let attendCode = "";
 
-      if (Array.isArray(attendList)) {
-        attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
+      if (!Array.isArray(rcdList)) {
+
+      } else {
+        const hasLog = rcdList.find(item => item.logDate === dateString);
+        currentRow.push(
+          <td key={i} className={`calendar-day-cell ${hasLog ? 'completed' : ''}`} onClick={() => handleDateClick(day)} style={{ backgroundColor: hasLog ? '#66a3ff' : '', fontSize: '20px' }}>
+            <div className="flex-container">
+              <div className="calendar-day">{day}</div>
+              <div className="calendar-info centered-text bold-text large-text">{hasLog ? '작성 완료' : ''}</div>
+            </div>
+          </td>
+        );
       }
-
-      let displayText = '';
-      switch (attendCode) {
-        case '10':
-          displayText = '출석';
-          break;
-        case '20':
-          displayText = '지각';
-          break;
-        case '30':
-          displayText = '조퇴';
-          break;
-        case '40':
-          displayText = '격석';
-          break;
-        default:
-          displayText = '';
-      }
-
-      currentRow.push(
-        <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
-          <div className="flex-container">
-            <div className="calendar-day">{day}</div>
-            {displayText && <div className="calendar-info centered-text bold-text large-text">{displayText}</div>}
-          </div>
-        </td>
-      );
-
-
     } else {
       currentRow.push(<td key={i} className="calendar-day-cell empty"></td>);
     }
-
     if (i % 7 === 0) {
       calendar.push(<tr key={calendar.length}>{currentRow}</tr>);
       currentRow = [];
     }
   }
-
   return calendar;
 };
+
 
 const TngAttend = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -101,10 +79,12 @@ const TngAttend = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTngNo, setSelectedTngNo] = useState(null);
   const [stdntSn, setStdntSn] = useState(null);
-  const [attendCd, setAttendCd] = useState("");
-  const [attendList, setAttendList] = useState("");
+  const [rcdList, setRcdList] = useState([]);
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
+  const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
+  const [completedModalOpen, setCompletedModalOpen] = useState(false);
+  const [selectedCompletedDate, setSelectedCompletedDate] = useState(null);
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
@@ -114,11 +94,8 @@ const TngAttend = () => {
       navigate('/tngList');
       return;
     }
-
     setSelectedTngNo(selectedTngNo);
     setStdntSn(stdntSn);
-    fetchAttendCd();
-
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '50') {
       localStorage.clear();
@@ -126,6 +103,26 @@ const TngAttend = () => {
       navigate('/login');
     }
   }, []);
+
+  useEffect(() => {
+    fetchRcdList(selectedTngNo, stdntSn);
+  }, [selectedTngNo, stdntSn]);
+
+  const fetchRcdList = () => {
+    fetch('/cbb/tng/rcdList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo: selectedTngNo, stdntSn }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setRcdList(data)
+      })
+      .catch(error => console.error('Error fetching rcdList :', error));
+  };
 
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
@@ -138,43 +135,28 @@ const TngAttend = () => {
   };
 
   const handleDateClick = (day) => {
-    const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
-    let attendCode = "";
+    const currentDate = new Date();
+    const clickedDate = new Date(year, month - 1, day);
 
-    if (Array.isArray(attendList)) {
-      attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
+    if (clickedDate > currentDate) {
+      return;
     }
 
-    if (!attendCode) {
+    const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+    const hasLog = rcdList.find(item => item.logDate === dateString);
+
+    if (!hasLog) {
       setSelectedDate(day);
       setModalOpen(true);
+    } else {
+      setSelectedCompletedDate(day);
+      setCompletedModalOpen(true);
     }
   };
-
 
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  const fetchAttendCd = () => {
-    fetch('/cbb/tng/attentCd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        setAttendCd(data);
-      })
-      .catch(error => console.error('Error fetching attendCd list:', error));
-  };
-
-  useEffect(() => {
-    return () => {
-      sessionStorage.clear();
-    };
-  }, []);
 
   return (
     <CRow>
@@ -202,10 +184,11 @@ const TngAttend = () => {
             </div>
             <table className="calendar">
               <tbody>
-                {generateCalendar(year, month, attendList, handleDateClick)}
+                {generateCalendar(year, month, rcdList, handleDateClick)}
               </tbody>
             </table>
-            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} attendCd={attendCd} stdntSn={stdntSn} tngNo={selectedTngNo} />
+            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} stdntSn={stdntSn} tngNo={selectedTngNo} loginId={loginId} fetchRcdList={fetchRcdList} />
+            <CompletedLogModal isOpen={completedModalOpen} onClose={() => setCompletedModalOpen(false)} selectedDate={selectedCompletedDate} stdntSn={stdntSn} year={year} month={month} rcdList={rcdList} tngNo={selectedTngNo} loginId={loginId} fetchRcdList={fetchRcdList} />
           </CCardBody>
         </CCard>
       </CCol>
@@ -213,61 +196,148 @@ const TngAttend = () => {
   );
 };
 
-const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd, stdntSn, tngNo }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedOptionCd, setSelectedOptionCd] = useState(null);
+const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn, tngNo, loginId, fetchRcdList }) => {
+  const [evlCn, setEvlCn] = useState("");
 
-  const dropdownItems = Object.keys(attendCd).map((key) => (
-    <CDropdownItem key={attendCd[key].cd} onClick={() => {
-      setSelectedOption(attendCd[key].nm);
-      setSelectedOptionCd(attendCd[key].cd);
-    }}>
-      {attendCd[key].nm}
-    </CDropdownItem>
-  ));
+  const handleTextareaChange = (e) => {
+    setEvlCn(e.target.value);
+  };
 
-
-  const fetchAttendReg = () => {
-    fetch('/cbb/tng/attentReg', {
+  const fetchRcdReg = () => {
+    fetch('/cbb/tng/rcdReg', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, cd: selectedOptionCd }),
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
     })
-      .then(response => response.json())
+      .then(response => { })
       .then(data => {
+        fetchRcdList();
       })
-      .catch(error => console.error('Error fetching attentReg :', error));
+      .catch(error => console.error('Error fetching rcdReg :', error));
     selectClose();
   };
 
   const selectClose = () => {
-    setSelectedOption(null);
-    setSelectedOptionCd(null);
     onClose();
   };
 
   return (
     <CModal alignment="center" visible={isOpen} onClose={onClose}>
       <CModalHeader closeButton>
-        <CModalTitle>출석 입력</CModalTitle>
+        <CModalTitle>지도 일지 작성</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <p>학번 : {stdntSn}</p>
-        <p>날짜 : {year}년 {month}월 {selectedDate}일</p>
-        <CDropdown>
-          <CDropdownToggle color="secondary" size="sm">
-            {selectedOption || "출석 입력"}
-          </CDropdownToggle>
-          <CDropdownMenu>
-            {dropdownItems}
-          </CDropdownMenu>
-        </CDropdown>
+        <h5>학번 : {stdntSn}</h5>
+        <h5>날짜 : {year}년 {month}월 {selectedDate}일</h5>
+        <CFormTextarea
+          id="floatingTextarea"
+          floatingLabel="지도일지"
+          placeholder="Leave a comment here"
+          value={evlCn}
+          onChange={handleTextareaChange}
+          style={{ fontSize: '18px', height: '150px' }}
+        ></CFormTextarea>
       </CModalBody>
       <CModalFooter>
-        <CButton color="primary" onClick={fetchAttendReg}>출석 입력</CButton>
+        <CButton color="primary" onClick={fetchRcdReg}>작성완료</CButton>
         <CButton color="secondary" onClick={selectClose}>닫기</CButton>
+      </CModalFooter>
+    </CModal>
+  );
+};
+
+const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate, rcdList, tngNo, loginId, fetchRcdList }) => {
+  const [readOnly, setReadOnly] = useState(true);
+  const [evlCn, setEvlCn] = useState("");
+
+  useEffect(() => {
+    if (selectedDate !== null) {
+      const dateString = `${year}${month.toString().padStart(2, '0')}${selectedDate.toString().padStart(2, '0')}`;
+      const selectedRcd = rcdList.find(item => item.logDate === dateString);
+      if (selectedRcd && selectedRcd.evlCn) {
+        setEvlCn(selectedRcd.evlCn);
+      }
+    }
+  }, [selectedDate, rcdList, year, month]);
+
+  const handleEditClick = () => {
+    setReadOnly(!readOnly);
+    if (!readOnly) {
+      fetchRcdUpdate();
+    }
+  };
+
+  const handleTextareaChange = (e) => {
+    setEvlCn(e.target.value);
+  };
+
+  const fetchRcdUpdate = () => {
+    fetch('/cbb/tng/rcdUpd', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
+    })
+      .then(response => { })
+      .then(data => {
+        fetchRcdList();
+      })
+      .catch(error => console.error('Error fetching rcdReg :', error));
+  };
+
+  const handleDeleteClick = () => {
+    fetch('/cbb/tng/rcdDel', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
+    })
+      .then(response => { })
+      .then(data => {
+        fetchRcdList();
+      })
+      .catch(error => console.error('Error fetching rcdReg :', error));
+    onClose();
+  };
+
+  const handleCloseModal = () => {
+    setReadOnly(true);
+    if (selectedDate !== null) {
+      const dateString = `${year}${month.toString().padStart(2, '0')}${selectedDate.toString().padStart(2, '0')}`;
+      const selectedRcd = rcdList.find(item => item.logDate === dateString);
+      if (selectedRcd && selectedRcd.evlCn) {
+        setEvlCn(selectedRcd.evlCn);
+      }
+    }
+    onClose();
+  };
+
+  return (
+    <CModal alignment="center" visible={isOpen} onClose={handleCloseModal}>
+      <CModalHeader closeButton>
+        <CModalTitle>지도 일지 수정</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <h5>학번 : {stdntSn}</h5>
+        <h5>날짜 : {year}년 {month}월 {selectedDate !== null ? selectedDate.toString().padStart(2, '0') : ''}일</h5>
+        <CFormTextarea
+          id="completedLogTextarea"
+          floatingLabel="작성 완료된 일지"
+          placeholder="Leave a comment here"
+          value={evlCn}
+          onChange={handleTextareaChange}
+          readOnly={readOnly}
+          style={{ fontSize: '18px', height: '150px' }}
+        />
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="primary" onClick={handleEditClick}>{readOnly ? '수정' : '수정 완료'}</CButton>
+        <CButton color="danger" onClick={handleDeleteClick}>삭제</CButton>
+        <CButton color="secondary" onClick={handleCloseModal}>닫기</CButton>
       </CModalFooter>
     </CModal>
   );
