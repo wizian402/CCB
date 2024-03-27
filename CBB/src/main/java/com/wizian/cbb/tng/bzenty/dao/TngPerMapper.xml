@@ -21,23 +21,23 @@
 	</resultMap>
 
 	<select id="selectTngStdntList" resultType="hashmap">
-	SELECT 
-    	s.STDNT_SN AS "stdntSn",
-    	s.STDNT_NM AS "stdntNm",
-    	s.STDNT_TELNO AS "stdntTelNo",
-    	s.STDNT_EML_ADDR AS "stdntEmlAddr",
-    	s.STDNT_BRDT AS "stdntBrdt",
-    	s.STDNT_ADDR AS "stdntAddr",
-    	s.STDNT_GRD AS "stdntGrd",
-    	sb.SCSBJT_NM AS "scsbjtNm",  
-    	s.USER_NO AS "userNo",
-    	s.ACAVSR_NO AS "acavsrNo",
-    	cc.NM AS "nm" 
-	FROM STDNT s
-	INNER JOIN TNG_STDNT t ON s.STDNT_SN = t.STDNT_SN
-	INNER JOIN COM_CD cc ON t.TNG_PRGRS_STTS = cc.CD
-	INNER JOIN SCSBJT sb ON s.SCSBJT_CD = sb.SCSBJT_CD
-	WHERE t.TNG_NO = #{tngNo} AND cc.DIV = 2001
+		SELECT
+		s.STDNT_SN AS "stdntSn",
+		s.STDNT_NM AS "stdntNm",
+		s.STDNT_TELNO AS "stdntTelNo",
+		s.STDNT_EML_ADDR AS "stdntEmlAddr",
+		s.STDNT_BRDT AS "stdntBrdt",
+		s.STDNT_ADDR AS "stdntAddr",
+		s.STDNT_GRD AS "stdntGrd",
+		sb.SCSBJT_NM AS "scsbjtNm",
+		s.USER_NO AS "userNo",
+		s.ACAVSR_NO AS "acavsrNo",
+		cc.NM AS "nm"
+		FROM STDNT s
+		INNER JOIN TNG_STDNT t ON s.STDNT_SN = t.STDNT_SN
+		INNER JOIN COM_CD cc ON t.TNG_PRGRS_STTS = cc.CD
+		INNER JOIN SCSBJT sb ON s.SCSBJT_CD = sb.SCSBJT_CD
+		WHERE t.TNG_NO = #{tngNo} AND cc.DIV = 2001
 	</select>
 
 	<select id="selectScsbjt" resultType="hashmap">
@@ -69,7 +69,8 @@
 	<update id="closeTngAply">
 		UPDATE TNG
 		SET PRGRS_STTS = '60'
-		WHERE TNG_NO = #{tngNo}
+		WHERE TNG_NO =
+		#{tngNo}
 	</update>
 
 	<delete id="delTngAply">
@@ -86,7 +87,7 @@
 	</select>
 
 	<select id="selectTng" resultMap="selectTng">
-		Select * 
+		Select *
 		FROM TNG
 		WHERE TNG_NO = #{tngNo}
 	</select>

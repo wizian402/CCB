@@ -15,4 +15,8 @@ public interface ITngRcdRepository {
 			@Param("logDate") String logDate, @Param("evlCn") String evlCn);
 	
 	List<Map<String, Object>> selectRcdList(@Param("tngAplyNo") int tngAplyNo);
+
+	void updateRcd(@Param("tngAplyNo") int tngAplyNo, @Param("bzentyUserNo") String bzentyUserNo,
+			@Param("logDate") String logDate, @Param("evlCn") String evlCn);
+	
 }

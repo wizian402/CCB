@@ -146,6 +146,13 @@ const TngAttend = () => {
   };
 
   const handleDateClick = (day) => {
+    const currentDate = new Date();
+    const clickedDate = new Date(year, month - 1, day);
+
+    if (clickedDate >= currentDate) {
+      return;
+    }
+
     const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
     let attendCode = "";
 
@@ -158,6 +165,7 @@ const TngAttend = () => {
       setModalOpen(true);
     }
   };
+
 
 
   const closeModal = () => {

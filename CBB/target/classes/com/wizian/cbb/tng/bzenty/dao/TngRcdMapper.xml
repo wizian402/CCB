@@ -14,10 +14,11 @@
 
 	<select id="selectBzentyUserNo" resultType="hashmap">
 		Select
-		BZENTY_USER_NO AS "bzentyUserNo"
+		BZENTY_USER_NO
+		AS "bzentyUserNo"
 		FROM BZENTY_USER
 		WHERE USER_NO IN (
-		SELECT USER_NO 
+		SELECT USER_NO
 		FROM USER_INFO
 		WHERE LOGIN_ID=#{loginId}
 		)
@@ -39,15 +40,23 @@
 		#{bzentyUserNo},
 		#{logDate},
 		#{evlCn},
-		20		
+		20
 		)
 	</insert>
-	
+
 	<select id="selectRcdList" resultType="hashmap">
 		Select
-		LOG_DATE AS "logDate",
+		LOG_DATE AS
+		"logDate",
 		EVL_CN AS "evlCn"
 		FROM TNG_RCD
 		WHERE TNG_APLY_NO=#{tngAplyNo}
 	</select>
+
+	<update id="updateRcd">
+		UPDATE TNG_RCD
+		SET EVL_CN = #{evlCn}
+		WHERE TNG_APLY_NO= #{tngAplyNo} AND LOG_DATE =#{logDate} AND BZENTY_USER_NO=#{bzentyUserNo}
+	</update>
+
 </mapper>

@@ -12,4 +12,6 @@ public interface ITngRcdService {
 	void insertRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn);
 	
 	List<Map<String, Object>> selectRcdList(int tngAplyNo);
+	
+	void updateRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn);
 }

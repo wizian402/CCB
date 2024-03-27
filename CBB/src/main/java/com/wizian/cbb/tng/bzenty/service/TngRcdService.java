@@ -33,4 +33,9 @@ public class TngRcdService implements ITngRcdService {
 	public List<Map<String, Object>> selectRcdList(int tngAplyNo) {
 		return tngRcdRepository.selectRcdList(tngAplyNo);
 	}
+
+	@Override
+	public void updateRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn) {
+		tngRcdRepository.updateRcd(tngAplyNo, bzentyUserNo, logDate, evlCn);
+	}
 }

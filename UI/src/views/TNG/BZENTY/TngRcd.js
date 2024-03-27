@@ -136,6 +136,13 @@ const TngAttend = () => {
   };
 
   const handleDateClick = (day) => {
+    const currentDate = new Date();
+    const clickedDate = new Date(year, month - 1, day);
+
+    if (clickedDate > currentDate) {
+      return;
+    }
+
     const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
     const hasLog = rcdList.find(item => item.logDate === dateString);
 
@@ -147,6 +154,7 @@ const TngAttend = () => {
       setCompletedModalOpen(true);
     }
   };
+
 
 
   const closeModal = () => {
@@ -182,8 +190,8 @@ const TngAttend = () => {
                 {generateCalendar(year, month, rcdList, handleDateClick)}
               </tbody>
             </table>
-            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} stdntSn={stdntSn} tngNo={selectedTngNo} loginId={loginId} />
-            <CompletedLogModal isOpen={completedModalOpen} onClose={() => setCompletedModalOpen(false)} selectedDate={selectedCompletedDate} stdntSn={stdntSn} year={year} month={month} rcdList={rcdList} tngNo={selectedTngNo} loginId={loginId} />
+            <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} stdntSn={stdntSn} tngNo={selectedTngNo} loginId={loginId} fetchRcdList={fetchRcdList} />
+            <CompletedLogModal isOpen={completedModalOpen} onClose={() => setCompletedModalOpen(false)} selectedDate={selectedCompletedDate} stdntSn={stdntSn} year={year} month={month} rcdList={rcdList} tngNo={selectedTngNo} loginId={loginId} fetchRcdList={fetchRcdList} />
           </CCardBody>
         </CCard>
       </CCol>
@@ -191,7 +199,7 @@ const TngAttend = () => {
   );
 };
 
-const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn, tngNo, loginId }) => {
+const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn, tngNo, loginId, fetchRcdList }) => {
   const [evlCn, setEvlCn] = useState("");
 
   const handleTextareaChange = (e) => {
@@ -206,8 +214,9 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn,
       },
       body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
     })
-      .then(response => response.json())
+      .then(response => { })
       .then(data => {
+        fetchRcdList();
       })
       .catch(error => console.error('Error fetching rcdReg :', error));
     selectClose();
@@ -242,7 +251,7 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn,
   );
 };
 
-const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate, rcdList, tngNo, loginId }) => {
+const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate, rcdList, tngNo, loginId, fetchRcdList }) => {
   const [readOnly, setReadOnly] = useState(true);
   const [evlCn, setEvlCn] = useState("");
 
@@ -258,7 +267,9 @@ const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate
 
   const handleEditClick = () => {
     setReadOnly(!readOnly);
-    fetchRcdUpdate();
+    if (!readOnly) {
+      fetchRcdUpdate();
+    }
   };
 
   const handleTextareaChange = (e) => {
@@ -273,14 +284,27 @@ const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate
       },
       body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
     })
-      .then(response => response.json())
+      .then(response => { })
       .then(data => {
+        fetchRcdList();
       })
       .catch(error => console.error('Error fetching rcdReg :', error));
   };
 
+  const handleCloseModal = () => {
+    setReadOnly(true);
+    if (selectedDate !== null) {
+      const dateString = `${year}${month.toString().padStart(2, '0')}${selectedDate.toString().padStart(2, '0')}`;
+      const selectedRcd = rcdList.find(item => item.logDate === dateString);
+      if (selectedRcd && selectedRcd.evlCn) {
+        setEvlCn(selectedRcd.evlCn);
+      }
+    }
+    onClose();
+  };
+
   return (
-    <CModal alignment="center" visible={isOpen} onClose={onClose}>
+    <CModal alignment="center" visible={isOpen} onClose={handleCloseModal}>
       <CModalHeader closeButton>
         <CModalTitle>지도 일지 수정</CModalTitle>
       </CModalHeader>
@@ -299,9 +323,10 @@ const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate
       </CModalBody>
       <CModalFooter>
         <CButton color="primary" onClick={handleEditClick}>{readOnly ? '수정' : '수정 완료'}</CButton>
-        <CButton color="secondary" onClick={onClose}>닫기</CButton>
+        <CButton color="secondary" onClick={handleCloseModal}>닫기</CButton>
       </CModalFooter>
     </CModal>
   );
 };
+
 export default TngAttend;
