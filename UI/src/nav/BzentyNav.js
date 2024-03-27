@@ -22,47 +22,47 @@ export const _nav = [
   },
   {
     component: CNavGroup,
-    name: '이력서관리',
+    name: '채용정보관리',
     to: '#',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: '신규이력서작성',
+        name: '채용정보조회 및 수정',
+        to: '/base/TablesResume',
+      },
+      {
+        component: CNavItem,
+        name: '채용정보조회 등록신청',
+        to: '/recruit/bzRecruit/WritePbanc',
+      }, {
+        component: CNavItem,
+        name: '등록대기공고확인',
         to: '/base/TablesResume',
       }
     ]
   }, {
     component: CNavGroup,
-    name: '맞춤채용정보',
+    name: '지원자관리',
     to: '#',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: '맞춤채용정보 수정 및 등록',
+        name: '지원자조회',
         to: '#',
       },
-      {
-        component: CNavItem,
-        name: '맞춤채용정보 삭제',
-        to: '#',
-      },
-      {
-        component: CNavItem,
-        name: '입사요청 및 현황조회',
-        to: '#',
-      }
+
     ]
   }, {
     component: CNavGroup,
-    name: '채용공고조회',
+    name: '인재검색',
     to: '#',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: '지원내역조회',
+        name: '인재검색',
         to: '#',
       }
     ]
