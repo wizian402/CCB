@@ -1,6 +1,5 @@
 package com.wizian.cbb.tng.stdnt.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class StdntProgController {
 			Map<String, Object> stdntTngNo = stdntProgService.selectTngStdnt(loginId);
 			String stdntSn = stdntTngNo.get("stdntSn").toString();
 			String tngNo = stdntTngNo.get("tngNo").toString();
-	
+
 			Map<String, Object> tngStdnt = stdntProgService.getTngStdnt(tngNo, stdntSn);
 			int tngAplyNo = Integer.parseInt(tngStdnt.get("tngAplyNo").toString());
 			List<Map<String, Object>> attendList = stdntProgService.getAttendList(tngAplyNo);

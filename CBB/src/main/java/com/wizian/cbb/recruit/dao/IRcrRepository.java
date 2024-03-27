@@ -1,5 +1,6 @@
 package com.wizian.cbb.recruit.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,5 +24,19 @@ public interface IRcrRepository {
 	List<Map<String, Object>> getAplyPbancListDB(String userSTDNTSN);
 
 	Map<String, Object> getAllStdntInfo(String userSTDNTSN);
+
+	void resumeInsert(HashMap<String, Object> dataMap);
+
+	List<Map<String, Object>> getAllResumeList(String userSTDNTSN);
+
+	void deleteResume(Object object);
+
+	void deleteLng(Object object);
+
+	void deleteCrtfct(Object object);
+
+	void deleteActv(Object object);
+
+	void deleteAcbg(Object object);
 
 }

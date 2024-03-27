@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wizian.cbb.tng.bzenty.model.TngVO;
 import com.wizian.cbb.tng.bzenty.service.ITngPerService;
-import com.wizian.cbb.tng.stdnt.model.StdntVO;
 
 @RestController
 public class TngPerController {

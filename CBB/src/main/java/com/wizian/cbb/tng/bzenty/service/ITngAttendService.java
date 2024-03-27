@@ -3,8 +3,6 @@ package com.wizian.cbb.tng.bzenty.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
 public interface ITngAttendService {
 	List<Map<String, Object>> selectAttendCd();
 	

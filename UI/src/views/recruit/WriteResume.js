@@ -8,7 +8,6 @@ import {
     CModalHeader,
     CModalBody,
     CModalFooter,
-    CForm,
     CFormInput,
     CFormSelect,
 
@@ -18,13 +17,32 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './scss/detailPbanc.css';
 
-const DetailPbanc = () => {
+const writeResume = () => {
     const [stdntData, setStdntData] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [tngNo, setTngNo] = useState(null);
-    const [chgButton, setChgButton] = useState(null);
     const [modalContent, setModalContent] = useState(null);
 
+
+    const [formData, setFormData] = useState({
+        stdntsn: '',
+        title: '',
+        schoolName: '',
+        graduationDate: '',
+        graduationStatus: '',
+        certificate: '',
+        issuer: '',
+        certificationDate: '',
+        experience: '',
+        socialNote1: '',
+        socialNote2: '',
+        languageType: '',
+        languageGrade: '',
+        languageAcquisitionDate: '',
+        motivation: '',
+        failureExperience: '',
+        futurePlan: ''
+    });
 
     const [inputValue, setInputValue] = useState('');
 
@@ -36,15 +54,6 @@ const DetailPbanc = () => {
         setInputValue(event.target.value);
     };
 
-
-
-    useEffect(() => {
-        fetchStdntInfo();
-    }, []
-    );
-
-
-
     useEffect(() => {
         const selectedTngNo = sessionStorage.getItem("selectedTngNo");
         const userGroupCd = localStorage.getItem('userGroupCd');
@@ -55,6 +64,22 @@ const DetailPbanc = () => {
             navigate('/login');
         }
     }, []);
+
+
+    useEffect(() => {
+        fetchStdntInfo();
+    }, []
+    );
+
+    useEffect(() => {
+        if (stdntData) {
+            setFormData({ ...formData, stdntsn: stdntData.STDNT_SN });
+        }
+    }, [stdntData]);
+
+
+
+
 
 
 
@@ -95,20 +120,25 @@ const DetailPbanc = () => {
     };
 
     const handleYes = async () => {
-        await fetchUdtJobSearch();
-        await fetchCheckAply();
+        console.log(formData)
+        try {
+            const response = await fetch('/cbb/rcr/writeResume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            // Handle response
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
         setModalOpen(false);
     };
 
     const handleNo = () => {
         setModalOpen(false);
     };
-
-    const handleCancel = async () => {
-        await fetchCancleAply();
-        await fetchCheckAply();
-        setModalOpen(false);
-    }
 
     if (!stdntData) {
         return <div>Loading...</div>;
@@ -132,7 +162,7 @@ const DetailPbanc = () => {
                     <div className="p-3 itmL">제 목 :</div>
                 </CCol>
                 <CCol md={9}>
-                    <CFormInput type="text" className="p-3 input" id='ttIn' placeholder="제목을 입력하세요" />
+                    <CFormInput className="p-3 input" id='ttIn' placeholder="제목을 입력하세요" type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
                 </CCol>
             </CRow>
 
@@ -206,13 +236,15 @@ const DetailPbanc = () => {
                     <div className="p-3 itmL">학력사항:</div>
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='학교명' className="p-3 itmD" />
+                    <CFormInput placeholder='학교명' className="p-3 itmD" type="text" value={formData.schoolName} onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='졸업연월' className="p-3 itmD" />
+                    <CFormInput placeholder='졸업연월' className="p-3 itmD" type="text" value={formData.graduationDate} onChange={(e) => setFormData({ ...formData, graduationDate: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
                     <CFormSelect style={{ marginTop: '10px' }}
+                        value={formData.graduationStatus}
+                        onChange={(e) => setFormData({ ...formData, graduationStatus: e.target.value })}
                         options={[
                             { label: '졸업유무 선택', disabled: true },
                             { label: '졸업', value: '1' },
@@ -227,13 +259,13 @@ const DetailPbanc = () => {
                     <div className="p-3 itmL">보유자격증:</div>
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='자격증' className="p-3 itmD" />
+                    <CFormInput placeholder='자격증' className="p-3 itmD" type="text" value={formData.certificate} onChange={(e) => setFormData({ ...formData, certificate: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='발급처' className="p-3 itmD" />
+                    <CFormInput placeholder='발급처' className="p-3 itmD" type="text" value={formData.issuer} onChange={(e) => setFormData({ ...formData, issuer: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='자격증 취득일시' className="p-3 itmD" />
+                    <CFormInput placeholder='자격증 취득일시' className="p-3 itmD" type="text" value={formData.certificationDate} onChange={(e) => setFormData({ ...formData, certificationDate: e.target.value })} />
                 </CCol>
             </CRow>
 
@@ -242,13 +274,13 @@ const DetailPbanc = () => {
                     <div className="p-3 itmL">사회경험 : </div>
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='경험' className="p-3 itmD" />
+                    <CFormInput placeholder='경험' className="p-3 itmD" type="text" value={formData.experience} onChange={(e) => setFormData({ ...formData, experience: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='비고1' className="p-3 itmD" />
+                    <CFormInput placeholder='비고1' className="p-3 itmD" type="text" value={formData.socialNote1} onChange={(e) => setFormData({ ...formData, socialNote1: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='비고2' className="p-3 itmD" />
+                    <CFormInput placeholder='비고2' className="p-3 itmD" type="text" value={formData.socialNote2} onChange={(e) => setFormData({ ...formData, socialNote2: e.target.value })} />
                 </CCol>
             </CRow>
 
@@ -257,13 +289,13 @@ const DetailPbanc = () => {
                     <div className="p-3 itmL">어학능력 : </div>
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='어학종류' className="p-3 itmD" />
+                    <CFormInput placeholder='어학종류' className="p-3 itmD" type="text" value={formData.languageType} onChange={(e) => setFormData({ ...formData, languageType: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='등급' className="p-3 itmD" />
+                    <CFormInput placeholder='등급' className="p-3 itmD" type="text" value={formData.languageGrade} onChange={(e) => setFormData({ ...formData, languageGrade: e.target.value })} />
                 </CCol>
                 <CCol md={3}>
-                    <CFormInput placeholder='취득일시' className="p-3 itmD" />
+                    <CFormInput placeholder='취득일시' className="p-3 itmD" type="text" value={formData.languageAcquisitionDate} onChange={(e) => setFormData({ ...formData, languageAcquisitionDate: e.target.value })} />
                 </CCol>
             </CRow>
 
@@ -272,21 +304,21 @@ const DetailPbanc = () => {
                 <div className="p-3 itm">지원동기 :</div>
             </CCol>
             <CCol>
-                <CFormInput style={{ height: '800px' }} placeholder='지원동기' className="p-3 itmD" />
+                <CFormInput style={{ height: '800px' }} placeholder='지원동기' className="p-3 itmD" type="text" value={formData.motivation} onChange={(e) => setFormData({ ...formData, motivation: e.target.value })} />
             </CCol>
 
             <CCol>
                 <div className="p-3 itm">실패경험 :</div>
             </CCol>
             <CCol>
-                <CFormInput style={{ height: '800px' }} placeholder='실패경험' className="p-3 itmD" />
+                <CFormInput style={{ height: '800px' }} placeholder='실패경험' className="p-3 itmD" type="text" value={formData.failureExperience} onChange={(e) => setFormData({ ...formData, failureExperience: e.target.value })} />
             </CCol>
 
             <CCol>
                 <div className="p-3 itm">입사후계획 :</div>
             </CCol>
             <CCol>
-                <CFormInput style={{ height: '800px' }} placeholder='입사후계획' className="p-3 itmD" />
+                <CFormInput style={{ height: '800px' }} placeholder='입사후계획' className="p-3 itmD" type="text" value={formData.futurePlan} onChange={(e) => setFormData({ ...formData, futurePlan: e.target.value })} />
             </CCol>
 
             <div style={{ justifyContent: "flex-end", display: "flex" }}>
@@ -301,8 +333,8 @@ const DetailPbanc = () => {
                     이력서 작성을 완료하시겠습니까?
                 </CModalBody>
                 <CModalFooter>
-                    <CButton color="primary" variant="outline">예</CButton>
-                    <CButton color="secondary" variant="outline">아니요</CButton>
+                    <CButton color="primary" variant="outline" onClick={handleYes}>예</CButton>
+                    <CButton color="secondary" variant="outline" onClick={handleNo}>아니요</CButton>
                 </CModalFooter>
             </CModal>
 
@@ -310,4 +342,4 @@ const DetailPbanc = () => {
     );
 };
 
-export default DetailPbanc;
+export default writeResume;
