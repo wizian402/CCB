@@ -1,5 +1,6 @@
 package com.wizian.cbb.tng.bzenty.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,4 +13,6 @@ public interface ITngRcdRepository {
 
 	void insertRcd(@Param("tngAplyNo") int tngAplyNo, @Param("bzentyUserNo") String bzentyUserNo,
 			@Param("logDate") String logDate, @Param("evlCn") String evlCn);
+	
+	List<Map<String, Object>> selectRcdList(@Param("tngAplyNo") int tngAplyNo);
 }

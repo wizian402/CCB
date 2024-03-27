@@ -1,5 +1,6 @@
 package com.wizian.cbb.tng.bzenty.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ITngRcdService {
@@ -9,4 +10,6 @@ public interface ITngRcdService {
 	Map<String, Object> selectBzentyUserNo(String loginId);
 
 	void insertRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn);
+	
+	List<Map<String, Object>> selectRcdList(int tngAplyNo);
 }

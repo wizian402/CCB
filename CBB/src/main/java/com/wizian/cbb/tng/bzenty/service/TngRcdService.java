@@ -1,5 +1,6 @@
 package com.wizian.cbb.tng.bzenty.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class TngRcdService implements ITngRcdService {
 	@Override
 	public void insertRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn) {
 		tngRcdRepository.insertRcd(tngAplyNo, bzentyUserNo, logDate, evlCn);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectRcdList(int tngAplyNo) {
+		return tngRcdRepository.selectRcdList(tngAplyNo);
 	}
 }

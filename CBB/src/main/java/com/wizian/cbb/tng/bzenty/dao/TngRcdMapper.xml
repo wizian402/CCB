@@ -42,4 +42,12 @@
 		20		
 		)
 	</insert>
+	
+	<select id="selectRcdList" resultType="hashmap">
+		Select
+		LOG_DATE AS "logDate",
+		EVL_CN AS "evlCn"
+		FROM TNG_RCD
+		WHERE TNG_APLY_NO=#{tngAplyNo}
+	</select>
 </mapper>

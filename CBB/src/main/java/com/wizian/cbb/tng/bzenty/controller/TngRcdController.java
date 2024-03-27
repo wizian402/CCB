@@ -1,5 +1,6 @@
 package com.wizian.cbb.tng.bzenty.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class TngRcdController {
 	ITngRcdService tngRcdService;
 
 	@PostMapping("/tng/rcdReg")
-	public @ResponseBody List<Map<String, Object>> rcdReg(@RequestBody String rcdData) {
+	public void rcdReg(@RequestBody String rcdData) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, String> rcdMap = objectMapper.readValue(rcdData, new TypeReference<Map<String, String>>() {
@@ -41,8 +42,24 @@ public class TngRcdController {
 			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
 
 			tngRcdService.insertRcd(tngAplyNo, bzentyUserNo, combinedDate, evlCn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 
-			return null;
+	@PostMapping("/tng/rcdList")
+	public List<Map<String, Object>> rcdList(@RequestBody String rcdData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> rcdMap = objectMapper.readValue(rcdData, new TypeReference<Map<String, String>>() {
+			});
+			String tngNo = rcdMap.get("tngNo");
+			String stdntSn = rcdMap.get("stdntSn");
+			Map<String, Object> tngAplyNoMap = tngRcdService.getTngStdnt(tngNo, stdntSn);
+			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
+			List<Map<String, Object>> rcdList = tngRcdService.selectRcdList(tngAplyNo);
+			
+			return rcdList;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -20,7 +20,7 @@ import {
 } from '@coreui/react';
 import "./css/Calendar.css";
 
-const generateCalendar = (year, month, attendList, handleDateClick) => {
+const generateCalendar = (year, month, rcdList, handleDateClick) => {
   const getDaysInMonth = (year, month) => {
     return new Date(year, month, 0).getDate();
   };
@@ -40,42 +40,38 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
 
-
   let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {
-
     if (i > firstDayOfMonth && i <= daysInMonth + firstDayOfMonth) {
       const day = i - firstDayOfMonth;
       const date = new Date(year, month - 1, day);
       const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
-      let attendCode = "";
 
-      if (Array.isArray(attendList)) {
-        attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
+      if (!Array.isArray(rcdList)) {
+
+      } else {
+        const hasLog = rcdList.find(item => item.logDate === dateString);
+        currentRow.push(
+          <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
+            <div className="flex-container">
+              <div className="calendar-day">{day}</div>
+              <div className="calendar-info centered-text bold-text large-text">{hasLog ? '작성 완료' : ''}</div>
+            </div>
+          </td>
+        );
       }
-
-      currentRow.push(
-        <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
-          <div className="flex-container">
-            <div className="calendar-day">{day}</div>
-            <div className="calendar-info centered-text bold-text large-text">{attendCode}</div>
-          </div>
-        </td>
-      );
-
-
     } else {
       currentRow.push(<td key={i} className="calendar-day-cell empty"></td>);
     }
-
     if (i % 7 === 0) {
       calendar.push(<tr key={calendar.length}>{currentRow}</tr>);
       currentRow = [];
     }
   }
-
   return calendar;
 };
+
+
 
 const TngAttend = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -84,11 +80,12 @@ const TngAttend = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTngNo, setSelectedTngNo] = useState(null);
   const [stdntSn, setStdntSn] = useState(null);
-  const [attendCd, setAttendCd] = useState("");
-  const [attendList, setAttendList] = useState("");
+  const [rcdList, setRcdList] = useState([]);
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
   const [loginId, setLoginId] = useState(localStorage.getItem('loginId'));
+  const [completedModalOpen, setCompletedModalOpen] = useState(false);
+  const [selectedCompletedDate, setSelectedCompletedDate] = useState(null);
 
   useEffect(() => {
     const selectedTngNo = sessionStorage.getItem("selectedTngNo");
@@ -98,10 +95,8 @@ const TngAttend = () => {
       navigate('/tngList');
       return;
     }
-
     setSelectedTngNo(selectedTngNo);
     setStdntSn(stdntSn);
-
     const userGroupCd = localStorage.getItem('userGroupCd');
     if (userGroupCd !== '50') {
       localStorage.clear();
@@ -109,6 +104,26 @@ const TngAttend = () => {
       navigate('/login');
     }
   }, []);
+
+  useEffect(() => {
+    fetchRcdList(selectedTngNo, stdntSn);
+  }, [selectedTngNo, stdntSn]);
+
+  const fetchRcdList = () => {
+    fetch('/cbb/tng/rcdList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo: selectedTngNo, stdntSn }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setRcdList(data)
+      })
+      .catch(error => console.error('Error fetching rcdList :', error));
+  };
 
   const handleYearChange = (event) => {
     const newYear = parseInt(event.target.value);
@@ -122,15 +137,14 @@ const TngAttend = () => {
 
   const handleDateClick = (day) => {
     const dateString = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
-    let attendCode = "";
+    const hasLog = rcdList.find(item => item.logDate === dateString);
 
-    if (Array.isArray(attendList)) {
-      attendCode = attendList.find(item => item.attendanceDate === dateString)?.tngAtndcCd || "";
-    }
-
-    if (!attendCode) {
+    if (!hasLog) {
       setSelectedDate(day);
       setModalOpen(true);
+    } else {
+      setSelectedCompletedDate(day);
+      setCompletedModalOpen(true);
     }
   };
 
@@ -165,10 +179,11 @@ const TngAttend = () => {
             </div>
             <table className="calendar">
               <tbody>
-                {generateCalendar(year, month, attendList, handleDateClick)}
+                {generateCalendar(year, month, rcdList, handleDateClick)}
               </tbody>
             </table>
             <AttendInputModal isOpen={modalOpen} onClose={closeModal} selectedDate={selectedDate} year={year} month={month} stdntSn={stdntSn} tngNo={selectedTngNo} loginId={loginId} />
+            <CompletedLogModal isOpen={completedModalOpen} onClose={() => setCompletedModalOpen(false)} selectedDate={selectedCompletedDate} stdntSn={stdntSn} year={year} month={month} rcdList={rcdList} tngNo={selectedTngNo} loginId={loginId} />
           </CCardBody>
         </CCard>
       </CCol>
@@ -216,6 +231,7 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn,
           placeholder="Leave a comment here"
           value={evlCn}
           onChange={handleTextareaChange}
+          style={{ fontSize: '18px', height: '150px' }}
         ></CFormTextarea>
       </CModalBody>
       <CModalFooter>
@@ -226,5 +242,66 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, stdntSn,
   );
 };
 
+const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate, rcdList, tngNo, loginId }) => {
+  const [readOnly, setReadOnly] = useState(true);
+  const [evlCn, setEvlCn] = useState("");
 
+  useEffect(() => {
+    if (selectedDate !== null) {
+      const dateString = `${year}${month.toString().padStart(2, '0')}${selectedDate.toString().padStart(2, '0')}`;
+      const selectedRcd = rcdList.find(item => item.logDate === dateString);
+      if (selectedRcd && selectedRcd.evlCn) {
+        setEvlCn(selectedRcd.evlCn);
+      }
+    }
+  }, [selectedDate, rcdList, year, month]);
+
+  const handleEditClick = () => {
+    setReadOnly(!readOnly);
+    fetchRcdUpdate();
+  };
+
+  const handleTextareaChange = (e) => {
+    setEvlCn(e.target.value);
+  };
+
+  const fetchRcdUpdate = () => {
+    fetch('/cbb/tng/rcdUpd', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
+    })
+      .then(response => response.json())
+      .then(data => {
+      })
+      .catch(error => console.error('Error fetching rcdReg :', error));
+  };
+
+  return (
+    <CModal alignment="center" visible={isOpen} onClose={onClose}>
+      <CModalHeader closeButton>
+        <CModalTitle>지도 일지 수정</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <h5>학번 : {stdntSn}</h5>
+        <h5>날짜 : {year}년 {month}월 {selectedDate !== null ? selectedDate.toString().padStart(2, '0') : ''}일</h5>
+        <CFormTextarea
+          id="completedLogTextarea"
+          floatingLabel="작성 완료된 일지"
+          placeholder="Leave a comment here"
+          value={evlCn}
+          onChange={handleTextareaChange}
+          readOnly={readOnly}
+          style={{ fontSize: '18px', height: '150px' }}
+        />
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="primary" onClick={handleEditClick}>{readOnly ? '수정' : '수정 완료'}</CButton>
+        <CButton color="secondary" onClick={onClose}>닫기</CButton>
+      </CModalFooter>
+    </CModal>
+  );
+};
 export default TngAttend;
