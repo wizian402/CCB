@@ -162,4 +162,11 @@
     DELETE FROM resume WHERE RSM_SN = #{value}
 </delete>
 
+
+<select id="getBrno" parameterType="string" resultType="string">
+	select BRNO from com_manager where user_no = #{data}
+</select>
+
+
+
 </mapper>

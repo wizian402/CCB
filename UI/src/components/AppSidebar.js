@@ -62,9 +62,19 @@ const AppSidebar = () => {
     selectedNav = adminTNGNav;
   } else if (currentUri === "/stdntAply" || currentUri === "/stdntProgAply") {
     selectedNav = stdntAplyNav;
-  } else if (currentUri.includes("/recruit/")) {
+  } else if (currentUri === "/recruit/applyList" ||
+    currentUri.includes("/detailPbanc/") ||
+    currentUri === "/recruit/HandleResume" ||
+    currentUri === "/recruit/tablePbanc" ||
+    currentUri === "/recruit/WriteResume" ||
+    currentUri === "/recruit/TableAplyPbanc"
+  ) {
     selectedNav = studentNav;
-  } else if (
+  } else if (currentUri.includes("/bzRecruit/")) {
+    selectedNav = bzentyNav;
+  }
+
+  else if (
     currentUri === "/consultationItem" ||
     currentUri === "/consultationSchedule" ||
     currentUri === "/11111111" ||

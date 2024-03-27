@@ -1,4 +1,5 @@
 import React from "react";
+import writePbanc from "./views/recruit/bzRecruit/WritePbanc";
 
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 const Colors = React.lazy(() => import("./views/theme/colors/Colors"));
@@ -134,6 +135,7 @@ const DetailPbanc = React.lazy(() => import("./views/recruit/DetailPbanc"));
 const TableAplyPbanc = React.lazy(() => import("./views/recruit/ApplyList"));
 const WriteResume = React.lazy(() => import("./views/recruit/WriteResume"));
 const HandleResume = React.lazy(() => import("./views/recruit/HandleResume"));
+const WritePbanc = React.lazy(() => import("./views/recruit/bzRecruit/WritePbanc"));
 
 const routes = [
   // consulting
@@ -192,6 +194,7 @@ const routes = [
   },
   { path: "/recruit/WriteResume", name: "WriteResume", element: WriteResume },
   { path: "/recruit/HandleResume", name: "HandleResume", element: HandleResume },
+  { path: "/recruit/bzRecruit/WritePbanc", name: "WritePbanc", element: WritePbanc },
 
   //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

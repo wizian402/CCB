@@ -186,10 +186,29 @@ public class RcrService implements IRcrService{
 		rcrRepository.deleteActv(dataMap.get("number"));
 		rcrRepository.deleteAcbg(dataMap.get("number"));
 		
-		
-		
 	}
-;
+
+
+	@Override
+	public Map<String, Object> getComData(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String userNo = dataMap.get("userNo");
+		System.out.println("userNo"+userNo);
+		String brno = getBrno(userNo);
+		System.out.println("brno"+brno);
+		Map<String, Object> conInfo = getComInfo(brno);
+		System.out.println("conInfo"+conInfo);
+		
+		return conInfo;
+	}
+	
+	
+	
+	public String getBrno(String data) {
+		return rcrRepository.getBrno(data);
+	}
+
 	
 	
 }

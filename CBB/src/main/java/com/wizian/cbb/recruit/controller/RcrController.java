@@ -36,7 +36,7 @@ public class RcrController {
 	@GetMapping("/rcr/detail/{pbancSn}")
 	public @ResponseBody ResponseEntity<?> getPbanc(@PathVariable String pbancSn) {
 		try {
-			
+
 			RcrPbancVO pbanc = rcrService.getPbanc(pbancSn);
 			return ResponseEntity.ok(pbanc);
 		} catch (NumberFormatException e) {
@@ -67,46 +67,54 @@ public class RcrController {
 	@PostMapping("/rcr/checkAply")
 	public @ResponseBody Map<String, Object> checkAply(@RequestBody String data)
 			throws JsonParseException, JsonMappingException, IOException {
-		
+
 		System.out.println("체크어플라이진입?");
 		System.out.println(rcrService.checkAply(data));
 		return rcrService.checkAply(data);
-	}  
+	}
 
 	@PostMapping("/rcr/cancleAply")
-	public void updateAplyCancle(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException {
+	public void updateAplyCancle(@RequestBody String userData)
+			throws JsonParseException, JsonMappingException, IOException {
 		rcrService.updateAplyCancleDB(userData);
 	}
-	
-	
+
 	@PostMapping("/rcr/aplylist")
-	public @ResponseBody List<RcrPbancVO> aplyPbancList(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
-		
+	public @ResponseBody List<RcrPbancVO> aplyPbancList(@RequestBody String userData)
+			throws JsonParseException, JsonMappingException, IOException {
+
 		return rcrService.getAplyPbancList(userData);
 	}
-	
-	
+
 	@PostMapping("/rcr/fetchStdntInfo")
-	public @ResponseBody Map<String, Object> getAllStdntInfo(@RequestBody String userData) throws JsonParseException, JsonMappingException, IOException{
+	public @ResponseBody Map<String, Object> getAllStdntInfo(@RequestBody String userData)
+			throws JsonParseException, JsonMappingException, IOException {
 		return rcrService.getAllStdntInfo(userData);
 	}
-	
-	
+
 	@PostMapping("/rcr/writeResume")
 	public void writeResume(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
 		rcrService.insertResume(data);
 	}
-	
-	
+
 	@PostMapping("/rcr/resumeList")
-	public List<Map<String, Object>> getAllResumeList(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException{
+	public List<Map<String, Object>> getAllResumeList(@RequestBody String data)
+			throws JsonParseException, JsonMappingException, IOException {
 		return rcrService.getAllResume(data);
 	}
-	
+
 	@PostMapping("/rcr/resumeDelete")
 	public void deleteResume(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
 		rcrService.deleteResume(data);
 	}
-	
-	
+
+	@PostMapping("/rcr/bzRecruit/getComInfo")
+	public @ResponseBody Map<String, Object> getComInfobyBrno(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException
+	{
+		
+		return rcrService.getComData(data);
+	}
+
+
+
 }

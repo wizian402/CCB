@@ -39,4 +39,6 @@ public interface IRcrRepository {
 
 	void deleteAcbg(Object object);
 
+	String getBrno(String data);
+
 }

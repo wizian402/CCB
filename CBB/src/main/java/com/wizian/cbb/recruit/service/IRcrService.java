@@ -24,4 +24,5 @@ public interface IRcrService {
 	void insertResume(String data) throws JsonParseException, JsonMappingException, IOException;
 	List<Map<String, Object>> getAllResume(String data) throws JsonParseException, JsonMappingException, IOException;
 	void deleteResume(String data) throws JsonParseException, JsonMappingException, IOException;
+	Map<String, Object> getComData(String data) throws JsonParseException, JsonMappingException, IOException;
 }
