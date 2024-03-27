@@ -33,7 +33,7 @@ const generateCalendar = (year, month, rcdList, handleDateClick) => {
   let headerRow = [];
   for (let i = 0; i < 7; i++) {
     headerRow.push(
-      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center' }}>
+      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center', fontSize: '30px', backgroundColor: '#4f5d73', color: 'white' }}>
         {['일', '월', '화', '수', '목', '금', '토'][i]}
       </th>
     );
@@ -52,7 +52,7 @@ const generateCalendar = (year, month, rcdList, handleDateClick) => {
       } else {
         const hasLog = rcdList.find(item => item.logDate === dateString);
         currentRow.push(
-          <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
+          <td key={i} className={`calendar-day-cell ${hasLog ? 'completed' : ''}`} onClick={() => handleDateClick(day)} style={{ backgroundColor: hasLog ? '#66a3ff' : '', fontSize: '20px' }}>
             <div className="flex-container">
               <div className="calendar-day">{day}</div>
               <div className="calendar-info centered-text bold-text large-text">{hasLog ? '작성 완료' : ''}</div>
@@ -70,7 +70,6 @@ const generateCalendar = (year, month, rcdList, handleDateClick) => {
   }
   return calendar;
 };
-
 
 
 const TngAttend = () => {
@@ -154,8 +153,6 @@ const TngAttend = () => {
       setCompletedModalOpen(true);
     }
   };
-
-
 
   const closeModal = () => {
     setModalOpen(false);
@@ -291,6 +288,22 @@ const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate
       .catch(error => console.error('Error fetching rcdReg :', error));
   };
 
+  const handleDeleteClick = () => {
+    fetch('/cbb/tng/rcdDel', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, evlCn, loginId })
+    })
+      .then(response => { })
+      .then(data => {
+        fetchRcdList();
+      })
+      .catch(error => console.error('Error fetching rcdReg :', error));
+    onClose();
+  };
+
   const handleCloseModal = () => {
     setReadOnly(true);
     if (selectedDate !== null) {
@@ -323,6 +336,7 @@ const CompletedLogModal = ({ stdntSn, year, month, isOpen, onClose, selectedDate
       </CModalBody>
       <CModalFooter>
         <CButton color="primary" onClick={handleEditClick}>{readOnly ? '수정' : '수정 완료'}</CButton>
+        <CButton color="danger" onClick={handleDeleteClick}>삭제</CButton>
         <CButton color="secondary" onClick={handleCloseModal}>닫기</CButton>
       </CModalFooter>
     </CModal>

@@ -32,17 +32,15 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
   let headerRow = [];
   for (let i = 0; i < 7; i++) {
     headerRow.push(
-      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center' }}>
+      <th key={i} className="calendar-header-cell" style={{ textAlign: 'center', fontSize: '30px', backgroundColor: '#4f5d73', color: 'white' }}>
         {['일', '월', '화', '수', '목', '금', '토'][i]}
       </th>
     );
   }
   calendar.push(<tr key="header">{headerRow}</tr>);
 
-
   let currentRow = [];
   for (let i = 1; i <= daysInMonth + firstDayOfMonth + (6 - lastDayOfMonth); i++) {
-
     if (i > firstDayOfMonth && i <= daysInMonth + firstDayOfMonth) {
       const day = i - firstDayOfMonth;
       const date = new Date(year, month - 1, day);
@@ -54,33 +52,39 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
       }
 
       let displayText = '';
+      let backgroundColor = '';
+
       switch (attendCode) {
         case '10':
           displayText = '출석';
+          backgroundColor = '#66a3ff';
           break;
         case '20':
           displayText = '지각';
+          backgroundColor = '#ffcc00';
           break;
         case '30':
           displayText = '조퇴';
+          backgroundColor = '#ffcc00';
           break;
         case '40':
-          displayText = '격석';
+          displayText = '결석';
+          backgroundColor = '#ff6666';
           break;
         default:
           displayText = '';
+          backgroundColor = 'inherit';
       }
 
+
       currentRow.push(
-        <td key={i} className="calendar-day-cell" onClick={() => handleDateClick(day)}>
+        <td key={i} className={`calendar-day-cell ${attendCode && 'attendance-' + attendCode}`} onClick={() => handleDateClick(day)} style={{ backgroundColor }}>
           <div className="flex-container">
             <div className="calendar-day">{day}</div>
-            {displayText && <div className="calendar-info centered-text bold-text large-text">{displayText}</div>}
+            {displayText && <div className="calendar-info centered-text bold-text large-text" style={{ fontSize: '25px' }} >{displayText}</div>}
           </div>
         </td>
       );
-
-
     } else {
       currentRow.push(<td key={i} className="calendar-day-cell empty"></td>);
     }
@@ -93,6 +97,8 @@ const generateCalendar = (year, month, attendList, handleDateClick) => {
 
   return calendar;
 };
+
+
 
 const TngAttend = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -260,12 +266,12 @@ const AttendInputModal = ({ isOpen, onClose, selectedDate, year, month, attendCd
       },
       body: JSON.stringify({ tngNo, stdntSn, year, month, day: selectedDate, cd: selectedOptionCd }),
     })
-      .then(response => response.json())
+      .then(response => { })
       .then(data => {
+        fetchAttendList();
       })
       .catch(error => console.error('Error fetching attentReg :', error));
     selectClose();
-    fetchAttendList();
   };
 
   const selectClose = () => {

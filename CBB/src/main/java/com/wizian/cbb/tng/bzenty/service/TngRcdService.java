@@ -38,4 +38,9 @@ public class TngRcdService implements ITngRcdService {
 	public void updateRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn) {
 		tngRcdRepository.updateRcd(tngAplyNo, bzentyUserNo, logDate, evlCn);
 	}
+
+	@Override
+	public void deleteRcd(int tngAplyNo, String bzentyUserNo, String logDate, String evlCn) {
+		tngRcdRepository.deleteRcd(tngAplyNo, bzentyUserNo, logDate, evlCn);
+	}
 }

@@ -93,6 +93,33 @@ public class TngRcdController {
 		}
 	}
 	
+	@PostMapping("/tng/rcdDel")
+	public void rcdDel(@RequestBody String rcdData) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, String> rcdMap = objectMapper.readValue(rcdData, new TypeReference<Map<String, String>>() {
+			});
+			String tngNo = rcdMap.get("tngNo");
+			String stdntSn = rcdMap.get("stdntSn");
+			String evlCn = rcdMap.get("evlCn");
+			String year = rcdMap.get("year");
+			String month = addLeadingZero(Integer.parseInt(rcdMap.get("month")));
+			String day = addLeadingZero(Integer.parseInt(rcdMap.get("day")));
+			String combinedDate = year + month + day;
+			String loginId = rcdMap.get("loginId");
+
+			Map<String, Object> bzentyUserNoMap = tngRcdService.selectBzentyUserNo(loginId);
+			String bzentyUserNo = bzentyUserNoMap.get("bzentyUserNo").toString();
+
+			Map<String, Object> tngAplyNoMap = tngRcdService.getTngStdnt(tngNo, stdntSn);
+			int tngAplyNo = Integer.parseInt(tngAplyNoMap.get("tngAplyNo").toString());
+
+			tngRcdService.deleteRcd(tngAplyNo, bzentyUserNo, combinedDate, evlCn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 	private String addLeadingZero(int number) {
 		return String.format("%02d", number);
 	}

@@ -59,4 +59,9 @@
 		WHERE TNG_APLY_NO= #{tngAplyNo} AND LOG_DATE =#{logDate} AND BZENTY_USER_NO=#{bzentyUserNo}
 	</update>
 
+	<delete id="deleteRcd">
+		DELETE FROM TNG_RCD
+		WHERE TNG_APLY_NO= #{tngAplyNo} AND LOG_DATE =#{logDate} AND BZENTY_USER_NO=#{bzentyUserNo}
+	</delete>
+
 </mapper>

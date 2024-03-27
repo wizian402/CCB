@@ -18,5 +18,7 @@ public interface ITngRcdRepository {
 
 	void updateRcd(@Param("tngAplyNo") int tngAplyNo, @Param("bzentyUserNo") String bzentyUserNo,
 			@Param("logDate") String logDate, @Param("evlCn") String evlCn);
-	
+
+	void deleteRcd(@Param("tngAplyNo") int tngAplyNo, @Param("bzentyUserNo") String bzentyUserNo,
+			@Param("logDate") String logDate, @Param("evlCn") String evlCn);
 }
