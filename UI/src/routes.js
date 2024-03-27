@@ -181,7 +181,7 @@ const routes = [
   { path: "/tngRcd", name: "지도일지 작성", element: TngRcd },
 
   // RECRUIT
-  { path: "/recruit/tablePbanc", name: "TablePbanc", element: TablePbanc },
+  { path: "/recruit/TablePbanc", name: "TablePbanc", element: TablePbanc },
   {
     path: "/recruit/detailPbanc/:pbancSn",
     name: "detailPbanc",

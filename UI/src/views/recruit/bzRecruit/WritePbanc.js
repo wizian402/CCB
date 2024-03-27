@@ -15,7 +15,7 @@ import {
 
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import { useParams } from 'react-router-dom';
 import '../scss/detailPbanc.css';
 import ReactDatePicker from 'react-datepicker';
@@ -34,11 +34,9 @@ const writePbanc = () => {
         slry: '',
         startDate: '',
         endDate: '',
-        empType: '',
+        empType: 'ft',
         pbancCT: '',
-
-
-
+        stts: 'grd'
     });
 
     const [inputValue, setInputValue] = useState('');
@@ -51,9 +49,15 @@ const writePbanc = () => {
         setInputValue(event.target.value);
     };
 
-    const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
 
+
+    const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+        <button style={{ width: "120%", height: "40px", border: "0px", borderRadius: "10px", background: "skyblue" }} className="example-custom-input" onClick={onClick} ref={ref}>
+            {value}
+        </button>
+    ));
 
 
 
@@ -129,13 +133,15 @@ const writePbanc = () => {
     };
 
     const handleYes = async () => {
-        console.log(formData)
+        formData.startDate = { startDate }.startDate
+        formData.endDate = { endDate }.endDate
         try {
-            const response = await fetch('', {
+            const response = await fetch('/cbb/rcr/bzRecruit/writePbanc', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+
                 body: JSON.stringify(formData)
             });
             // Handle response
@@ -193,19 +199,21 @@ const writePbanc = () => {
                 <CCol md={3}>
                     <div className="p-3 itmL">공고게시일 :</div>
                 </CCol>
-                <CCol md={3}>
+                <CCol md={3} style={{ marginTop: "15px" }}>
                     <DatePicker
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
                         selectsStart
                         StartDate={startDate}
                         endDate={endDate}
+                        customInput={<ExampleCustomInput />}
+                        dateFormat="yyyy년 MM월 dd일"
                     />
                 </CCol>
                 <CCol md={3}>
                     <div className="p-3 itmL">공고마감일 :</div>
                 </CCol>
-                <CCol md={3}>
+                <CCol md={3} style={{ marginTop: "15px" }}>
                     <DatePicker
                         selected={endDate}
                         onChange={(date) => setEndDate(date)}
@@ -213,6 +221,8 @@ const writePbanc = () => {
                         StartDate={startDate}
                         endDate={endDate}
                         minDate={startDate}
+                        customInput={<ExampleCustomInput />}
+                        dateFormat="yyyy년 MM월 dd일"
                     />
                 </CCol>
             </CRow>
@@ -226,15 +236,26 @@ const writePbanc = () => {
                         onChange={(e) => setFormData({ ...formData, empType: e.target.value })}
                         options={[
                             { label: '근무유형 선택', disabled: true },
-                            { label: '정규직', value: '3' },
-                            { label: '계약직', value: '2' },
-                            { label: '인턴', value: '1' },
+                            { label: '정규직', value: 'ft' },
+                            { label: '계약직', value: 'con' },
+                            { label: '인턴', value: 'int' },
                         ]}
                     />
                 </CCol>
                 <CCol md={3}>
+                    <div className="p-3 itmL">졸업유무 :</div>
                 </CCol>
                 <CCol md={3}>
+                    <CFormSelect style={{ marginTop: '10px' }}
+                        value={formData.stts}
+                        onChange={(e) => setFormData({ ...formData, stts: e.target.value })}
+                        options={[
+                            { label: '졸업유무 선택', disabled: true },
+                            { label: '졸업', value: 'grd' },
+                            { label: '졸업예정', value: 'enr' },
+                            { label: '재학', value: 'exp' },
+                        ]}
+                    />
                 </CCol>
             </CRow>
 
@@ -302,7 +323,7 @@ const writePbanc = () => {
 
 
             <CCol>
-                <div className="p-3 itm">공고상세내용 :</div>
+                <div className="p-3 itm">공고상세내용</div>
             </CCol>
             <CCol>
                 <CFormInput style={{ height: '800px' }} placeholder='상세내역' className="p-3 itmD" type="text" value={formData.pbancCT} onChange={(e) => setFormData({ ...formData, pbancCT: e.target.value })} />

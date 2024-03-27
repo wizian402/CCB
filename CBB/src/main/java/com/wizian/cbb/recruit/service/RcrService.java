@@ -206,6 +206,15 @@ public class RcrService implements IRcrService{
 		return rcrRepository.getBrno(data);
 	}
 
+
+	@Override
+	public void bzWritePbanc(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> dataMap = objectMapper.readValue(data, HashMap.class);
+		System.out.println(dataMap);
+		rcrRepository.bzWritePbancDB(dataMap);
+	}
+
 	
 	
 }

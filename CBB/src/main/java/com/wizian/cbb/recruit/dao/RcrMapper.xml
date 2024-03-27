@@ -168,5 +168,10 @@
 </select>
 
 
+<insert id="bzWritePbancDB" parameterType="hashMap">
+insert into RECRUIT_NOTICE(PBANC_SN, PBANC_NM, RCRUT_NOPE, SLRY, PBANC_CN, PBANC_END_YMD, PBANC_APRV_YN, PBANC_DT, EPM_TYPE_NM, ACBG_STTS, BRNO)
+values (PBANC_SN_SEQ.nextVal, #{title}, #{empNum}, #{slry}, #{pbancCT}, TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI:SS.FF3'), 'N', TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI:SS.FF3'), #{empType}, #{stts}, #{brno})
+
+</insert>
 
 </mapper>

@@ -41,4 +41,6 @@ public interface IRcrRepository {
 
 	String getBrno(String data);
 
+	void bzWritePbancDB(Map<String, Object> dataMap);
+
 }

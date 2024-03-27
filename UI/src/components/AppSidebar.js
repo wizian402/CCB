@@ -64,7 +64,7 @@ const AppSidebar = () => {
   } else if (currentUri === "/recruit/applyList" ||
     currentUri.includes("/detailPbanc/") ||
     currentUri === "/recruit/HandleResume" ||
-    currentUri === "/recruit/tablePbanc" ||
+    currentUri === "/recruit/TablePbanc" ||
     currentUri === "/recruit/WriteResume" ||
     currentUri === "/recruit/TableAplyPbanc"
   ) {

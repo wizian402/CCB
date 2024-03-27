@@ -115,6 +115,9 @@ public class RcrController {
 		return rcrService.getComData(data);
 	}
 
-
+	@PostMapping("/rcr/bzRecruit/writePbanc")
+	public void writePbanc (@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
+		rcrService.bzWritePbanc(data);
+	}
 
 }
