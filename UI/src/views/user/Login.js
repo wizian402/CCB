@@ -61,6 +61,8 @@ const Login = () => {
             navigate('/tngApproval');
           } else if (localStorage.getItem("userGroupCd") === "20") {
             navigate('/stdntAply');
+          } else if (localStorage.getItem("userGroupCd") === "60") {
+            navigate('/schedule');
           }
           else {
             navigate('/dashboard');

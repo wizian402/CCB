@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wizian.cbb.tng.bzenty.dao.ITngRcdRepository">
+
+	<select id="getTngStdnt" resultType="hashmap">
+		Select
+		TNG_APLY_NO AS
+		"tngAplyNo"
+		FROM TNG_STDNT
+		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn}
+	</select>
+
+	<select id="selectBzentyUserNo" resultType="hashmap">
+		Select
+		BZENTY_USER_NO
+		AS "bzentyUserNo"
+		FROM BZENTY_USER
+		WHERE USER_NO IN (
+		SELECT USER_NO
+		FROM USER_INFO
+		WHERE LOGIN_ID=#{loginId}
+		)
+	</select>
+
+	<insert id="insertRcd"
+		parameterType="com.wizian.cbb.tng.bzenty.model.TngRcdVO">
+		INSERT INTO TNG_RCD (
+		RCD_NO,
+		TNG_APLY_NO,
+		BZENTY_USER_NO,
+		LOG_DATE,
+		EVL_CN,
+		WRT_CD
+		)
+		VALUES (
+		TNG_RCD_SEQ.NEXTVAL,
+		#{tngAplyNo},
+		#{bzentyUserNo},
+		#{logDate},
+		#{evlCn},
+		20
+		)
+	</insert>
+
+	<select id="selectRcdList" resultType="hashmap">
+		Select
+		LOG_DATE AS
+		"logDate",
+		EVL_CN AS "evlCn"
+		FROM TNG_RCD
+		WHERE TNG_APLY_NO=#{tngAplyNo}
+	</select>
+
+	<update id="updateRcd">
+		UPDATE TNG_RCD
+		SET EVL_CN = #{evlCn}
+		WHERE TNG_APLY_NO= #{tngAplyNo} AND LOG_DATE =#{logDate} AND BZENTY_USER_NO=#{bzentyUserNo}
+	</update>
+
+	<delete id="deleteRcd">
+		DELETE FROM TNG_RCD
+		WHERE TNG_APLY_NO= #{tngAplyNo} AND LOG_DATE =#{logDate} AND BZENTY_USER_NO=#{bzentyUserNo}
+	</delete>
+
+</mapper>

@@ -194,11 +194,8 @@ public class RcrService implements IRcrService{
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
 		String userNo = dataMap.get("userNo");
-		System.out.println("userNo"+userNo);
 		String brno = getBrno(userNo);
-		System.out.println("brno"+brno);
 		Map<String, Object> conInfo = getComInfo(brno);
-		System.out.println("conInfo"+conInfo);
 		
 		return conInfo;
 	}

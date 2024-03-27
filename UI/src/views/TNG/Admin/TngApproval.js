@@ -18,7 +18,11 @@ import {
   CModal,
   CModalBody,
   CModalHeader,
-  CModalTitle
+  CModalTitle,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem
 } from '@coreui/react';
 
 import "./css/tngApproval.css";
@@ -30,6 +34,7 @@ const TngList = () => {
   const [bzentyNmList, setBzentyNmList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTng, setSelectedTng] = useState(null);
+  const [filterStatus, setFilterStatus] = useState(""); // 추가된 부분: 드롭다운 메뉴의 선택된 값
 
   useEffect(() => {
     const userGroupCd = localStorage.getItem('userGroupCd');
@@ -42,7 +47,7 @@ const TngList = () => {
       fetchTngStatus();
       fetchBzentyNmList();
     }
-  }, [currentPage, navigate]);
+  }, [currentPage, filterStatus, navigate]); // filterStatus를 useEffect의 의존성 배열에 추가
 
   const fetchTngList = () => {
     fetch('/cbb/tng/admPer', {
@@ -103,21 +108,64 @@ const TngList = () => {
     fetchTngList();
   };
 
-  const renderPaginationItems = () => {
-    return Array.from({ length: Math.ceil(tngList.length / 10) }, (_, index) => (
-      <CPaginationItem
-        key={index}
-        active={index + 1 === currentPage}
-        onClick={() => setCurrentPage(index + 1)}
-      >
-        {index + 1}
-      </CPaginationItem>
-    ));
+  const handleDropdownItemClick = (status) => {
+    setFilterStatus(status); // 드롭다운 메뉴에서 선택된 진행 상태를 상태에 설정
+    setCurrentPage(1); // 페이지를 1페이지로 이동
+    fetchTngList();
   };
+
+
+  const renderPaginationItems = () => {
+    const totalPages = Math.ceil(filteredTngList.length / 10);
+    const paginationItems = [];
+
+    // 현재 페이지를 중심으로 최대 5개의 페이지 번호 표시
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, startPage + 4);
+
+    // 좌측 화살표 버튼 표시 여부 결정
+    if (currentPage > 5) {
+      paginationItems.push(
+        <CPaginationItem key="prev" onClick={() => setCurrentPage(currentPage - 5)}>
+          <span aria-hidden="true">&laquo;</span>
+        </CPaginationItem>
+      );
+    }
+
+    // 페이지 번호 표시
+    for (let i = startPage; i <= endPage; i++) {
+      paginationItems.push(
+        <CPaginationItem
+          key={i}
+          active={i === currentPage}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </CPaginationItem>
+      );
+    }
+
+    // 우측 화살표 버튼 표시 여부 결정
+    if (totalPages > 5 && currentPage < totalPages - 2) {
+      paginationItems.push(
+        <CPaginationItem key="next" onClick={() => setCurrentPage(currentPage + 5)}>
+          <span aria-hidden="true">&raquo;</span>
+        </CPaginationItem>
+      );
+    }
+
+    return paginationItems;
+  };
+
+
 
   const indexOfLastItem = currentPage * 10;
   const indexOfFirstItem = indexOfLastItem - 10;
-  const currentTngList = tngList.slice(indexOfFirstItem, indexOfLastItem);
+  let filteredTngList = tngList;
+  if (filterStatus !== "") {
+    filteredTngList = filteredTngList.filter(item => item.prgrsStts === filterStatus);
+  }
+  const currentTngList = filteredTngList.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <CRow>
@@ -127,6 +175,17 @@ const TngList = () => {
             <strong>현장 실습 목록</strong>
           </CCardHeader>
           <CCardBody>
+            <CDropdown>
+              <CDropdownToggle color="secondary">{filterStatus === "" ? "진행 상태" : `${getStatusName(filterStatus)}`}</CDropdownToggle>
+              <CDropdownMenu>
+                <CDropdownItem onClick={() => handleDropdownItemClick("")}>전체</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("10")}>산업체 신청</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("20")}>현장실습 승인</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("60")}>학생 선발 완료</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("30")}>실습 운영</CDropdownItem>
+                <CDropdownItem onClick={() => handleDropdownItemClick("40")}>실습 종료</CDropdownItem>
+              </CDropdownMenu>
+            </CDropdown>
             <CTable>
               <CTableHead>
                 <CTableRow>
@@ -142,7 +201,7 @@ const TngList = () => {
                   <CTableRow
                     key={index}
                     onClick={() => handleModalOpen(item)}
-                    className="table-hover" // 마우스를 올렸을 때 배경색이 변화하도록 설정한 CSS 클래스
+                    className="table-hover"
                   >
                     <CTableDataCell className="text-center">{indexOfFirstItem + index + 1}</CTableDataCell>
                     <CTableDataCell className="text-center">{getBzentyNm(item.bzentyUserNo)}</CTableDataCell>
