@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wizian.cbb.consulting.dao.IConsultingRepository;
 import com.wizian.cbb.consulting.model.ConItemVO;
 import com.wizian.cbb.consulting.model.ConuselorVO;
+import com.wizian.cbb.consulting.model.ProcessingVO;
 import com.wizian.cbb.consulting.model.ResultVO;
 import com.wizian.cbb.consulting.model.SchedulePrintVO;
 import com.wizian.cbb.consulting.model.ScheduleVO;
@@ -58,13 +59,12 @@ public class ConsultingService implements IConsultingService {
 	@Override
 	public List<SchedulePrintVO> counselorSchedulesList(String id) {
 		String checkId = consultingRepository.checkId(id);
-
 		return consultingRepository.counselorScheduleList(checkId);
 	}
 
 	@Override
-	public int scheduleCansel(int id) {
-		return consultingRepository.scheduleCansel(id);
+	public int scheduleCansel(int scheduleId) {
+		return consultingRepository.scheduleCansel(scheduleId);
 	}
 
 //////////////상담원 시간표 확인//////////////////////
@@ -73,6 +73,7 @@ public class ConsultingService implements IConsultingService {
 	@Override
 	public int insertSchedule(ScheduleVO scheduleVO) {
 		String id = consultingRepository.checkId(scheduleVO.getId());
+		System.out.println(id);
 		if (id == null) {
 			return 0;
 		}
@@ -109,26 +110,48 @@ public class ConsultingService implements IConsultingService {
 		return num;
 	}
 //////////////상담원 시간표 등록//////////////////////
-	
-	
-	
-//////////////상담원 상담 신청 처리//////////////////////
 
-@Override
+//////////////상담원 상담 신청 처리//////////////////////
+	@Override
 	public List<SchedulePrintVO> scheduleIdList(int scheduleId) {
 		return consultingRepository.scheduleIdList(scheduleId);
 	}
+
+	@Override
+	public int reservation(ProcessingVO processingVO) {
+		int num = 0;
+		num = consultingRepository.updateSchedule(processingVO.getScheduleId());
+		System.out.println(num);
+		num += consultingRepository.updateReservation(processingVO.getReservationId());
+		System.out.println(num);
+		if (num == 2) {
+			num = 1;
+		} else {
+			num = 0;
+		}
+		return num;
+	}
+
 //////////////상담원 상담 신청 처리//////////////////////
 
-//////////////학생 상담 종합 이력//////////////////////   
+//////////////상담원 상담 결과 등록//////////////////////
+	@Override
+	public List<ProcessingVO> resultRegistrationList(String id) {
+		System.out.println(id);
+		String checkId = consultingRepository.checkId(id);
+		System.out.println(checkId);
+		return consultingRepository.resultRegistrationList(checkId);
+	}
+//////////////상담원 상담 결과 등록//////////////////////
+
+	////////////// 학생 상담 종합 이력//////////////////////
 	@Override
 	public List<ResultVO> resultList() {
 		return consultingRepository.resultList();
 	}
 //////////////학생 상담 종합 이력//////////////////////
 
-
-	//////////////학생 상담 신청//////////////////////
+	////////////// 학생 상담 신청//////////////////////
 	@Override
 	public List<ConuselorVO> counselorList() {
 		return consultingRepository.counselorList();

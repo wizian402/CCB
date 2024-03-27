@@ -121,11 +121,12 @@
 		JOIN
 		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
 		WHERE s.cnsl_sn = #{checkId}
+		and s.dscsn_yn = 'N'
 	</select>
 
 	<delete id="scheduleCansel">
 		DELETE FROM CNSL_SCHEDULE WHERE CNSL_SCHEDULE_SN =
-		#{id}
+		#{scheduleId}
 	</delete>
 
 
@@ -156,9 +157,10 @@
 		INSERT INTO CNSL_SCHEDULE
 		(CNSL_SCHEDULE_SN, CNSL_SN,
 		TIMETBL_CD,
-		DSCSN_DT_YMD, DSCSN_REG_YMD)
-		VALUES (schedule_seq.NEXTVAL,
-		#{id}, #{cdNum}, #{strDate}, SYSDATE)
+		DSCSN_DT_YMD, DSCSN_REG_YMD, DSCSN_YN)
+		VALUES
+		(schedule_seq.NEXTVAL,
+		#{id}, #{cdNum}, #{strDate}, SYSDATE,'N')
 	</insert>
 	<!--//////////////상담원 시간표 등록////////////////////// -->
 
@@ -171,8 +173,10 @@
 		<result property="creationDate" column="dscsn_rsvt_ymd" />
 		<result property="consultationDate" column="dscsn_dt_ymd" />
 		<result property="consultationTime" column="timetbl" />
+		<result property="counselor" column="cnslr_nm" />
+		<result property="item" column="dscsn_ttl" />
 	</resultMap>
-	
+
 	<select id="scheduleIdList" resultMap="processing">
 		SELECT
 		a.dscsn_rsvt_sn,
@@ -181,10 +185,13 @@
 		a.dscsn_rsvt_ymd,
 		c.dscsn_dt_ymd,
 		d.timetbl
-		FROM DSCSN_RSVT A
+		FROM
+		DSCSN_RSVT A
 		JOIN STDNT B ON a.stdnt_sn = B.stdnt_sn
-		JOIN CNSL_SCHEDULE C ON a.cnsl_schedule_sn = c.cnsl_schedule_sn
-		JOIN TIMETBL D ON c.timetbl_cd = d.timetbl_cd
+		JOIN CNSL_SCHEDULE
+		C ON a.cnsl_schedule_sn = c.cnsl_schedule_sn
+		JOIN TIMETBL D ON
+		c.timetbl_cd = d.timetbl_cd
 		WHERE a.cnsl_schedule_sn = #{scheduleId}
 	</select>
 
@@ -196,6 +203,36 @@
 		where cnsl_schedule_sn = #{scheduleId}
 	</select>
 
+	<update id="updateSchedule">
+		UPDATE CNSL_SCHEDULE
+		SET DSCSN_YN = 'Y'
+		WHERE
+		CNSL_SCHEDULE_SN = #{scheduleId}
+	</update>
+
+	<update id="updateReservation">
+		UPDATE DSCSN_RSVT
+		SET DSCSN_YN = 'Y'
+		WHERE
+		DSCSN_RSVT_SN = #{processingId}
+	</update>
+
+
+	<select id="resultRegistrationList" resultMap="processing">
+		SELECT
+		b.cnslr_nm,
+		c.stdnt_nm ,
+        d.dscsn_dt_ymd,
+		e.timetbl,
+		f.dscsn_ttl
+		FROM DSCSN_RSVT A
+		JOIN COUNSELOR B ON a.cnsl_sn = b.cnsl_sn
+		JOIN STDNT C ON a.stdnt_sn = c.stdnt_sn
+		JOIN cnsl_schedule D ON a.cnsl_schedule_sn = d.cnsl_schedule_sn
+		JOIN timetbl E ON d.timetbl_cd = e.timetbl_cd
+		JOIN DSCSN_TTL F ON a.dscsn_ttl_sn = f.dscsn_ttl_sn
+		WHERE a.cnsl_sn = #{checkId}
+	</select>
 
 	<!--//////////////상담원 상담 신청 처리////////////////////// -->
 

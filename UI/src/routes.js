@@ -14,7 +14,7 @@ const ConsultationItem = React.lazy(() =>
 const ConsultationSchedule = React.lazy(() =>
   import("./views/consulting/admin/ConsultationSchedule")
 );
-const Result = React.lazy(() =>
+const ResultList = React.lazy(() =>
   import("./views/consulting/admin/ConsultationResult")
 );
 
@@ -28,6 +28,9 @@ const Processing = React.lazy(() =>
   import("./views/consulting/counselor/RequestProcessing")
 );
 
+const Result = React.lazy(() =>
+  import("./views/consulting/counselor/ResultRegistration")
+);
 
 const Request = React.lazy(() =>
   import("./views/consulting/RequestConsultation")
@@ -147,10 +150,12 @@ const routes = [
     name: "Theme",
     element: ConsultationSchedule,
   },
-  { path: "/result", name: "Theme", element: Result },
+  { path: "/resultList", name: "Theme", element: ResultList },
   { path: "/schedule", name: "Theme", element: ScheduleCheck },
   { path: "/timeTable", name: "Theme", element: Timetable },
   { path: "/processing", name: "Theme", element: Processing },
+  { path: "/result", name: "Theme", element: Result },
+
   { path: "/consultationRequest", name: "Theme", element: Request },
   {
     path: "/requestschedule/:sonuselorId",

@@ -40,6 +40,44 @@ const VerticallyCentered = ({ scheduleId }) => {
     }
   };
 
+  const handleSubmit = (reservationId) => {
+    console.log(scheduleId);
+    console.log(reservationId);
+    const url = `/cbb/consulting/reservation/`;
+    // fetch API를 사용하여 POST 요청 보내기
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        reservationId: reservationId,
+        scheduleId: scheduleId,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // 서버 응답 처리
+        console.log("서버 응답:", data);
+        if (data >= 1) {
+          alert("수락되었습니다.");
+          window.location.reload();
+        } else {
+          alert("다시 시도해주세요.");
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+        // 에러 처리
+      });
+  };
+
   return (
     <>
       <CButton
@@ -82,15 +120,20 @@ const VerticallyCentered = ({ scheduleId }) => {
                   <CTableDataCell>
                     {item.creationDate.slice(0, 10)}
                   </CTableDataCell>
+                  <CTableDataCell>
+                    <CButton
+                      color="primary"
+                      onClick={() => handleSubmit(item.reservationId)}
+                    >
+                      수락
+                    </CButton>
+                  </CTableDataCell>
                 </CTableRow>
               ))}
             </CTableBody>
           </CTable>
         </CModalBody>
         <CModalFooter>
-          {/* <CButton color="primary" onClick={handleSubmit}> */}
-          {/* 신청 */}
-          {/* </CButton> */}
           <CButton color="secondary" onClick={() => setVisible(false)}>
             닫기
           </CButton>

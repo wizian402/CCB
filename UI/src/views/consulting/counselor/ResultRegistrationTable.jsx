@@ -9,18 +9,18 @@ import {
   CTableDataCell,
   CButton, // 추가: CoreUI의 버튼 컴포넌트
 } from "@coreui/react";
-
+import Modal from "./RequestProcessingModal"
 const Table = ({ currentItems }) => {
   // 상담 취소 함수
-  const cancelConsultation = (scheduleId) => {
-      const url = `/cbb/consulting/counselorSchedule/cancel`; 
+  const cancelConsultation = (id) => {
+      const url = `/cbb/consulting/counselorSchedule/`; 
       // fetch API를 사용하여 POST 요청 보내기
       fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(scheduleId),
+        body: JSON.stringify(id),
       })
         .then((response) => {
           if (!response.ok) {
@@ -54,22 +54,23 @@ const Table = ({ currentItems }) => {
           <CTableHeaderCell scope="col">상담일</CTableHeaderCell>
           <CTableHeaderCell scope="col">상담 시간</CTableHeaderCell>
           <CTableHeaderCell scope="col">등록일</CTableHeaderCell>
-          <CTableHeaderCell scope="col">취소</CTableHeaderCell>
+          <CTableHeaderCell scope="col">신청수</CTableHeaderCell>
+          <CTableHeaderCell scope="col">수락</CTableHeaderCell>
         </CTableRow>
       </CTableHead>
       <CTableBody>
-        {currentItems.map((item, index) => (
+        {/* {currentItems.map((item, index) => (
           <CTableRow key={index}>
             <CTableDataCell>{item.item}</CTableDataCell>
             <CTableDataCell>{item.consultationDate.slice(0, 10)}</CTableDataCell>
             <CTableDataCell>{item.consultationTime}</CTableDataCell>
             <CTableDataCell>{item.creationDate.slice(0, 10)}</CTableDataCell>
-            {/* 취소 버튼 추가 */}
+            <CTableDataCell>{item.count}</CTableDataCell>
             <CTableDataCell>
-              <CButton color="danger" onClick={() => cancelConsultation(item.scheduleId)}>취소</CButton>
+              <Modal scheduleId = {item.scheduleId}></Modal>
             </CTableDataCell>
           </CTableRow>
-        ))}
+        ))} */}
       </CTableBody>
     </CTable>
   );
