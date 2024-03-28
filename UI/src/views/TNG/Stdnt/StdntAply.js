@@ -17,8 +17,9 @@ import {
   CModalBody,
   CModalHeader,
   CModalTitle,
-  CPaginationItem,
-  CButton
+  CButton,
+  CFormInput,
+  CPaginationItem
 } from '@coreui/react';
 
 const StdntAply = () => {
@@ -29,6 +30,7 @@ const StdntAply = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [loginId, setLoginId] = useState("");
+  const [enteredTask, setEnteredTask] = useState("");
 
   useEffect(() => {
     setLoginId(localStorage.getItem('loginId'));
@@ -69,8 +71,6 @@ const StdntAply = () => {
       .catch(error => console.error('Error fetching bzentyNmList:', error));
   };
 
-
-
   const getBzentyNm = (bzentyUserNo) => {
     const bzentyNmData = bzentyNmList.find(item => item.bzentyUserNo === bzentyUserNo);
     return bzentyNmData ? bzentyNmData.bzentyNm : '';
@@ -86,10 +86,13 @@ const StdntAply = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTngList = tngList.slice(indexOfFirstItem, indexOfLastItem);
+  const filteredTngList = enteredTask.trim() !== '' ?
+    tngList.filter(item => item.tkcgTaskNm.toLowerCase().includes(enteredTask.toLowerCase())) :
+    tngList;
+  const currentTngList = filteredTngList.slice(indexOfFirstItem, indexOfLastItem);
 
   const renderPaginationItems = () => {
-    const pageCount = Math.ceil(tngList.length / itemsPerPage);
+    const pageCount = Math.ceil(filteredTngList.length / itemsPerPage);
     const paginationItems = [];
     for (let i = 1; i <= pageCount; i++) {
       paginationItems.push(
@@ -113,6 +116,14 @@ const StdntAply = () => {
     return `${year}년 ${month}월 ${day}일`;
   };
 
+  const handleTaskInputChange = (event) => {
+    setEnteredTask(event.target.value);
+    setCurrentPage(1); // Reset pagination when input changes
+  };
+
+
+
+
   return (
     <CRow>
       <CCol xs={12}>
@@ -121,6 +132,13 @@ const StdntAply = () => {
             <strong>현장실습 목록</strong>
           </CCardHeader>
           <CCardBody>
+            <CFormInput
+              id="exampleFormControlInput1"
+              placeholder="업무를 입력하세요"
+              style={{ width: '300px' }}
+              value={enteredTask}
+              onChange={handleTaskInputChange}
+            />
             <CTable>
               <CTableHead>
                 <CTableRow>
