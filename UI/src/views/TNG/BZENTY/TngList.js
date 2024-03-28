@@ -71,7 +71,7 @@ const TngList = () => {
 
   useEffect(() => {
     setFilteredTngList(tngList.filter(item => selectedStatus === "" || item.prgrsStts === selectedStatus));
-    setCurrentPage(1); // 필터링이 변경될 때 페이지를 1페이지로 초기화
+    setCurrentPage(1);
   }, [selectedStatus, tngList]);
 
   const getStatusName = (code) => {
@@ -119,7 +119,7 @@ const TngList = () => {
           </CCardHeader>
           <CCardBody>
             <CDropdown>
-              <CDropdownToggle color="secondary">진행 상태</CDropdownToggle>
+              <CDropdownToggle color="secondary">{selectedStatus === "" ? "진행 상태" : `${getStatusName(selectedStatus)}`}</CDropdownToggle>
               <CDropdownMenu>
                 <CDropdownItem onClick={() => handleDropdownItemClick("")}>전체</CDropdownItem>
                 <CDropdownItem onClick={() => handleDropdownItemClick("10")}>산업체 신청</CDropdownItem>
@@ -133,7 +133,6 @@ const TngList = () => {
               <div className="text-center">해당 현장 실습은 없습니다.</div>
             ) : (
               <React.Fragment>
-                {/* 필터링된 현장 실습 목록이 있을 때 테이블 및 페이지네이션 표시 */}
                 <CTable>
                   <CTableHead>
                     <CTableRow>
