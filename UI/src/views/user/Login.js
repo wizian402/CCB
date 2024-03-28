@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   CButton,
   CCard,
@@ -12,37 +12,39 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { cilLockLocked, cilUser } from "@coreui/icons";
 
 const Login = () => {
-  const [loginId, setId] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+  const [loginId, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const loginSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (loginId === '') {
+      if (loginId === "") {
         throw new Error("아이디를 입력하세요");
-      } else if (password === '') {
+      } else if (password === "") {
         throw new Error("비밀번호를 입력하세요");
       }
 
-      const loginResponse = await fetch('/cbb/user/login', {
-        method: 'POST',
+      const loginResponse = await fetch("/cbb/user/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ loginId, password }),
       });
 
       if (!loginResponse.ok) {
         let errorMessage = await loginResponse.text();
-        if (errorMessage.startsWith('<!doctype')) {
-          throw new Error('아이디 또는 비밀번호가 틀립니다.\n5회 이상 틀릴시 계정이 잠깁니다.');
+        if (errorMessage.startsWith("<!doctype")) {
+          throw new Error(
+            "아이디 또는 비밀번호가 틀립니다.\n5회 이상 틀릴시 계정이 잠깁니다."
+          );
         } else {
           const errorData = JSON.parse(errorMessage);
           throw new Error(errorData.error);
@@ -50,9 +52,9 @@ const Login = () => {
       }
 
       const data = await loginResponse.json();
-      localStorage.setItem('userNo', data.userNo);
-      localStorage.setItem('loginId', data.loginId);
-      localStorage.setItem('userGroupCd', data.userGroupCd);
+      localStorage.setItem("userNo", data.userNo);
+      localStorage.setItem("loginId", data.loginId);
+      localStorage.setItem("userGroupCd", data.userGroupCd);
 
       naviagePage();
     } catch (error) {
@@ -60,17 +62,15 @@ const Login = () => {
     }
   };
 
-
-
   const naviagePage = () => {
     const userGroupCd = localStorage.getItem("userGroupCd");
 
     switch (userGroupCd) {
       case "40":
-        navigate('/professorSelect');
+        navigate("/professorSelect");
         break;
       case "50":
-        navigate('/tngApplication');
+        navigate("/tngApplication");
         break;
       case "10":
         fetch("/cbb/tng/tkcgTaskCd", {
@@ -83,9 +83,9 @@ const Login = () => {
           .then((response) => response.json())
           .then((data) => {
             if (data.tkcgTaskCd === "10") {
-              navigate('/tngApproval');
+              navigate("/tngApproval");
             } else if (data.tkcgTaskCd === "20") {
-              navigate('/dashboard');
+              navigate("/dashboard");
             }
           })
           .catch((error) =>
@@ -93,16 +93,15 @@ const Login = () => {
           );
         break;
       case "20":
-        navigate('/stdntAply');
+        navigate("/stdntAply");
         break;
       case "60":
-        navigate('/schedule');
+        navigate("/schedule");
         break;
       default:
         break;
     }
   };
-
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -154,13 +153,14 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard
+                className="text-white bg-primary py-5"
+                style={{ width: "44%" }}
+              >
                 <CCardBody className="text-center">
                   <div>
                     <h2>OO 대학교</h2>
-                    <p>
-                      현장 실습 관리
-                    </p>
+                    <p>현장 실습 관리</p>
                   </div>
                 </CCardBody>
               </CCard>
@@ -169,7 +169,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
