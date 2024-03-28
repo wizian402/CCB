@@ -213,6 +213,8 @@ const TNGDetailModal = ({ selectedTng, bzentyNmList, onClose, loginId, navigate 
         } else if (data === "exist") {
           alert("진행중인 현장실습이 존재합니다.")
           navigate('/stdntProgAply');
+        } else if (data === "exist2") {
+          alert("승인된 현장실습이 존재합니다.")
         }
         else {
           console.log('Unexpected response received from server:', data);
