@@ -9,7 +9,7 @@ public class RcrPbancVO {
 	private int numRcr;
 	private int slry;
 	private String pbancContent;
-	private int endYMD;
+	private Date endYMD;
 	private String aprvYN;
 	private Date startDT;
 	private String epmType;
@@ -45,10 +45,10 @@ public class RcrPbancVO {
 	public void setPbancContent(String pbancContent) {
 		this.pbancContent = pbancContent;
 	}
-	public int getEndYMD() {
+	public Date getEndYMD() {
 		return endYMD;
 	}
-	public void setEndYMD(int endYMD) {
+	public void setEndYMD(Date endYMD) {
 		this.endYMD = endYMD;
 	}
 	public String getAprvYN() {

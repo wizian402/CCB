@@ -215,6 +215,36 @@ public class RcrService implements IRcrService{
 		rcrRepository.bzWritePbancDB(dataMap);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> writedPbancList(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String userNo = dataMap.get("userNo");
+		String brno = getBrno(userNo);
+		return rcrRepository.writedPbancListDB(brno);
+		 
+	}
+
+
+	@Override
+	public void deletePbanc(String data) throws IOException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> dataMap = objectMapper.readValue(data, HashMap.class);
+		rcrRepository.deletePbancDB(dataMap);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> notAPRVPbanc(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String userNo = dataMap.get("userNo");
+		String brno = getBrno(userNo);
+		return rcrRepository.notAPRVPbancDB(brno);
+		
+	}
+
 	
 	
 }

@@ -29,7 +29,7 @@ export const _nav = [
       {
         component: CNavItem,
         name: '채용정보조회 및 수정',
-        to: '/base/TablesResume',
+        to: '/recruit/bzRecruit/BzPbancList',
       },
       {
         component: CNavItem,
@@ -38,7 +38,7 @@ export const _nav = [
       }, {
         component: CNavItem,
         name: '등록대기공고확인',
-        to: '/base/TablesResume',
+        to: '/recruit/bzRecruit/BzNotAPRVPbanc',
       }
     ]
   }, {

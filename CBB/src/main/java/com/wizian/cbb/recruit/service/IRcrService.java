@@ -26,4 +26,7 @@ public interface IRcrService {
 	void deleteResume(String data) throws JsonParseException, JsonMappingException, IOException;
 	Map<String, Object> getComData(String data) throws JsonParseException, JsonMappingException, IOException;
 	void bzWritePbanc(String data) throws JsonParseException, JsonMappingException, IOException;
+	List<Map<String, Object>> writedPbancList(String data) throws JsonParseException, JsonMappingException, IOException;
+	void deletePbanc(String data) throws IOException, JsonMappingException, IOException;
+	List<Map<String, Object>> notAPRVPbanc(String data) throws JsonParseException, JsonMappingException, IOException;
 }

@@ -120,4 +120,21 @@ public class RcrController {
 		rcrService.bzWritePbanc(data);
 	}
 
+	
+	@PostMapping("/rcr/bzRecruit/writedPbancList")
+	public @ResponseBody List<Map<String, Object>> writedPbancList (@RequestBody String data) throws JsonParseException, JsonMappingException, IOException{
+		return rcrService.writedPbancList(data);
+	}
+	
+	@PostMapping("/rcr/bzRecruit/deletePbanc")
+	public void deletePbanc (@RequestBody String data) throws JsonMappingException, IOException {
+		rcrService.deletePbanc(data);
+	}
+	
+	@PostMapping("/rcr/bzRecruit/notAPRVPbanc")
+	public List<Map<String, Object>> notAPRVPbanc (@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
+		return rcrService.notAPRVPbanc(data);
+	}
+	
+	
 }

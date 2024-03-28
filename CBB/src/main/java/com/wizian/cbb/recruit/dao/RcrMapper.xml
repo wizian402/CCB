@@ -24,7 +24,7 @@
 
 	<select id="getPbancfromDB" parameterType="string"
 		resultMap="pbancMap">
-		SELECT * from RECRUIT_NOTICE WHERE pbanc_sn = #{pbancSN}
+		SELECT * from RECRUIT_NOTICE WHERE PBANC_SN = #{pbancSN}
 	</select>
 
 	<select id="getComInfo" resultType="hashMap"
@@ -170,8 +170,24 @@
 
 <insert id="bzWritePbancDB" parameterType="hashMap">
 insert into RECRUIT_NOTICE(PBANC_SN, PBANC_NM, RCRUT_NOPE, SLRY, PBANC_CN, PBANC_END_YMD, PBANC_APRV_YN, PBANC_DT, EPM_TYPE_NM, ACBG_STTS, BRNO)
-values (PBANC_SN_SEQ.nextVal, #{title}, #{empNum}, #{slry}, #{pbancCT}, TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI:SS.FF3'), 'N', TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI:SS.FF3'), #{empType}, #{stts}, #{brno})
+values (PBANC_SN_SEQ.nextVal, #{title}, #{empNum}, #{slry}, #{pbancCT}, TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI:SS'), 'N', TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI:SS'), #{empType}, #{stts}, #{brno})
 
 </insert>
+
+
+<select id="writedPbancListDB" parameterType="string" resultType="hashMap">
+select * FROM RECRUIT_NOTICE WHERE BRNO = #{brno} AND PBANC_APRV_YN = 'Y'
+</select>
+
+
+<delete id="deletePbancDB" parameterType="hashMap">
+DELETE FROM RECRUIT_NOTICE WHERE PBANC_SN = #{pbancSn}
+</delete>
+
+
+<select id="notAPRVPbancDB" parameterType="string" resultType="hashMap">
+select * FROM RECRUIT_NOTICE WHERE BRNO = #{brno} AND PBANC_APRV_YN = 'N'
+</select>
+
 
 </mapper>

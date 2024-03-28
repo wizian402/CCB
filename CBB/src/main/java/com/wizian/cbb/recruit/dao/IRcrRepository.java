@@ -43,4 +43,10 @@ public interface IRcrRepository {
 
 	void bzWritePbancDB(Map<String, Object> dataMap);
 
+	List<Map<String, Object>> writedPbancListDB(String brno);
+
+	void deletePbancDB(Map<String, Object> dataMap);
+
+	List<Map<String, Object>> notAPRVPbancDB(String brno);
+
 }

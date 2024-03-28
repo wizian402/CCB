@@ -136,6 +136,9 @@ const TableAplyPbanc = React.lazy(() => import("./views/recruit/ApplyList"));
 const WriteResume = React.lazy(() => import("./views/recruit/WriteResume"));
 const HandleResume = React.lazy(() => import("./views/recruit/HandleResume"));
 const WritePbanc = React.lazy(() => import("./views/recruit/bzRecruit/WritePbanc"));
+const BzPbancList = React.lazy(() => import("./views/recruit/bzRecruit/BzPbancList"));
+const BzDetailPbanc = React.lazy(() => import("./views/recruit/bzRecruit/BzDetailPbanc"));
+const BzNotAPRVPbanc = React.lazy(() => import("./views/recruit/bzRecruit/BzNotAPRVPbanc"));
 
 const routes = [
   // consulting
@@ -195,6 +198,12 @@ const routes = [
   { path: "/recruit/WriteResume", name: "WriteResume", element: WriteResume },
   { path: "/recruit/HandleResume", name: "HandleResume", element: HandleResume },
   { path: "/recruit/bzRecruit/WritePbanc", name: "WritePbanc", element: WritePbanc },
+  { path: "/recruit/bzRecruit/BzPbancList", name: "BzPbancList", element: BzPbancList },
+  { path: "/recruit/bzRecruit/BzDetailPbanc/:pbancSn", name: "BzDetailPbanc", element: BzDetailPbanc },
+  { path: "/recruit/bzRecruit/BzNotAPRVPbanc", name: "BzNotAPRVPbanc", element: BzNotAPRVPbanc },
+
+
+
 
   //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

@@ -16,10 +16,13 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
+
+
 const Login = () => {
   const [loginId, setId] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+
   const loginSubmit = (e) => {
     e.preventDefault();
 
@@ -50,6 +53,7 @@ const Login = () => {
           }
         })
         .then(data => {
+          fetchTkcgTaskCd();
           localStorage.setItem('userNo', data.userNo); // 학생 취업 지원 상태 위해서 추가 by송양민
           localStorage.setItem('loginId', data.loginId);
           localStorage.setItem('userGroupCd', data.userGroupCd);
@@ -57,7 +61,13 @@ const Login = () => {
             navigate('/professorSelect');
           } else if (localStorage.getItem("userGroupCd") === "50") {
             navigate('/tngApplication');
-          } else if (localStorage.getItem("userGroupCd") === "10") {
+          }
+
+          // else if (localStorage.getItem("userGroupCd") === "10"){
+          //   navigate('/recruit/admin')
+          // } 
+
+          else if (localStorage.getItem("userGroupCd") === "10") {
             navigate('/tngApproval');
           } else if (localStorage.getItem("userGroupCd") === "20") {
             navigate('/stdntAply');

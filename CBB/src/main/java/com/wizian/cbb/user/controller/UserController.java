@@ -33,6 +33,7 @@ public class UserController {
 			});
 			String loginId = loginMap.get("loginId");
 			String pswd = loginMap.get("password");
+			
 			UserVO userVo = userService.selectUser(loginId);
 			Map<String, Object> errorResponse = new HashMap<String, Object>();
 

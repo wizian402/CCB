@@ -10,9 +10,10 @@ import {
     CModalFooter,
     CFormInput,
     CFormSelect,
+    CForm,
 
 } from '@coreui/react';
-
+import { format } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker';
 import React, { useState, useEffect, forwardRef } from 'react';
@@ -89,7 +90,20 @@ const writePbanc = () => {
     }, [wPbancData]);
 
 
+    const [validated, setValidated] = useState(false)
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            event.preventDefault();
+            console.log(validated)
+            toggleModal(); // 폼 유효성 검사를 통과한 경우 모달 열기
+        }
 
+        setValidated(true);
+    };
 
 
 
@@ -109,8 +123,6 @@ const writePbanc = () => {
             console.log(jsonData);
             setWPbancData(jsonData);
 
-
-
         } catch (error) {
             console.log(error)
         }
@@ -120,21 +132,16 @@ const writePbanc = () => {
 
 
 
-    const formatDate = (dateNumber) => {
-        const dateString = dateNumber.toString();
-        const year = dateString.slice(0, 4);
-        const month = parseInt(dateString.slice(4, 6), 10);
-        const day = parseInt(dateString.slice(6, 8), 10);
-        return `${year}. ${month}. ${day}.`;
-    };
+
 
     const toggleModal = () => {
         setModalOpen(!modalOpen);
     };
 
     const handleYes = async () => {
-        formData.startDate = { startDate }.startDate
-        formData.endDate = { endDate }.endDate
+        formData.startDate = format({ startDate }.startDate, 'yyyy-MM-dd HH:mm:ss')
+        console.log(format({ startDate }.startDate, 'yyyy-MM-dd HH:mm:ss'))
+        formData.endDate = format({ endDate }.endDate, 'yyyy-MM-dd HH:mm:ss')
         try {
             const response = await fetch('/cbb/rcr/bzRecruit/writePbanc', {
                 method: 'POST',
@@ -149,6 +156,7 @@ const writePbanc = () => {
             console.error('Error submitting form:', error);
         }
         setModalOpen(false);
+        window.location.reload();
     };
 
     const handleNo = () => {
@@ -161,180 +169,186 @@ const writePbanc = () => {
 
     return (
         <CContainer className="container">
+            <CForm
+                className="needs-validation"
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmit}
+            >
+                <CRow md={{ cols: 2, gutter: 1 }}>
+                    <CCol md={4}>
+                        <div className="p-3 itmC"><h3>채용정보등록</h3></div>
+                    </CCol>
+                    <CCol md={2}>
 
-            <CRow md={{ cols: 2, gutter: 1 }}>
-                <CCol md={4}>
-                    <div className="p-3 itmC"><h3>채용정보등록</h3></div>
-                </CCol>
-                <CCol md={2}>
+                    </CCol>
+                    <CCol md={6}>
+                    </CCol>
+                </CRow>
 
-                </CCol>
-                <CCol md={6}>
-                </CCol>
-            </CRow>
+                <CRow md={{ cols: 2, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">공 고 명 :</div>
+                    </CCol>
+                    <CCol md={9}>
+                        <CFormInput className="p-3 input" id="tt" placeholder="제목을 입력하세요" type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} required />
+                    </CCol>
+                </CRow>
 
-            <CRow md={{ cols: 2, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">공 고 명 :</div>
-                </CCol>
-                <CCol md={9}>
-                    <CFormInput className="p-3 input" id="tt" placeholder="제목을 입력하세요" type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
-                </CCol>
-            </CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">채용인원 :</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id="empNum" placeholder="채용인원 수(0~)" type="text" value={formData.empNum} onChange={(e) => setFormData({ ...formData, empNum: e.target.value })} required />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">연   봉 :</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id="slry" placeholder="연봉 (단위:만원)" type="text" value={formData.slry} onChange={(e) => setFormData({ ...formData, slry: e.target.value })} required />
+                    </CCol>
+                </CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">공고게시일 :</div>
+                    </CCol>
+                    <CCol md={3} style={{ marginTop: "15px" }}>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            selectsStart
+                            StartDate={startDate}
+                            endDate={endDate}
+                            customInput={<ExampleCustomInput />}
+                            dateFormat="yyyy년 MM월 dd일"
+                        />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">공고마감일 :</div>
+                    </CCol>
+                    <CCol md={3} style={{ marginTop: "15px" }}>
+                        <DatePicker
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            selectsEnd
+                            StartDate={startDate}
+                            endDate={endDate}
+                            minDate={startDate}
+                            customInput={<ExampleCustomInput />}
+                            dateFormat="yyyy년 MM월 dd일"
+                        />
+                    </CCol>
+                </CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">고용형태 :</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormSelect style={{ marginTop: '10px' }}
+                            value={formData.empType}
+                            onChange={(e) => setFormData({ ...formData, empType: e.target.value })}
+                            options={[
+                                { label: '근무유형 선택', disabled: true },
+                                { label: '정규직', value: 'ft' },
+                                { label: '계약직', value: 'con' },
+                                { label: '인턴', value: 'int' },
+                            ]}
+                        />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">졸업유무 :</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormSelect style={{ marginTop: '10px' }}
+                            value={formData.stts}
+                            onChange={(e) => setFormData({ ...formData, stts: e.target.value })}
+                            options={[
+                                { label: '졸업유무 선택', disabled: true },
+                                { label: '졸업', value: 'grd' },
+                                { label: '졸업예정', value: 'enr' },
+                                { label: '재학', value: 'exp' },
+                            ]}
+                        />
+                    </CCol>
+                </CRow>
 
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">채용인원 :</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id="empNum" placeholder="채용인원 수(0~)" type="text" value={formData.empNum} onChange={(e) => setFormData({ ...formData, empNum: e.target.value })} />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">연   봉 :</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id="slry" placeholder="연봉 (단위:만원)" type="text" value={formData.slry} onChange={(e) => setFormData({ ...formData, slry: e.target.value })} />                </CCol>
-            </CRow>
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">공고게시일 :</div>
-                </CCol>
-                <CCol md={3} style={{ marginTop: "15px" }}>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        selectsStart
-                        StartDate={startDate}
-                        endDate={endDate}
-                        customInput={<ExampleCustomInput />}
-                        dateFormat="yyyy년 MM월 dd일"
-                    />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">공고마감일 :</div>
-                </CCol>
-                <CCol md={3} style={{ marginTop: "15px" }}>
-                    <DatePicker
-                        selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        selectsEnd
-                        StartDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                        customInput={<ExampleCustomInput />}
-                        dateFormat="yyyy년 MM월 dd일"
-                    />
-                </CCol>
-            </CRow>
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">고용형태 :</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormSelect style={{ marginTop: '10px' }}
-                        value={formData.empType}
-                        onChange={(e) => setFormData({ ...formData, empType: e.target.value })}
-                        options={[
-                            { label: '근무유형 선택', disabled: true },
-                            { label: '정규직', value: 'ft' },
-                            { label: '계약직', value: 'con' },
-                            { label: '인턴', value: 'int' },
-                        ]}
-                    />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">졸업유무 :</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormSelect style={{ marginTop: '10px' }}
-                        value={formData.stts}
-                        onChange={(e) => setFormData({ ...formData, stts: e.target.value })}
-                        options={[
-                            { label: '졸업유무 선택', disabled: true },
-                            { label: '졸업', value: 'grd' },
-                            { label: '졸업예정', value: 'enr' },
-                            { label: '재학', value: 'exp' },
-                        ]}
-                    />
-                </CCol>
-            </CRow>
+                <CRow> <div className="itmC" style={{ width: '150px', margin: '5px 0px 0px 15px', fontSize: '1.2rem' }}>사업자정보</div></CRow>
 
-            <CRow> <div className="itmC" style={{ width: '150px', margin: '5px 0px 0px 15px', fontSize: '1.2rem' }}>사업자정보</div></CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">사업자등록번호:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='brno' type="text" defaultValue={wPbancData.BRNO} disabled={inputDisabled} />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">기업명:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='bzNm' type="text" defaultValue={wPbancData.BZENTYNM} disabled={inputDisabled} />
+                    </CCol>
+                </CRow>
 
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">사업자등록번호:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='brno' type="text" defaultValue={wPbancData.BRNO} disabled={inputDisabled} />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">기업명:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='bzNm' type="text" defaultValue={wPbancData.BZENTYNM} disabled={inputDisabled} />
-                </CCol>
-            </CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">대표명:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='ceoNm' type="text" defaultValue={wPbancData.BZENTYRPRSVNM} disabled={inputDisabled} />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">기업형태:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='bzSize' type="text" defaultValue={wPbancData.ENTKND} disabled={inputDisabled} />
+                    </CCol>
+                </CRow>
 
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">대표명:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='ceoNm' type="text" defaultValue={wPbancData.BZENTYRPRSVNM} disabled={inputDisabled} />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">기업형태:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='bzSize' type="text" defaultValue={wPbancData.ENTKND} disabled={inputDisabled} />
-                </CCol>
-            </CRow>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">소재지:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='loc' type="text" defaultValue={wPbancData.LCNTADDR} disabled={inputDisabled} />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">자본금:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='cpt' type="text" defaultValue={wPbancData.CPTL} disabled={inputDisabled} />
+                    </CCol>
+                </CRow>
 
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">소재지:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='loc' type="text" defaultValue={wPbancData.LCNTADDR} disabled={inputDisabled} />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">자본금:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='cpt' type="text" defaultValue={wPbancData.CPTL} disabled={inputDisabled} />
-                </CCol>
-            </CRow>
-
-            <CRow md={{ cols: 4, gutter: 1 }}>
-                <CCol md={3}>
-                    <div className="p-3 itmL">연간매출액:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='asa' type="text" defaultValue={wPbancData.ANLSLSAMT} disabled={inputDisabled} />
-                </CCol>
-                <CCol md={3}>
-                    <div className="p-3 itmL">근로자수:</div>
-                </CCol>
-                <CCol md={3}>
-                    <CFormInput className="p-3 input" id='empNum' type="text" defaultValue={wPbancData.TNOWK} disabled={inputDisabled} />
-                </CCol>
-            </CRow>
-
-
-            <CCol>
-                <div className="p-3 itm">공고상세내용</div>
-            </CCol>
-            <CCol>
-                <CFormInput style={{ height: '800px' }} placeholder='상세내역' className="p-3 itmD" type="text" value={formData.pbancCT} onChange={(e) => setFormData({ ...formData, pbancCT: e.target.value })} />
-            </CCol>
+                <CRow md={{ cols: 4, gutter: 1 }}>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">연간매출액:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='asa' type="text" defaultValue={wPbancData.ANLSLSAMT} disabled={inputDisabled} />
+                    </CCol>
+                    <CCol md={3}>
+                        <div className="p-3 itmL">근로자수:</div>
+                    </CCol>
+                    <CCol md={3}>
+                        <CFormInput className="p-3 input" id='empNum' type="text" defaultValue={wPbancData.TNOWK} disabled={inputDisabled} />
+                    </CCol>
+                </CRow>
 
 
-            <div style={{ justifyContent: "flex-end", display: "flex" }}>
-                <CButton color="danger" variant="outline" onClick={toggleModal}>작성완료하기</CButton>
-            </div>
+                <CCol>
+                    <div className="p-3 itm">공고상세내용</div>
+                </CCol>
+                <CCol>
+                    <CFormInput style={{ height: '800px' }} placeholder='상세내역' className="p-3 itmD" type="text" value={formData.pbancCT} onChange={(e) => setFormData({ ...formData, pbancCT: e.target.value })} required />
+                </CCol>
 
 
+                <div style={{ justifyContent: "flex-end", display: "flex" }}>
+                    <CButton color="danger" variant="outline" type='submit'>작성완료하기</CButton>
+                </div>
+
+            </CForm>
 
 
             <CModal alignment="center" visible={modalOpen} onClose={() => setModalOpen(false)}>
