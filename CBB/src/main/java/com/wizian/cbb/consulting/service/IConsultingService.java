@@ -47,6 +47,8 @@ public int reservation(ProcessingVO processingVO);
 
 //////////////상담원 상담 결과 등록//////////////////////
 public List<ProcessingVO> resultRegistrationList(String id);
+
+public int resultRegistration(String comment, String reservationId);
 //////////////상담원 상담 결과 등록//////////////////////
 
 //////////////학생 상담 종합 이력//////////////////////
@@ -58,7 +60,7 @@ public List<ResultVO> resultList();
 //////////////학생 상담 신청//////////////////////
 public List<ConuselorVO> counselorList();
 
-
+public List<SchedulePrintVO> studentScheduleList(String id);
 
 public int request(SchedulePrintVO schedulePrintVO);
 //////////////학생 상담 신청//////////////////////

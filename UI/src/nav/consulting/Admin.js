@@ -38,11 +38,6 @@ export const _nav = [
       },
       {
         component: CNavItem,
-        name: "상담원 관리",
-        to: "#",
-      },
-      {
-        component: CNavItem,
         name: "학생 상담 종합 이력",
         to: "/resultList",
       },

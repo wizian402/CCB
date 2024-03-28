@@ -1,12 +1,12 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
-import SearchFilters from "../components/SearchFilters";
-import Pagination from "../components/Pagenation";
-import Table from "./CounselorScheduleTable";
 
-const ScheduleCheck = () => {
-  const [schedules, setschedules] = useState([]);
+import Pagination from "../components/Pagenation";
+import Table from "../components/ConsultationRequest/counselorTable";
+
+const ConsultationSchedule = () => {
+  const [counselor, setCounselor] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermItem, setSearchTermItem] = useState("");
   const [searchTermDate, setSearchTermDate] = useState("");
@@ -19,47 +19,26 @@ const ScheduleCheck = () => {
   }, [currentPage]);
 
   const fetchData = async () => {
-    const id = localStorage.getItem("loginId");
     try {
-      const response = await fetch(
-        `/cbb/consulting/counselorSchedule?id=` + id
-      );
+      const response = await fetch(`/cbb/consulting/counselor`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      setschedules(data);
+      setCounselor(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSearchItem = (event) => {
-    setSearchTermItem(event.target.value);
-  };
-
-  const handleSearchTime = (event) => {
-    setSearchTermTime(event.target.value);
-  };
-
-  const handleSearchDate = (event) => {
-    setSearchTermDate(event.target.value);
   };
 
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const filteredItems = schedules.filter((item) => {
+  const filteredItems = counselor.filter((item) => {
     return (
-      item.counselor.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      item.item.toLowerCase().includes(searchTermItem.toLowerCase()) &&
-      item.consultationTime.includes(searchTermTime.toLowerCase()) &&
-      item.consultationDate.includes(searchTermDate.toLowerCase())
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      item.item.toLowerCase().includes(searchTermItem.toLowerCase())
     );
   });
 
@@ -70,19 +49,13 @@ const ScheduleCheck = () => {
 
   return (
     <div>
-      <h1 className="title">상담 시간표 조회</h1>
-      <SearchFilters
-        handleSearchItem={handleSearchItem}
-        handleSearchDate={handleSearchDate}
-        handleSearchTime={handleSearchTime}
-        searchTerm={searchTerm}
-        handleSearch={handleSearch}
-      />
+      <h1 className="title">상담 신청</h1>
+
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4" style={{ marginTop: "20px" }}>
             <CCardHeader>
-              <strong>상담 시간표</strong>
+              <strong>상담원 목록</strong>
             </CCardHeader>
             <CCardBody>
               <Table currentItems={currentItems} />
@@ -107,4 +80,4 @@ const ScheduleCheck = () => {
   );
 };
 
-export default ScheduleCheck;
+export default ConsultationSchedule;

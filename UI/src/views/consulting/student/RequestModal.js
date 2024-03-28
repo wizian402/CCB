@@ -34,6 +34,9 @@ const VerticallyCentered = ({ item }) => {
       if (responseData === 1) {
         alert("신청되었습니다.");
         window.location.reload();
+      } else if (responseData === 2) {
+        alert("이미 신청하셨습니다.");
+        window.location.reload();
       } else {
         alert("다시 시도해주세요.");
         window.location.reload();

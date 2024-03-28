@@ -141,13 +141,21 @@ const StudentResult = () => {
                       </CTableDataCell>
                     </CTableRow>
                   ))}
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageClick}
-                  />
                 </CTableBody>
               </CTable>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageClick}
+                />
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
