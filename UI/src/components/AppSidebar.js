@@ -77,12 +77,17 @@ const AppSidebar = () => {
     currentUri === "/consultationItem" ||
     currentUri === "/consultationSchedule" ||
     currentUri === "/11111111" ||
-    currentUri === "/result"
+    currentUri === "/resultList"
   ) {
     selectedNav = CAdmin;
   } else if (currentUri === "/consultationRequest") {
     selectedNav = CStudent;
-  } else if (currentUri === "/timeTable" || currentUri === "/schedule") {
+  } else if (
+    currentUri === "/timeTable" ||
+    currentUri === "/schedule" ||
+    currentUri === "/processing" ||
+    currentUri === "/result"
+  ) {
     selectedNav = CCounselor;
   }
 

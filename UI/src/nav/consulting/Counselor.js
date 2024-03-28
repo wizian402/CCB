@@ -39,12 +39,12 @@ export const _nav = [
       {
         component: CNavItem,
         name: "상담 신청 처리",
-        to: "#",
+        to: "/processing",
       },
       {
         component: CNavItem,
         name: "상담 결과 등록",
-        to: "#",
+        to: "/result",
       },
     ],
   },

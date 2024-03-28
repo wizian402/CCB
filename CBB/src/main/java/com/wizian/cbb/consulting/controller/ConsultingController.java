@@ -1,6 +1,7 @@
 package com.wizian.cbb.consulting.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Schedules;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wizian.cbb.consulting.model.ConItemVO;
@@ -17,6 +19,7 @@ import com.wizian.cbb.consulting.model.ResultVO;
 import com.wizian.cbb.consulting.model.SchedulePrintVO;
 import com.wizian.cbb.consulting.model.ScheduleVO;
 import com.wizian.cbb.consulting.model.ConuselorVO;
+import com.wizian.cbb.consulting.model.ProcessingVO;
 import com.wizian.cbb.consulting.service.IConsultingService;
 
 @Controller
@@ -75,7 +78,7 @@ public class ConsultingController {
 	
 
 //////////////학생 상담 종합 이력//////////////////////
-	@GetMapping(value = "/consulting/result")
+	@GetMapping(value = "/consulting/resultList")
 	public @ResponseBody List<ResultVO> resultsList() {
 		List list = consultingService.resultList();
 		return list;
@@ -89,15 +92,13 @@ public class ConsultingController {
 
 	@GetMapping(value = "/consulting/counselorSchedule")
 	public @ResponseBody List<SchedulePrintVO> counselorSchedule(String id) {
-		System.out.println(id);
 		List list = consultingService.counselorSchedulesList(id);
-		System.out.println(list);
 		return list;
 	}
 	
 	@PostMapping(value = "/consulting/counselorSchedule/cancel")
-	public @ResponseBody int counselorScheduleCancel(@RequestBody int id) {
-		return consultingService.scheduleCansel(id);
+	public @ResponseBody int counselorScheduleCancel(@RequestBody int scheduleId) {
+		return consultingService.scheduleCansel(scheduleId);
 	}
 	
 	
@@ -113,7 +114,28 @@ public class ConsultingController {
 
 //////////////상담원 시간표 등록//////////////////////
 	
+//////////////상담원 상담 신청 처리//////////////////////
+	@PostMapping(value = "/consulting/processing")
+	public @ResponseBody List<SchedulePrintVO> processing(@RequestBody int scheduleId) {
+		List list = consultingService.scheduleIdList(scheduleId);
+		return list;
+	}
+	@PostMapping(value = "/consulting/reservation")
+	public @ResponseBody int reservation(@RequestBody ProcessingVO processingVO) {
+		return consultingService.reservation(processingVO);
+	}
+//////////////상담원 상담 신청 처리//////////////////////
 	
+	
+//////////////상담원 상담 결과 등록//////////////////////
+	
+	@PostMapping(value = "/consulting/result")
+	public @ResponseBody List<ProcessingVO> ResultRegistrationList(@RequestBody Map<String, String> requestBody) {
+		List list = consultingService.resultRegistrationList(requestBody.get("id"));
+		return list;
+	}
+	
+//////////////상담원 상담 결과 등록//////////////////////
 	
 	
 	
@@ -121,14 +143,12 @@ public class ConsultingController {
 	@GetMapping(value = "/consulting/counselor")
 	public @ResponseBody List<ConuselorVO> counselorList() {
 		List list = consultingService.counselorList();
-		System.out.println(list);
 		return list;
 	}
 	@PostMapping(value = "/consulting/request")
 	public @ResponseBody int request(@RequestBody SchedulePrintVO schedulePrintVO) {
 		int num = 0;
-		System.out.println(schedulePrintVO);
-//		num = consultingService.request(schedulePrintVO);
+		num = consultingService.request(schedulePrintVO);
 		return num;
 	}
 //////////////학생 상담 신청//////////////////////

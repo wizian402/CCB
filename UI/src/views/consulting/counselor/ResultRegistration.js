@@ -1,26 +1,12 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
-import {
-  CRow,
-  CCol,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CCardBodyCTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-} from "@coreui/react";
-import { useParams } from "react-router-dom";
+import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
+import SearchFilters from "../components/SearchFilters";
+import Pagination from "../components/Pagenation";
+import Table from "./RequestProcessingTable";
 
-import Pagination from "./components/Pagenation";
-import Table from "./components/ConsultationRequest/scheduleTable";
-
-const ConsultationSchedule = () => {
-  const { sonuselorId } = useParams();
-  const [counselor, setCounselor] = useState([]);
+const ScheduleCheck = () => {
+  const [schedules, setschedules] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermItem, setSearchTermItem] = useState("");
   const [searchTermDate, setSearchTermDate] = useState("");
@@ -28,36 +14,58 @@ const ConsultationSchedule = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
-  console.log(sonuselorId);
   useEffect(() => {
     fetchData();
   }, [currentPage]);
 
   const fetchData = async () => {
+    const id = localStorage.getItem("loginId");
     try {
-      const response = await fetch(
-        `/cbb/consulting/counselorSchedule?id=` + sonuselorId
-      );
+      const response = await fetch(`/cbb/consulting/result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: "6666" }),
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-
       const data = await response.json();
-      setCounselor(data);
+      console.log(data);
+      setschedules(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchItem = (event) => {
+    setSearchTermItem(event.target.value);
+  };
+
+  const handleSearchTime = (event) => {
+    setSearchTermTime(event.target.value);
+  };
+
+  const handleSearchDate = (event) => {
+    setSearchTermDate(event.target.value);
   };
 
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const filteredItems = counselor.filter((item) => {
-    return (
-      item.counselor.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      item.item.toLowerCase().includes(searchTermItem.toLowerCase())
-    );
+  const filteredItems = schedules.filter((item) => {
+    // retur  n (
+    // item.counselor.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    // item.item.toLowerCase().includes(searchTermItem.toLowerCase()) &&
+    // item.consultationTime.includes(searchTermTime.toLowerCase()) &&
+    // item.consultationDate.includes(searchTermDate.toLowerCase())
+    // );
   });
 
   const indexOfLastItem = currentPage * perPage;
@@ -67,13 +75,19 @@ const ConsultationSchedule = () => {
 
   return (
     <div>
-      <h1 className="title">상담 시간표 조회</h1>
-
+      <h1 className="title">상담 결과 등록</h1>
+      <SearchFilters
+        handleSearchItem={handleSearchItem}
+        handleSearchDate={handleSearchDate}
+        handleSearchTime={handleSearchTime}
+        searchTerm={searchTerm}
+        handleSearch={handleSearch}
+      />
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4" style={{ marginTop: "20px" }}>
             <CCardHeader>
-              <strong>상담 시간표</strong>
+              <strong>상담 진행</strong>
             </CCardHeader>
             <CCardBody>
               <Table currentItems={currentItems} />
@@ -98,4 +112,4 @@ const ConsultationSchedule = () => {
   );
 };
 
-export default ConsultationSchedule;
+export default ScheduleCheck;

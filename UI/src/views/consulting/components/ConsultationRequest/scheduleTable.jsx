@@ -12,7 +12,6 @@ import {
 } from "@coreui/react";
 
 const Table = ({ currentItems }) => {
-  console.log(currentItems)
   return (
     <CTable>
       <CTableHead>
