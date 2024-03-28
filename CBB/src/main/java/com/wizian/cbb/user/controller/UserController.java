@@ -35,9 +35,6 @@ public class UserController {
 			String pswd = loginMap.get("password");
 			UserVO userVo = userService.selectUser(loginId);
 			Map<String, Object> errorResponse = new HashMap<String, Object>();
-			System.out.println(userVo);
-			System.out.println(userVo.getPswdErrCnt());
-			System.out.println(userVo.getUserCloseYn());
 			if (userVo != null && userVo.getPswd().equals(pswd) && userVo.getUserCloseYn().equals("N")) {
 				session.setMaxInactiveInterval(600);
 				session.setAttribute("loginId", loginId);

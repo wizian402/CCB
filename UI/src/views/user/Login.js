@@ -86,6 +86,8 @@ const Login = () => {
               navigate("/tngApproval");
             } else if (data.tkcgTaskCd === "20") {
               navigate("/dashboard");
+            } else if (data.tkcgTaskCd === "30") {
+              navigate("/consultationSchedule");
             }
           })
           .catch((error) =>
