@@ -14,8 +14,8 @@
 	</resultMap>
 
 	<select id="Consultationitems" resultMap="selectConsulting">
-		SELECT * FROM
-		DSCSN_TTL
+		SELECT * FROM DSCSN_TTL
+		ORDER BY DSCSN_TTL_SN
 	</select>
 
 	<insert id="itemInsert">
@@ -70,26 +70,24 @@
 	<select id="adminScheduleList" resultMap="scheduleList">
 		SELECT
 		c.COUNSELOR_TYPE
-		AS
-		TYPE,
+		AS TYPE,
 		c.CNSLR_NM AS counselor,
 		c.CNSL_SN AS counselorId,
 		c.ARSP_NM AS
 		ITEM,
-		t.TIMETBL AS
-		consultationTime,
+		t.TIMETBL AS consultationTime,
 		s.DSCSN_DT_YMD AS consultationDate,
-		s.DSCSN_REG_YMD AS
-		creationDate,
-		s.cnsl_schedule_sn as scheduleId
+		s.DSCSN_REG_YMD AS creationDate,
+		s.cnsl_schedule_sn AS scheduleId
 		FROM
 		CNSL_SCHEDULE s
 		JOIN
-		COUNSELOR c ON s.CNSL_SN =
-		c.CNSL_SN
+		COUNSELOR c ON s.CNSL_SN = c.CNSL_SN
 		JOIN
-		TIMETBL t ON
-		s.TIMETBL_CD = t.TIMETBL_CD
+		TIMETBL t
+		ON s.TIMETBL_CD = t.TIMETBL_CD
+		ORDER BY
+		s.DSCSN_DT_YMD, t.TIMETBL_CD
 	</select>
 	<!--//////////////상담원 시간표 확인////////////////////// -->
 
@@ -216,25 +214,48 @@
 		WHERE
 		DSCSN_RSVT_SN = #{processingId}
 	</update>
+	<!--//////////////상담원 상담 신청 처리////////////////////// -->
 
 
+
+	<!--//////////////상담원 상담 결과 등록////////////////////// -->
 	<select id="resultRegistrationList" resultMap="processing">
 		SELECT
 		b.cnslr_nm,
-		c.stdnt_nm ,
-        d.dscsn_dt_ymd,
+		c.stdnt_nm,
+		d.dscsn_dt_ymd,
 		e.timetbl,
-		f.dscsn_ttl
-		FROM DSCSN_RSVT A
+		f.dscsn_ttl,
+		a.dscsn_rsvt_sn
+		FROM
+		DSCSN_RSVT A
 		JOIN COUNSELOR B ON a.cnsl_sn = b.cnsl_sn
-		JOIN STDNT C ON a.stdnt_sn = c.stdnt_sn
-		JOIN cnsl_schedule D ON a.cnsl_schedule_sn = d.cnsl_schedule_sn
+		JOIN STDNT C ON
+		a.stdnt_sn = c.stdnt_sn
+		JOIN cnsl_schedule D ON a.cnsl_schedule_sn =
+		d.cnsl_schedule_sn
 		JOIN timetbl E ON d.timetbl_cd = e.timetbl_cd
-		JOIN DSCSN_TTL F ON a.dscsn_ttl_sn = f.dscsn_ttl_sn
-		WHERE a.cnsl_sn = #{checkId}
+		JOIN
+		DSCSN_TTL F ON a.dscsn_ttl_sn = f.dscsn_ttl_sn
+		WHERE a.cnsl_sn =
+		#{checkId}
+		AND a.dscsn_yn = 'Y'
+		AND NOT EXISTS (
+		SELECT 1
+		FROM
+		DSCSN_RSLT_CN
+		WHERE DSCSN_RSLT_CN.DSCSN_RSVT_SN = A.DSCSN_RSVT_SN
+		)
 	</select>
 
-	<!--//////////////상담원 상담 신청 처리////////////////////// -->
+	<insert id="resultRegistration">
+		INSERT INTO DSCSN_RSLT_CN
+		(PRCS_RSLT_CN,DSCSN_RSVT_SN,DSCSN_RSLT_CN_SN,RSLT_REG_YMD)
+		VALUES
+		(#{comment},#{reservationId},DSCSN_RSLT_CN_SEQ.NEXTVAL,SYSDATE)
+	</insert>
+	<!--//////////////상담원 상담 결과 등록////////////////////// -->
+
 
 
 
@@ -298,6 +319,38 @@
 
 	<select id="counselorList" resultMap="counselorList">
 		SELECT * FROM COUNSELOR
+		ORDER BY CNSL_SN
+	</select>
+
+	<select id="studentScheduleList" resultMap="scheduleList">
+		SELECT
+		c.COUNSELOR_TYPE AS TYPE,
+		c.CNSLR_NM AS counselor,
+		c.CNSL_SN AS
+		counselorId,
+		c.ARSP_NM AS ITEM,
+		t.TIMETBL AS consultationTime,
+		s.DSCSN_DT_YMD AS consultationDate,
+		s.DSCSN_REG_YMD AS creationDate,
+		d.DSCSN_TTL_SN as itemId,
+		s.cnsl_schedule_sn as scheduleId,
+		(SELECT
+		COUNT(dr.cnsl_schedule_sn)
+		FROM dscsn_rsvt dr
+		WHERE dr.cnsl_schedule_sn
+		= s.cnsl_schedule_sn) AS count
+		FROM
+		CNSL_SCHEDULE s
+		JOIN
+		COUNSELOR c ON
+		s.CNSL_SN = c.CNSL_SN
+		JOIN
+		DSCSN_TTL d ON d.DSCSN_TTL = c.ARSP_NM
+		JOIN
+		TIMETBL t ON s.TIMETBL_CD = t.TIMETBL_CD
+		WHERE s.cnsl_sn = #{id}
+		and
+		s.dscsn_yn = 'N'
 	</select>
 
 	<select id="studentIdCheck" resultType="string">
@@ -306,6 +359,12 @@
 		JOIN USER_INFO B ON A.USER_NO = B.USER_NO
 		WHERE b.login_id =
 		#{studentId}
+	</select>
+
+	<select id="requestCheck" resultType="int">
+		SELECT COUNT(*) FROM
+		DSCSN_RSVT
+		WHERE stdnt_sn = #{studentId} AND cnsl_schedule_sn = #{scheduleId}
 	</select>
 
 

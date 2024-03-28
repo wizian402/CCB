@@ -20,25 +20,27 @@ const ResultList = React.lazy(() =>
 );
 
 const ScheduleCheck = React.lazy(() =>
-  import("./views/consulting/counselor/CounselorSchedule")
+  import("./views/consulting/counselor/CounselorSchedule/CounselorSchedule")
 );
 const Timetable = React.lazy(() =>
-  import("./views/consulting/counselor/TimetableRegistration")
+  import(
+    "./views/consulting/counselor/TimetableRegistration/TimetableRegistration"
+  )
 );
 const Processing = React.lazy(() =>
-  import("./views/consulting/counselor/RequestProcessing")
+  import("./views/consulting/counselor/RequestProcessing/RequestProcessing")
 );
 
 const Result = React.lazy(() =>
-  import("./views/consulting/counselor/ResultRegistration")
+  import("./views/consulting/counselor/ResultRegistration/ResultRegistration")
 );
 
 const Request = React.lazy(() =>
-  import("./views/consulting/RequestConsultation")
+  import("./views/consulting/student/RequestConsultation")
 );
 
 const Requestschedule = React.lazy(() =>
-  import("./views/consulting/Requestschedule")
+  import("./views/consulting/student/Requestschedule")
 );
 
 // Base
@@ -142,7 +144,9 @@ const DetailPbanc = React.lazy(() => import("./views/recruit/DetailPbanc"));
 const TableAplyPbanc = React.lazy(() => import("./views/recruit/ApplyList"));
 const WriteResume = React.lazy(() => import("./views/recruit/WriteResume"));
 const HandleResume = React.lazy(() => import("./views/recruit/HandleResume"));
-const WritePbanc = React.lazy(() => import("./views/recruit/bzRecruit/WritePbanc"));
+const WritePbanc = React.lazy(() =>
+  import("./views/recruit/bzRecruit/WritePbanc")
+);
 
 const routes = [
   // consulting
@@ -203,8 +207,16 @@ const routes = [
     element: TableAplyPbanc,
   },
   { path: "/recruit/WriteResume", name: "WriteResume", element: WriteResume },
-  { path: "/recruit/HandleResume", name: "HandleResume", element: HandleResume },
-  { path: "/recruit/bzRecruit/WritePbanc", name: "WritePbanc", element: WritePbanc },
+  {
+    path: "/recruit/HandleResume",
+    name: "HandleResume",
+    element: HandleResume,
+  },
+  {
+    path: "/recruit/bzRecruit/WritePbanc",
+    name: "WritePbanc",
+    element: WritePbanc,
+  },
 
   //
   { path: "/dashboard", name: "Dashboard", element: Dashboard },

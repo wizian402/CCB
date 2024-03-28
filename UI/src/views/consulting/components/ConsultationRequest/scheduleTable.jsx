@@ -1,6 +1,6 @@
 // Table.js
 import React from "react";
-import RequestModal from "../../RequestModal"
+import RequestModal from "../../student/RequestModal"
 import {
   CTable,
   CTableHead,

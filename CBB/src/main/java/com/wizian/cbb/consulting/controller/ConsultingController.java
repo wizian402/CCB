@@ -135,6 +135,13 @@ public class ConsultingController {
 		return list;
 	}
 	
+	@PostMapping(value = "/consulting/ResultRegistration")
+	public @ResponseBody int ResultRegistration(@RequestBody Map<String, String> requestBody) {
+		String comment = requestBody.get("comment");
+		String reservationId = requestBody.get("reservationId");
+		return consultingService.resultRegistration(comment, reservationId);
+	}
+	
 //////////////상담원 상담 결과 등록//////////////////////
 	
 	
@@ -145,6 +152,14 @@ public class ConsultingController {
 		List list = consultingService.counselorList();
 		return list;
 	}
+	
+	@GetMapping(value = "/consulting/studentSchedule")
+	public @ResponseBody List<SchedulePrintVO> studentScheduleList(String id) {
+		List list = consultingService.studentScheduleList(id);
+		System.out.println(list);
+		return list;
+	}
+	
 	@PostMapping(value = "/consulting/request")
 	public @ResponseBody int request(@RequestBody SchedulePrintVO schedulePrintVO) {
 		int num = 0;
