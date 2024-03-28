@@ -73,7 +73,6 @@ public class ConsultingService implements IConsultingService {
 	@Override
 	public int insertSchedule(ScheduleVO scheduleVO) {
 		String id = consultingRepository.checkId(scheduleVO.getId());
-		System.out.println(id);
 		if (id == null) {
 			return 0;
 		}
@@ -121,9 +120,7 @@ public class ConsultingService implements IConsultingService {
 	public int reservation(ProcessingVO processingVO) {
 		int num = 0;
 		num = consultingRepository.updateSchedule(processingVO.getScheduleId());
-		System.out.println(num);
 		num += consultingRepository.updateReservation(processingVO.getReservationId());
-		System.out.println(num);
 		if (num == 2) {
 			num = 1;
 		} else {
@@ -137,12 +134,20 @@ public class ConsultingService implements IConsultingService {
 //////////////상담원 상담 결과 등록//////////////////////
 	@Override
 	public List<ProcessingVO> resultRegistrationList(String id) {
-		System.out.println(id);
 		String checkId = consultingRepository.checkId(id);
-		System.out.println(checkId);
 		return consultingRepository.resultRegistrationList(checkId);
 	}
+	
+	
+	@Override
+	public int resultRegistration(String comment, String reservationId) {
+		return consultingRepository.resultRegistration(comment, reservationId);
+	}
+	
+	
 //////////////상담원 상담 결과 등록//////////////////////
+
+	
 
 	////////////// 학생 상담 종합 이력//////////////////////
 	@Override
@@ -158,9 +163,20 @@ public class ConsultingService implements IConsultingService {
 	}
 
 	@Override
+	public List<SchedulePrintVO> studentScheduleList(String id) {
+		return consultingRepository.studentScheduleList(id);
+	}
+
+	@Override
 	public int request(SchedulePrintVO schedulePrintVO) {
+		int num = 0;
 		schedulePrintVO.setStudentId(consultingRepository.studentIdCheck(schedulePrintVO.getStudentId()));
-		return consultingRepository.request(schedulePrintVO);
+		if(consultingRepository.requestCheck(schedulePrintVO) >= 1) {
+			num = 2;
+		}else {
+			num = consultingRepository.request(schedulePrintVO);			
+		}
+		return num;
 	}
 //////////////학생 상담 신청//////////////////////
 }

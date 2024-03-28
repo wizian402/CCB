@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Calendar from "../components/TimetableRegistration/Calendar";
-import "../scss/Calendar.scss";
+import Calendar from "./Calendar";
+import "../../scss/Calendar.scss";
 
 const CalendarContainer = () => {
   const [year, setYear] = useState(new Date().getFullYear());
