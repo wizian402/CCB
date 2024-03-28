@@ -121,9 +121,6 @@ const StdntAply = () => {
     setCurrentPage(1); // Reset pagination when input changes
   };
 
-
-
-
   return (
     <CRow>
       <CCol xs={12}>
@@ -139,7 +136,7 @@ const StdntAply = () => {
               value={enteredTask}
               onChange={handleTaskInputChange}
             />
-            <CTable>
+            <CTable hover>
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell scope="col" style={{ width: '10%' }} className="text-center">NO</CTableHeaderCell>
