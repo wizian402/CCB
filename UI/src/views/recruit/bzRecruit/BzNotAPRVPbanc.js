@@ -22,6 +22,8 @@ import { useNavigate } from 'react-router-dom';
 import SearchBar from '../components/SerchBox';
 import Pagination from '../components/Pagination';
 
+
+
 const Tables = () => {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -31,6 +33,20 @@ const Tables = () => {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 5; // 페이지당 보여줄 아이템 수
+    
+    useEffect(() => {
+    
+        const userGroupCd = localStorage.getItem('userGroupCd');
+    
+        if (userGroupCd !== '50') {
+            localStorage.clear()
+            alert('로그인후 이용가능합니다.')
+            navigate('/login');
+        }
+    
+    }, []);
+
+
 
     useEffect(() => {
         fetchDataFromDatabase();

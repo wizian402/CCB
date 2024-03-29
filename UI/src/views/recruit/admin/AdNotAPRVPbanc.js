@@ -32,16 +32,17 @@ const Tables = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 5; // 페이지당 보여줄 아이템 수
 
+    const [tngNo, setTngNo] = useState(null);
     useEffect(() => {
-    
+        const selectedTngNo = sessionStorage.getItem("selectedTngNo");
         const userGroupCd = localStorage.getItem('userGroupCd');
-    
-        if (userGroupCd !== '50') {
+        setTngNo(selectedTngNo);
+        if (userGroupCd !== '10') {
             localStorage.clear()
             alert('로그인후 이용가능합니다.')
             navigate('/login');
         }
-    
+
     }, []);
 
 
@@ -55,7 +56,7 @@ const Tables = () => {
 
     const fetchDataFromDatabase = async () => {
         try {
-            const response = await fetch('/cbb/rcr/bzRecruit/writedPbancList', {
+            const response = await fetch('/cbb/rcr/admin/notAPRVPbancList', {
                 method: 'Post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,18 +93,11 @@ const Tables = () => {
 
     const handleDetailButtonClick = () => {
         if (selectedItem) {
-            navigate(`/recruit/bzRecruit/BzDetailPbanc/${selectedItem.PBANC_SN}`);
+            navigate(`/recruit/admin/AdDetailPbanc/${selectedItem.PBANC_SN}`);
             handleCloseModal();
         }
     };
 
-    const formatDate = (dateNumber) => {
-        const dateString = dateNumber.toString();
-        const year = dateString.slice(0, 4);
-        const month = parseInt(dateString.slice(4, 6), 10);
-        const day = parseInt(dateString.slice(6, 8), 10);
-        return `${year}. ${month}. ${day}.`;
-    };
 
     // 현재 페이지의 데이터를 가져오는 함수
     const getCurrentPageData = () => {
@@ -124,19 +118,9 @@ const Tables = () => {
             <CCol xs={12}>
                 <CCard className="mb-4">
                     <CCardHeader>
-                        <strong><h2>채용공고조회</h2></strong> <small></small>
+                        <strong><h2>승인 대기 채용공고</h2></strong> <small></small>
                     </CCardHeader>
                     <CCardBody>
-
-                        {/* <CInputGroup className="mb-3">
-              <CFormInput
-                type="text"
-                placeholder="검색어를 입력하세요."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ width: '300px', height: '40px' }}
-              />
-            </CInputGroup> */}
 
                         <SearchBar
                             searchTerm={searchTerm}

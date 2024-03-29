@@ -38,6 +38,7 @@ public class RcrService implements IRcrService{
 
 	@Override
 	public Map<String, Object> getComInfo(String regNum) {
+		System.out.println("regnum"+regNum);
 		return rcrRepository.getComInfo(regNum);
 	}
 
@@ -222,7 +223,9 @@ public class RcrService implements IRcrService{
 		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
 		String userNo = dataMap.get("userNo");
 		String brno = getBrno(userNo);
-		return rcrRepository.writedPbancListDB(brno);
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("brno", brno);
+		return rcrRepository.writedPbancListDB(parameter);
 		 
 	}
 
@@ -241,8 +244,54 @@ public class RcrService implements IRcrService{
 		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
 		String userNo = dataMap.get("userNo");
 		String brno = getBrno(userNo);
-		return rcrRepository.notAPRVPbancDB(brno);
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("brno", brno);
 		
+		return rcrRepository.notAPRVPbancDB(parameter);
+		
+	}
+
+
+	@Override
+	public List<Map<String, Object>> adNotAPRVPbanc() {
+		return rcrRepository.adNotAPRVPbancDB();
+	}
+
+
+	@Override
+	public int aprvPbancY(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> dataMap = objectMapper.readValue(data, HashMap.class);
+		System.out.println("왜 아무것도??"+dataMap);
+		return rcrRepository.aprvPbancYN(dataMap);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getAllComList() {
+		return rcrRepository.getAllComListDB();
+	}
+
+
+	@Override
+	public Map<String, Object> getDetailCom(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String brno = dataMap.get("brno");
+		return rcrRepository.getComInfo2(brno);
+	}
+
+
+	@Override
+	public Map<String, Object> getManager(String data) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> dataMap = objectMapper.readValue(data, HashMap.class);
+		String brno = dataMap.get("brno");
+		
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("brno", brno);
+		System.out.println(rcrRepository.getManagerInfo(parameter));
+		return rcrRepository.getManagerInfo(parameter);
 	}
 
 	

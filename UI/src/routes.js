@@ -139,6 +139,10 @@ const WritePbanc = React.lazy(() => import("./views/recruit/bzRecruit/WritePbanc
 const BzPbancList = React.lazy(() => import("./views/recruit/bzRecruit/BzPbancList"));
 const BzDetailPbanc = React.lazy(() => import("./views/recruit/bzRecruit/BzDetailPbanc"));
 const BzNotAPRVPbanc = React.lazy(() => import("./views/recruit/bzRecruit/BzNotAPRVPbanc"));
+const AdNotAPRVPbanc = React.lazy(() => import("./views/recruit/admin/AdNotAPRVPbanc"));
+const AdDetailPbanc = React.lazy(() => import("./views/recruit/admin/AdDetailPbanc"));
+const AdComList = React.lazy(() => import("./views/recruit/admin/AdComList"));
+const AdDetailCom = React.lazy(() => import("./views/recruit/admin/AdDetailCom"));
 
 const routes = [
   // consulting
@@ -201,6 +205,10 @@ const routes = [
   { path: "/recruit/bzRecruit/BzPbancList", name: "BzPbancList", element: BzPbancList },
   { path: "/recruit/bzRecruit/BzDetailPbanc/:pbancSn", name: "BzDetailPbanc", element: BzDetailPbanc },
   { path: "/recruit/bzRecruit/BzNotAPRVPbanc", name: "BzNotAPRVPbanc", element: BzNotAPRVPbanc },
+  { path: "/recruit/admin/AdNotAPRVPbanc", name: "AdNotAPRVPbanc", element: AdNotAPRVPbanc },
+  { path: "/recruit/admin/AdDetailPbanc/:pbancSn", name: "AdDetailPbanc", element: AdDetailPbanc },
+  { path: "/recruit/admin/AdComList", name: "AdComList", element: AdComList },
+  { path: "/recruit/admin/AdDetailCom/:brno", name: "AdDetailCom", element: AdDetailCom },
 
 
 

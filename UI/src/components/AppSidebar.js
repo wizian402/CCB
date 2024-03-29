@@ -71,6 +71,8 @@ const AppSidebar = () => {
     selectedNav = studentNav;
   } else if (currentUri.includes("/bzRecruit/")) {
     selectedNav = bzentyNav;
+  } else if (currentUri.includes("/admin")){
+    selectedNav = adminNav;
   }
 
   else if (

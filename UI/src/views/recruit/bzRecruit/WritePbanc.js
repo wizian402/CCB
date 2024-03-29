@@ -20,6 +20,11 @@ import React, { useState, useEffect, forwardRef } from 'react';
 import { useParams } from 'react-router-dom';
 import '../scss/detailPbanc.css';
 import ReactDatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 const writePbanc = () => {
     const [wPbancData, setWPbancData] = useState(null);

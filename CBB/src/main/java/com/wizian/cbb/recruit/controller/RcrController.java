@@ -53,7 +53,8 @@ public class RcrController {
 		});
 		String bizRegNum = comMap.get("bizRegNum");
 		Map<String, Object> comInfoData = rcrService.getComInfo(bizRegNum);
-
+		
+		
 		return comInfoData;
 	}
 
@@ -135,6 +136,38 @@ public class RcrController {
 	public List<Map<String, Object>> notAPRVPbanc (@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
 		return rcrService.notAPRVPbanc(data);
 	}
+	
+	
+	@PostMapping("/rcr/admin/notAPRVPbancList")
+	public @ResponseBody List<Map<String, Object>> adNotAPRVPbanc (){
+		return rcrService.adNotAPRVPbanc();
+	}
+	
+	@PostMapping("/rcr/admin/APRVPbanc")
+	public @ResponseBody int aprvPbancY(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException {
+		return rcrService.aprvPbancY(data);
+	}
+	
+	@PostMapping("/rcr/admin/allComList")
+	public @ResponseBody List<Map<String, Object>> allComList(){
+		return rcrService.getAllComList();
+	}
+	
+	@PostMapping("/rcr/admin/detailCom")
+	public @ResponseBody Map<String, Object> detailCom(@RequestBody String data) throws JsonParseException, JsonMappingException, IOException{
+		
+		return rcrService.getDetailCom(data);
+	}
+
+	@PostMapping("/rcr/admin/manager")
+	public @ResponseBody Map<String, Object> manager(@RequestBody String data) throws JsonMappingException, IOException, Exception{
+		return rcrService.getManager(data);
+	}
+	
+	
+	
+	
+	
 	
 	
 }

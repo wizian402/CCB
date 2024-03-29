@@ -27,7 +27,7 @@
 		SELECT * from RECRUIT_NOTICE WHERE PBANC_SN = #{pbancSN}
 	</select>
 
-	<select id="getComInfo" resultType="hashMap"
+<select id="getComInfo" resultType="hashMap"
 		parameterType="string">
 		SELECT
 		"BRNO" AS brno,
@@ -45,8 +45,10 @@
 		tnowk,
 		"LAST_REG_DT" AS lastRegDt
 		FROM "SCOTT"."COMPANY_INFO" WHERE
-		"BRNO" = #{bizRegNum}
+		"BRNO" = ${value}
 	</select>
+
+
 
 	<select id="getSTDNTInfo" resultType="hashMap"
 		parameterType="string">
@@ -175,8 +177,8 @@ values (PBANC_SN_SEQ.nextVal, #{title}, #{empNum}, #{slry}, #{pbancCT}, TO_DATE(
 </insert>
 
 
-<select id="writedPbancListDB" parameterType="string" resultType="hashMap">
-select * FROM RECRUIT_NOTICE WHERE BRNO = #{brno} AND PBANC_APRV_YN = 'Y'
+<select id="writedPbancListDB" parameterType="hashMap" resultType="hashMap">
+select * FROM RECRUIT_NOTICE WHERE BRNO = ${brno} AND PBANC_APRV_YN = 'Y'
 </select>
 
 
@@ -185,9 +187,34 @@ DELETE FROM RECRUIT_NOTICE WHERE PBANC_SN = #{pbancSn}
 </delete>
 
 
-<select id="notAPRVPbancDB" parameterType="string" resultType="hashMap">
-select * FROM RECRUIT_NOTICE WHERE BRNO = #{brno} AND PBANC_APRV_YN = 'N'
+<select id="notAPRVPbancDB" parameterType="hashMap" resultType="hashMap">
+
+select * FROM RECRUIT_NOTICE WHERE BRNO = ${brno} AND PBANC_APRV_YN = 'N'
 </select>
+
+<select id="adNotAPRVPbancDB" resultType="hashMap">
+select * From RECRUIT_NOTICE WHERE PBANC_APRV_YN = 'N'
+</select>
+
+<update id="aprvPbancYN" parameterType="hashMap">
+UPDATE RECRUIT_NOTICE
+SET PBANC_APRV_YN = #{aprvYN}
+WHERE PBANC_SN = #{pbancSn}
+</update>
+
+<select id="getAllComListDB" resultType="hashMap">
+select * from company_info
+</select>
+
+<select id="getManagerInfo" parameterType="hashMap" resultType="hashMap">
+select * from com_manager where BRNO = #{brno}
+</select>
+
+
+<select id="getComInfo2" parameterType="string" resultType="hashMap">
+select * from COMPANY_INFO where BRNO = #{brno}
+</select>
+
 
 
 </mapper>

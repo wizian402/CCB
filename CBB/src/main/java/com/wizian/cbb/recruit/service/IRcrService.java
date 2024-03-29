@@ -29,4 +29,9 @@ public interface IRcrService {
 	List<Map<String, Object>> writedPbancList(String data) throws JsonParseException, JsonMappingException, IOException;
 	void deletePbanc(String data) throws IOException, JsonMappingException, IOException;
 	List<Map<String, Object>> notAPRVPbanc(String data) throws JsonParseException, JsonMappingException, IOException;
+	List<Map<String, Object>> adNotAPRVPbanc();
+	int aprvPbancY(String data) throws JsonParseException, JsonMappingException, IOException;
+	List<Map<String, Object>> getAllComList();
+	Map<String, Object> getDetailCom(String data) throws JsonParseException, JsonMappingException, IOException;
+	Map<String, Object> getManager(String data) throws JsonParseException, JsonMappingException, IOException ;
 }

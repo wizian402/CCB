@@ -22,78 +22,77 @@ export const _nav = [
   },
   {
     component: CNavGroup,
-    name: "이력서관리",
+    name: "기본정보관리",
     to: "#",
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: "신규이력서작성",
-        to: "/base/TablesResume",
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: "맞춤채용정보",
-    to: "#",
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: "맞춤채용정보 수정 및 등록",
+        name: "코드관리",
         to: "#",
       },
       {
         component: CNavItem,
-        name: "맞춤채용정보 삭제",
-        to: "#",
-      },
-      {
-        component: CNavItem,
-        name: "입사요청 및 현황조회",
+        name: "학기설정",
         to: "#",
       },
     ],
   },
   {
     component: CNavGroup,
-    name: "채용공고조회",
+    name: "기업체관리",
     to: "#",
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: "지원내역조회",
+        name: "기업체정보관리",
+        to: "/recruit/admin/AdComList",
+      },
+      {
+        component: CNavItem,
+        name: "채용공고승인",
+        to: "/recruit/admin/AdNotAPRVPbanc",
+      },
+      {
+        component: CNavItem,
+        name: "입사요청메일링",
         to: "#",
       },
     ],
   },
   {
     component: CNavGroup,
-    name: "상담 관리",
+    name: "취업자원관리",
     to: "#",
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: "상담 시간표 조회",
-        to: "/consultationSchedule",
-      },
-      {
-        component: CNavItem,
-        name: "상담 항목 관리",
-        to: "/consultationItem",
-      },
-      {
-        component: CNavItem,
-        name: "상담원 관리",
+        name: "취업관리학생조회",
         to: "#",
       },
       {
         component: CNavItem,
-        name: "학생 상담 종합 이력",
-        to: "/history",
+        name: "이력서조회",
+        to: "#",
+      }, {
+        component: CNavItem,
+        name: "구직활동조회",
+        to: "#",
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "채용정보관리",
+    to: "#",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "채용정보관리",
+        to: "#",
       },
     ],
   },

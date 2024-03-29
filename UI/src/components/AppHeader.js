@@ -37,6 +37,7 @@ const AppHeader = () => {
     navigate("/login");
   };
   useEffect(() => {
+    if (userGroup === "10"){
     const fetchTkcgTaskCd = () => {
       const loginId = localStorage.getItem("loginId");
       fetch("/cbb/tng/tkcgTaskCd", {
@@ -56,6 +57,7 @@ const AppHeader = () => {
     };
 
     fetchTkcgTaskCd();
+  }
   }, []);
 
     const userGroup = localStorage.getItem("userGroupCd");
@@ -66,7 +68,7 @@ const AppHeader = () => {
       if (tkcgTaskCd.tkcgTaskCd === "10") {
         menuItems = [{ name: "현장 실습 참여 관리", link: "/tngApproval" }];
       } else if (tkcgTaskCd.tkcgTaskCd === "20") {
-        menuItems = [{ name: "취업 지원 관리", link: "/recruit/admin"}];
+        menuItems = [{ name: "취업 지원 관리", link: "/recruit/admin/AdNotAPRVPbanc"}];
       } else {
 
         menuItems = [

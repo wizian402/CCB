@@ -11,7 +11,7 @@ public interface IRcrRepository {
 
 	RcrPbancVO getPbancfromDB(String pbancSn);
 
-	public Map<String, Object> getComInfo(String regNum);
+	public Map<String, Object> getComInfo(String bizRegNum);
 	
 	public Map<String, Object> getSTDNTInfo(String userData);
 	
@@ -43,10 +43,20 @@ public interface IRcrRepository {
 
 	void bzWritePbancDB(Map<String, Object> dataMap);
 
-	List<Map<String, Object>> writedPbancListDB(String brno);
+	List<Map<String, Object>> writedPbancListDB(Map<String, Object> parameter);
 
 	void deletePbancDB(Map<String, Object> dataMap);
 
-	List<Map<String, Object>> notAPRVPbancDB(String brno);
+	List<Map<String, Object>> notAPRVPbancDB(Map<String, Object> parameter);
+
+	List<Map<String, Object>> adNotAPRVPbancDB();
+
+	int aprvPbancYN(Map<String, Object> dataMap);
+
+	List<Map<String, Object>> getAllComListDB();
+
+	Map<String, Object> getManagerInfo(Map<String, Object> parameter);
+
+	Map<String, Object> getComInfo2(String brno);
 
 }
