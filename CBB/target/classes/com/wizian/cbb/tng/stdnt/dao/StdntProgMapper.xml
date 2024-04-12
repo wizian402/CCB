@@ -5,13 +5,14 @@
 	namespace="com.wizian.cbb.tng.stdnt.dao.IStdntProgRepository">
 
 	<select id="selectTngStdnt" resultType="hashmap">
-		SELECT 
-		STDNT_SN AS "stdntSn",
+		SELECT
+		STDNT_SN AS
+		"stdntSn",
 		TNG_NO AS "tngNo"
 		FROM TNG_STDNT
-		WHERE 
+		WHERE
 		STDNT_SN IN(
-		SELECT 
+		SELECT
 		STDNT_SN
 		FROM
 		STDNT
@@ -19,7 +20,7 @@
 		SELECT
 		USER_NO
 		FROM USER_INFO
-		WHERE 
+		WHERE
 		LOGIN_ID = #{loginId}
 		)
 		)
@@ -30,7 +31,7 @@
 		TNG_APLY_NO AS
 		"tngAplyNo"
 		FROM TNG_STDNT
-		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn}
+		WHERE TNG_NO=#{tngNo} AND STDNT_SN=#{stdntSn} AND TNG_PRGRS_STTS=30
 	</select>
 
 	<select id="getAttendList" resultType="hashmap">
@@ -42,5 +43,30 @@
 		"tngAtndcCd"
 		FROM TNG_ATNDC
 		WHERE TNG_APLY_NO=#{tngAplyNo}
+	</select>
+
+	<select id="getTngData" resultType="hashmap">
+		SELECT
+		T.TNG_ST_YMD AS "tngStYmd",
+		T.TNG_END_YMD AS "tngEndYmd",
+		T.TTL_TNG_HR AS "ttlTngHr",
+		T.CMCRS_HR AS "cmcrsHr",
+		T.TKCG_TASK_NM AS "tkcgTaskNm",
+		C.BZENTY_NM AS "bzentyNm",
+		S.TTRHR AS "ttrHr",
+		S.INDST_EVL_YN AS "indstEvlYn",
+		G.GRD AS "grd"
+		FROM
+		TNG T
+		JOIN
+		BZENTY_USER B ON T.BZENTY_USER_NO = B.BZENTY_USER_NO
+		JOIN
+		COMPANY_INFO C ON B.BRNO = C.BRNO
+		JOIN
+		TNG_STDNT S ON T.TNG_NO = S.TNG_NO
+		LEFT JOIN
+		TNG_GRD G ON S.TNG_APLY_NO = G.TNG_APLY_NO
+		WHERE
+		T.TNG_NO = #{tngNo}
 	</select>
 </mapper>

@@ -50,11 +50,12 @@ public interface IConsultingRepository {
 
 	public String getCount(String scheduleId);
 //////////////상담원 상담 신청 처리//////////////////////
-	
+
 //////////////상담원 상담 결과 등록//////////////////////
-public List<ProcessingVO> resultRegistrationList(String checkId);
+	public List<ProcessingVO> resultRegistrationList(String checkId);
+
+	public int resultRegistration(@Param("comment") String comment, @Param("reservationId") String reservationId);
 //////////////상담원 상담 결과 등록//////////////////////
-	
 
 //////////////학생 상담 종합 이력//////////////////////
 	public List<ResultVO> resultList();
@@ -63,8 +64,10 @@ public List<ProcessingVO> resultRegistrationList(String checkId);
 //////////////학생 상담 신청//////////////////////
 	public List<ConuselorVO> counselorList();
 
-	public String studentIdCheck(String studentId);
+	public List<SchedulePrintVO> studentScheduleList(String id);
 
+	public String studentIdCheck(String studentId);
+	public int requestCheck(SchedulePrintVO schedulePrintVO);
 	public int request(SchedulePrintVO schedulePrintVO);
 //////////////학생 상담 신청//////////////////////
 

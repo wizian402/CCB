@@ -50,7 +50,12 @@ const ConsultationItem = () => {
         )}
       />
 
-      <div className="modal-container">
+      <div
+        className="modal-container"
+        style={{
+          marginTop: "-10px",
+        }}
+      >
         <AddItemModal className="centered"></AddItemModal>
       </div>
     </div>

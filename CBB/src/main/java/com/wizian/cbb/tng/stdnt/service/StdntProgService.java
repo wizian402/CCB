@@ -29,4 +29,9 @@ public class StdntProgService implements IStdntProgService {
 		return stdntProgRepository.getAttendList(tngAplyNo);
 	}
 
+	@Override
+	public Map<String, Object> getTngData(String tngNo) {
+		return stdntProgRepository.getTngData(tngNo);
+	}
+
 }

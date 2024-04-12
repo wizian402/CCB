@@ -1,8 +1,8 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
-import SearchFilters from "../components/SearchFilters";
-import Pagination from "../components/Pagenation";
+import SearchFilters from "../../components/SearchFilters";
+import Pagination from "../../components/Pagenation";
 import Table from "./RequestProcessingTable";
 
 const ScheduleCheck = () => {
