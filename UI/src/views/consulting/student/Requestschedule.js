@@ -43,6 +43,7 @@ const ConsultationSchedule = () => {
 
       const data = await response.json();
       setCounselor(data);
+      console.log(counselor)
     } catch (error) {
       console.error("Error fetching data:", error);
     }

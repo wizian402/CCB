@@ -24,7 +24,7 @@ export const _nav = [
     component: CNavGroup,
     name: "상담 관리",
     to: "#",
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    // icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
