@@ -33,7 +33,6 @@ const Modal = ({ year, month, selectedDate, showModal, closeModal }) => {
       })
       .then((data) => {
         // 서버 응답 처리
-        console.log("서버 응답:", data);
         if (data === -1) {
           alert("이미 등록된 시간입니다.");
           window.location.reload();
@@ -74,10 +73,10 @@ const Modal = ({ year, month, selectedDate, showModal, closeModal }) => {
             })}
           </div>
           <div className="button-container">
-            <button onClick={handleRegisterClick} className="register-button">
-              등록
-            </button>
-            <button onClick={closeModal} className="close-button">
+              <button onClick={handleRegisterClick} className="register-button">
+                등록
+              </button>
+              <button onClick={closeModal} className="close-button">
               닫기
             </button>
           </div>

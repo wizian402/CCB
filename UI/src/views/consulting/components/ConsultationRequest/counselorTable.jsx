@@ -16,8 +16,8 @@ const Table = ({ currentItems }) => {
 
   // 인라인 스타일 객체 정의
   const cellStyle = {
-    padding: '10px 20px', // 상하 10px, 좌우 20px 패딩
-    textAlign: 'center'   // 텍스트 중앙 정렬
+    padding: '10px 20px',
+    textAlign: 'center'   
   };
 
   const handleCheckSchedule = (sonuselorId) => {

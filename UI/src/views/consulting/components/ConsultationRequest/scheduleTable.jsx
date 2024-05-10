@@ -7,7 +7,6 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
-  CButton,
 } from "@coreui/react";
 
 const Table = ({ currentItems }) => {
@@ -26,7 +25,7 @@ const Table = ({ currentItems }) => {
           <CTableHeaderCell scope="col" style={cellStyle}>상담 시간</CTableHeaderCell>
           <CTableHeaderCell scope="col" style={cellStyle}>등록 일자</CTableHeaderCell>
           <CTableHeaderCell scope="col" style={cellStyle}>신청</CTableHeaderCell>
-        </CTableRow>
+        </CTableRow>  
       </CTableHead>
       <CTableBody>
         {currentItems.map((item, index) => (
