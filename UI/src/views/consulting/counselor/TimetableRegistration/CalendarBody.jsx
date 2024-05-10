@@ -20,7 +20,7 @@ const CalendarBody = ({ year, month, handleDateClick }) => {
 
   const generateCalendar = () => {
     const { firstDayOfMonth, lastDayOfMonth } = getFirstLastDayOfMonth();
-    const firstDayOfWeek = firstDayOfMonth.getDay();
+    const firstDayOfWeek = firstDayOfMonth.getDay(); 
     const lastDateOfMonth = lastDayOfMonth.getDate();
     const calendar = [];
 
@@ -44,7 +44,7 @@ const CalendarBody = ({ year, month, handleDateClick }) => {
               onClick={() => !isPastDate && !isWeekendDate && handleDateClick(currentDate)}
               className={isPastDate ? "past-date" : isWeekendDate ? "weekend" : ""}
             >
-              {date}
+              {date}  
             </td>
           );
           date++;

@@ -1,48 +1,34 @@
 // ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
-import {
-  CRow,
-  CCol,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CCardBodyCTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-} from "@coreui/react";
+import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
 import { useParams } from "react-router-dom";
 
 import Pagination from "../components/Pagenation";
 import Table from "../components/ConsultationRequest/scheduleTable";
+import DateInput from "./DateInput";
 
 const ConsultationSchedule = () => {
   const { sonuselorId } = useParams();
   const [counselor, setCounselor] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchTermItem, setSearchTermItem] = useState("");
-  const [searchTermDate, setSearchTermDate] = useState("");
-  const [searchTermTime, setSearchTermTime] = useState("");
+  const [searchDate, setSearchDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, searchDate]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `/cbb/consulting/studentSchedule?id=` + sonuselorId
-      );
+      const response = await fetch(`/cbb/consulting/studentSchedule?id=${sonuselorId}`);
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        throw new Error("Failed to fetch data");  
       }
 
       const data = await response.json();
-      setCounselor(data);
+      const formattedData = data.map(item =>
+         ({ ...item, date: formatDate(item.consultationDate) }));
+      setCounselor(formattedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -52,12 +38,18 @@ const ConsultationSchedule = () => {
     setCurrentPage(pageNumber);
   };
 
-  const filteredItems = counselor.filter((item) => {
-    return (
-      item.counselor.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      item.item.toLowerCase().includes(searchTermItem.toLowerCase())
-    );
-  });
+  const handleDateChange = (e) => {
+    setSearchDate(e.target.value);
+  };
+
+  const formatDate = (dateString) => {
+    const dateParts = dateString.split(' ')[0].split('-');
+    return `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+  };
+
+  const filteredItems = searchDate
+    ? counselor.filter((item) => item.date === searchDate)
+    : counselor;
 
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
@@ -75,6 +67,10 @@ const ConsultationSchedule = () => {
               <strong>상담 시간표</strong>
             </CCardHeader>
             <CCardBody>
+              <DateInput
+                value={searchDate}
+                onChange={handleDateChange}
+              />
               <Table currentItems={currentItems} />
               <div
                 style={{

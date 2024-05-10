@@ -31,7 +31,7 @@ public List<SchedulePrintVO> adminSchedulesList();
 
 //////////////상담원 시간표 확인//////////////////////
 public List<SchedulePrintVO> counselorSchedulesList(String id);
-public int scheduleCansel(int scheduleId);
+public int scheduleCansel(int scheduleId);	
 //////////////상담원 시간표 확인//////////////////////
 
 
