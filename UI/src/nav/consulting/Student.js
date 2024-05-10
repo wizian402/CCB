@@ -24,6 +24,6 @@ export const _nav = [
     component: CNavItem,
     name: "상담 신청",
     to: "/theme/colors",
-    // icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
 ];

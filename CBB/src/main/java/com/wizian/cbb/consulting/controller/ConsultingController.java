@@ -29,13 +29,13 @@ public class ConsultingController {
 	IConsultingService consultingService;
 	
 	@GetMapping(value = "/consulting/items")
-	public @ResponseBody List<ConItemVO> consultationitems() {
+	public @ResponseBody List<ConItemVO> Consultationitems() {
 		List list = consultingService.Consultationitems();
 		return list;
 	}
 
 	@PostMapping(value = "/consulting/items/insert")
-	public @ResponseBody int itemInsert(@RequestBody ConItemVO conItemsVO) {
+	public @ResponseBody int ItemInsert(@RequestBody ConItemVO conItemsVO) {
 //		String checkId = consultingService.itemCheck(conItemsVO);
 //		System.out.println(checkId);
 		int num = 0;
@@ -50,14 +50,14 @@ public class ConsultingController {
 	}
 
 	@PostMapping(value = "/consulting/items/update")
-	public @ResponseBody int itemUpdate(@RequestBody ConItemVO conItemsVO) {	
+	public @ResponseBody int ItemUpdate(@RequestBody ConItemVO conItemsVO) {	
 		int num = 0;
 		num = consultingService.itemUpdate(conItemsVO);
 		return num;
 	}
 
 	@PostMapping(value = "/consulting/items/delete")
-	public @ResponseBody int itemDelete(@RequestBody ConItemVO conItemsVO) {
+	public @ResponseBody int ItemDelete(@RequestBody ConItemVO conItemsVO) {
 		int num = 0;
 		num = consultingService.itemDelete(conItemsVO.getItemID());
 		return num;
@@ -66,9 +66,9 @@ public class ConsultingController {
 	
 	
 	
-	//////////////상담원 시간표 확인//////////////////////c
+	//////////////상담원 시간표 확인//////////////////////
 	@GetMapping(value = "/consulting/adminSchedule")
-	public @ResponseBody List<SchedulePrintVO> adminSchedulesList() {
+	public @ResponseBody List<SchedulePrintVO> adminSchedules() {
 		List list = consultingService.adminSchedulesList();
 		return list;
 	}
@@ -91,7 +91,7 @@ public class ConsultingController {
 //////////////상담원 시간표 확인//////////////////////
 
 	@GetMapping(value = "/consulting/counselorSchedule")
-	public @ResponseBody List<SchedulePrintVO> counselorScheduleList(String id) {
+	public @ResponseBody List<SchedulePrintVO> counselorSchedule(String id) {
 		List list = consultingService.counselorSchedulesList(id);
 		return list;
 	}
@@ -130,13 +130,13 @@ public class ConsultingController {
 //////////////상담원 상담 결과 등록//////////////////////
 	
 	@PostMapping(value = "/consulting/result")
-	public @ResponseBody List<ProcessingVO> resultRegistrationList(@RequestBody Map<String, String> requestBody) {
+	public @ResponseBody List<ProcessingVO> ResultRegistrationList(@RequestBody Map<String, String> requestBody) {
 		List list = consultingService.resultRegistrationList(requestBody.get("id"));
 		return list;
 	}
 	
 	@PostMapping(value = "/consulting/ResultRegistration")
-	public @ResponseBody int resultRegistration(@RequestBody Map<String, String> requestBody) {
+	public @ResponseBody int ResultRegistration(@RequestBody Map<String, String> requestBody) {
 		String comment = requestBody.get("comment");
 		String reservationId = requestBody.get("reservationId");
 		return consultingService.resultRegistration(comment, reservationId);

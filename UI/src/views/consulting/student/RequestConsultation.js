@@ -1,14 +1,16 @@
+// ConsultationSchedule.js
 import React, { useEffect, useState } from "react";
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from "@coreui/react";
 
 import Pagination from "../components/Pagenation";
 import Table from "../components/ConsultationRequest/counselorTable";
-import SearchBar from "./SearchBar";
 
 const ConsultationSchedule = () => {
   const [counselor, setCounselor] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchTermItem, setSearchTermItem] = useState("");
-  const [searchTermName, setSearchTermName] = useState("");
+  const [searchTermDate, setSearchTermDate] = useState("");
+  const [searchTermTime, setSearchTermTime] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
@@ -34,9 +36,10 @@ const ConsultationSchedule = () => {
   };
 
   const filteredItems = counselor.filter((item) => {
-    const nameMatch = item.name.includes(searchTermName);
-    const itemMatch = item.item.includes(searchTermItem);
-    return nameMatch && itemMatch;
+    return (
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      item.item.toLowerCase().includes(searchTermItem.toLowerCase())
+    );
   });
 
   const indexOfLastItem = currentPage * perPage;
@@ -55,12 +58,6 @@ const ConsultationSchedule = () => {
               <strong>상담원 목록</strong>
             </CCardHeader>
             <CCardBody>
-              <SearchBar
-                searchTermName={searchTermName}
-                setSearchTermName={setSearchTermName}
-                searchTermItem={searchTermItem}
-                setSearchTermItem={setSearchTermItem}
-              />
               <Table currentItems={currentItems} />
               <div
                 style={{
@@ -84,4 +81,3 @@ const ConsultationSchedule = () => {
 };
 
 export default ConsultationSchedule;
-  
